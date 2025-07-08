@@ -1,4 +1,5 @@
 /.idea
+/data/content
 /node_modules
 /vendor
 /www
