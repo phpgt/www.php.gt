@@ -1,0 +1,33 @@
+<nav>
+	<details>
+		<summary><span>Menu</span></summary>
+
+		<div>
+			<ul>
+				<li><a href="/">Homepage</a></li>
+				<li><a href="/demo/">Demo</a></li>
+				<li><a href="/help/">Help</a></li>
+				<li><a href="/privacy/">Privacy</a></li>
+			</ul>
+			<ul>
+				<li>
+					<form onchange="this.submit()">
+						<label>
+							<span>Docs: </span>
+
+							<select name="repo" data-bind:value="@name">
+								<option data-list data-bind:text>Repo name</option>
+							</select>
+						</label>
+					</form>
+				</li>
+				<li><a href="/docs/webengine/example-page/">Getting started</a></li>
+				<li><a href="/docs/webengine/example-page/">Another page</a></li>
+				<li><a href="/docs/webengine/example-page/">One two three here we go</a></li>
+				<li><a href="/docs/webengine/example-page/">Short</a></li>
+				<li><a href="/docs/webengine/example-page/">And this one is a really really long title that wraps</a></li>
+			</ul>
+		</div>
+	</details>
+
+</nav>

@@ -1,0 +1,16 @@
+{
+	"short_name": "PHP.GT",
+	"name": "PHP.GT",
+	"icons": [
+		{
+			"src": "/asset/logo.svg",
+			"type": "image/svg",
+			"sizes": "any"
+		}
+	],
+	"start_url": "/?source=pwa",
+	"background_color": "#ffffff",
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#4f5b93"
+}
