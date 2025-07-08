@@ -1,0 +1,46 @@
+@use "../variable/break";
+
+global-header {
+	>header {
+		display: contents;
+
+		>h1 {
+			position: relative;
+			z-index: 2;
+			margin: 0;
+
+			>a {
+				display: flex;
+				gap: 1rem;
+				padding: 1rem;
+				align-items: center;
+				font-family: "Ubuntu Condensed", sans-serif;
+				text-decoration: none;
+				font-weight: bold;
+				font-size: calc(var(--size-logo) / 2);
+				color: var(--pal-primary) !important;
+
+				&:hover {
+					opacity: 0.9;
+				}
+
+				&::before {
+					content: "";
+					display: block;
+					width: var(--size-logo);
+					aspect-ratio: 1;
+					background-image: url("/asset/logo.svg");
+					background-repeat: no-repeat;
+					background-position: center;
+					background-size: 100%;
+				}
+			}
+		}
+	}
+
+	body.uri--index & {
+		docs-search {
+			margin-top: 0.5rem;
+		}
+	}
+}

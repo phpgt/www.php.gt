@@ -1,0 +1,9 @@
+section {
+	&:last-of-type {
+		min-height: 64rem;
+	}
+
+	p,ul,ol {
+		line-height: 1.5;
+	}
+}

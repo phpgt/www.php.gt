@@ -1,0 +1,9 @@
+%d-badge {
+	--pal-badge: var(--pal-text);
+	display: block;
+	padding: 0.5rem;
+	text-decoration: none;
+	border-radius: 1rem;
+	text-align: center;
+	border: 2px solid var(--pal-badge);
+}

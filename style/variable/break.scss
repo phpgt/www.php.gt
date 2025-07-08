@@ -1,0 +1,17 @@
+$small: 32rem;
+$medium: 60rem;
+$large: 105rem;
+
+html {
+	--break: none;
+
+	@media(min-width: $small) {
+		--break: small;
+	}
+	@media(min-width: $medium) {
+		--break: medium;
+	}
+	@media(min-width: $large) {
+		--break: large;
+	}
+}

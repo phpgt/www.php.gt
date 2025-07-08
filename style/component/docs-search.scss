@@ -1,0 +1,104 @@
+@use "../variable/break";
+
+docs-search {
+	--transition-time: 0.2s;
+	--transition-function: cubic-bezier(.47,1.64,.41,.8);
+
+	display: flex;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	//box-sizing: border-box;
+	padding: 1rem;
+	width: min(var(--size-logo), 3rem);
+	height: min(var(--size-logo), 3rem);
+	transition: var(--transition-time) all var(--transition-function);
+
+	@media(min-width: break.$medium) {
+		width: 16rem;
+	}
+
+	@media(min-width: break.$medium) {
+		right: auto;
+		left: 18rem;
+	}
+
+	&:has(input:focus) {
+		width: calc(100% - 2rem);
+
+		@media(min-width: break.$medium) {
+			width: 48rem;
+		}
+	}
+
+	form {
+		flex-grow: 1;
+		//height: var(--size-logo);
+	}
+
+	label {
+		display: block;
+		box-sizing: border-box;
+		height: 100%;
+
+		span {
+			display: none;
+		}
+
+		input {
+			width: 100%;
+			height: 100%;
+			border-radius: 100%;
+			background-color: var(--pal-button);
+			border: none;
+			background-image: url("/asset/icon/search.svg");
+			background-size: auto 50%;
+			background-repeat: no-repeat;
+			background-position-x: min(calc(var(--size-logo) / 4), 0.75rem);
+			background-position-y: 50%;
+			box-shadow: 0 0 0 0 var(--pal-page);
+			outline: 0 solid var(--pal-page);
+			cursor: pointer;
+			transition: box-shadow var(--transition-time) var(--transition-function),
+				border-radius var(--transition-time) var(--transition-function),
+				outline var(--transition-time) var(--transition-function);
+
+			@media(min-width: break.$medium) {
+				border-radius: 1rem;
+				padding-left: 3rem;
+			}
+
+			&::placeholder {
+				color: transparent;
+
+				@media(min-width: break.$medium) {
+					color: initial;
+					opacity: 0.5;
+				}
+			}
+
+			&:hover:not(:focus) {
+				background-color: var(--pal-button--hover);
+				outline: 1px solid var(--pal-primary);
+			}
+
+			&:focus {
+				cursor: text;
+				border-radius: 2rem;
+				box-shadow: 0 0 0 2rem white;
+				outline: 0.25rem solid var(--pal-primary);
+				padding-left: 3rem;
+
+				@media(min-width: break.$medium) {
+					border-radius: 1rem;
+				}
+
+				&::placeholder {
+					color: initial;
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+}

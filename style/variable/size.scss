@@ -1,0 +1,13 @@
+@use "../variable/break";
+
+:root {
+	--size-logo: 2rem;
+
+	body.uri--index {
+		--size-logo: 4rem;
+	}
+
+	@media(min-width: break.$medium) {
+		--size-logo: 4rem;
+	}
+}

@@ -1,0 +1,34 @@
+@use "font/ubuntu";
+@use "font/ubuntu-mono";
+@use "font/ubuntu-condensed";
+
+@use "variable/break.scss";
+@use "variable/palette.scss";
+@use "variable/size.scss";
+
+@use "element/body.scss";
+@use "element/html.scss";
+@use "element/main.scss";
+@use "element/section.scss";
+
+@use "component/global-header.scss";
+@use "component/docs-search.scss";
+@use "component/site-nav.scss";
+
+html {
+	color: var(--pal-text);
+	font-size: 18px;
+}
+
+* {
+	font-family: "Ubuntu", sans-serif;
+	font-size: 1rem;
+}
+
+a {
+	color: var(--pal-link);
+
+	&:hover {
+		color: var(--pal-link--hover);
+	}
+}

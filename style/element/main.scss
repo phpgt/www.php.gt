@@ -1,0 +1,36 @@
+@use "../variable/break";
+@use "../decoration/typography";
+
+main {
+	@media(min-width: break.$medium) {
+		margin-top: 3rem;
+		margin-left: 17rem;
+	}
+
+	>section {
+		@extend %d-typography;
+
+		padding: 0 1rem;
+
+		@media(min-width: break.$medium) {
+			padding: 0 2rem;
+			font-size: 1.25rem;
+		}
+		@media(min-width: break.$large) {
+			font-size: 1.5rem;
+		}
+	}
+
+	>footer {
+		padding: 0 1rem;
+
+		@media(min-width: break.$medium) {
+			margin-top: 12rem;
+			padding: 0 2rem;
+		}
+
+		site-nav {
+			margin-left: -0.5rem;
+		}
+	}
+}

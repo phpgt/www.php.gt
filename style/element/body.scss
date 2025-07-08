@@ -1,0 +1,26 @@
+@use "../variable/break";
+
+body {
+	margin: 0;
+	overflow-x: hidden;
+	height: 100%;
+
+
+	@media(min-width: break.$medium) {
+		max-width: 96rem;
+		margin-left: auto;
+		margin-right: auto;
+		position: relative;
+
+		&::before {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background-color: var(--pal-sidebar);
+		}
+	}
+}

@@ -1,0 +1,8 @@
+html {
+	height: 100%;
+
+	::selection {
+		background-color: var(--pal-primary);
+		color: var(--pal-bg);
+	}
+}
