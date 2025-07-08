@@ -4,7 +4,7 @@ namespace GT\Website\Content;
 use Gt\Dom\Element;
 use Gt\Dom\HTMLDocument;
 
-class MarkdownContent {
+class MarkdownPage {
 	public function __construct(public readonly string $dir) {}
 
 	public function loadDocument(HTMLDocument $document):void {

@@ -122,6 +122,9 @@ site-nav {
 	}
 
 	nav {
+		div {
+
+		}
 		ul {
 			margin: 0;
 			padding: 0;
@@ -178,6 +181,30 @@ site-nav {
 					align-items: center;
 
 					span {
+					}
+				}
+
+				h3 {
+					font-weight: normal;
+					margin: 0;
+					padding: 0.5rem 1rem;
+					font-style: italic;
+					cursor: default;
+				}
+
+			}
+
+			div.pageLinks {
+				padding-left: 1rem;
+
+				ul {
+					li {
+						font-weight: normal;
+						padding-left: 0;
+
+						a {
+							//margin-left: -1rem;
+						}
 					}
 				}
 			}

@@ -5,7 +5,10 @@ use Gt\Http\Response;
 use Gt\Http\Uri;
 use Gt\Input\Input;
 use Gt\Session\Session;
+use GT\Website\Content\Markdown;
+use GT\Website\Content\RepoHasNoSidebarException;
 use Gt\Website\Content\RepoList;
+use GT\Website\Content\SidebarMarkdown;
 
 function go(
 	Element $element,
@@ -36,7 +39,7 @@ function go(
 	$repoList = new RepoList();
 	$binder->bindList($repoList);
 
-	if($currentRepo = $session->getString("repo")) {
+	if($currentRepo = $session->getString("repo") ?? "WebEngine") {
 		$binder->bindKeyValue("repo", $currentRepo);
 	}
 
@@ -44,4 +47,12 @@ function go(
 		$session->set("repo", $switchRepo);
 		$response->redirect($uri->withoutQueryValue("repo"));
 	}
+
+	$binder->bindKeyValue(
+		"sidebarContent",
+		new Markdown(
+			"data/content/$currentRepo/_Sidebar.md",
+			"docs/$currentRepo"
+		)
+	);
 }

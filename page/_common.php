@@ -1,10 +1,9 @@
 <?php
 use Gt\Dom\HTMLDocument;
-use Gt\Http\Uri;
-use Gt\Website\Content\MarkdownContent;
+use Gt\Website\Content\MarkdownPage;
 
 function go(
-	MarkdownContent $markdown,
+	MarkdownPage $markdown,
 	HTMLDocument $document,
 ):void {
 	$markdown->loadDocument($document);

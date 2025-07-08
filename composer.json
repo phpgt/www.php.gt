@@ -4,7 +4,8 @@
 
 	"require": {
 		"php": ">=8.4",
-		"phpgt/webengine": "dev-master"
+		"phpgt/webengine": "dev-master",
+		"league/commonmark": "2.7.0"
 	},
 
 	"autoload": {
