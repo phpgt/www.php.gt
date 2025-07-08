@@ -1,0 +1,15 @@
+{
+	"name": "phpgt/website",
+	"description": "The public www.php.gt website and documentation",
+
+	"require": {
+		"php": ">=8.4",
+		"phpgt/webengine": "dev-master"
+	},
+
+	"autoload": {
+		"psr-4": {
+			"GT\\Website\\": "./class"
+		}
+	}
+}
