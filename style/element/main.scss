@@ -3,8 +3,9 @@
 
 main {
 	@media(min-width: break.$medium) {
-		margin-top: 3rem;
 		margin-left: 17rem;
+		padding-top: calc(var(--size-logo) + 1.5rem);
+
 	}
 
 	>section {
@@ -13,7 +14,7 @@ main {
 		padding: 0 1rem;
 
 		@media(min-width: break.$medium) {
-			padding: 0 2rem;
+			padding: 0.5rem 2rem;
 			font-size: 1.25rem;
 		}
 		@media(min-width: break.$large) {

@@ -1,6 +1,10 @@
 @use "../variable/break";
 
 global-header {
+	@media(min-width: break.$medium) {
+		position: fixed;
+	}
+
 	>header {
 		display: contents;
 
@@ -8,6 +12,10 @@ global-header {
 			position: relative;
 			z-index: 2;
 			margin: 0;
+
+			@media(min-width: break.$medium) {
+				max-width: 16rem;
+			}
 
 			>a {
 				display: flex;

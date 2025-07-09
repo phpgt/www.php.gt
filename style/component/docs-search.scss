@@ -17,6 +17,18 @@ docs-search {
 
 	@media(min-width: break.$medium) {
 		width: 16rem;
+
+		&::before {
+			content: "";
+			position: absolute;
+			z-index: -1;
+			display: block;
+			top: -1rem;
+			left: -1rem;
+			right: -80rem;
+			height: calc(100% + 1rem);
+			background-color: var(--pal-page);
+		}
 	}
 
 	@media(min-width: break.$medium) {
