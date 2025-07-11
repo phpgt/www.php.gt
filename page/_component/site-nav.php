@@ -61,15 +61,5 @@ function go(
 			$element->querySelectorAll(".selected")->forEach(fn(Element $selectedElement) => $selectedElement->classList->remove("selected"));
 			$li->classList->add("selected");
 		}
-//		if($anchor->href === "/") {
-//			if($path === "/") {
-//				$li->classList->add("selected");
-//			}
-//		}
-//		else {
-//			if(str_starts_with($path, $anchor->href)) {
-//				$li->classList->add("selected");
-//			}
-//		}
 	}
 }
