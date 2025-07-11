@@ -47,7 +47,7 @@ readonly class Markdown implements Stringable {
 			fn(array $matches):string => sprintf(
 				"[%1\$s]($this->baseLink/%2\$s)",
 				$matches[1],
-				str_replace(' ', '-', $matches[1])
+				rtrim(str_replace(' ', '-', $matches[1]), '?')
 			),
 			$markdown
 		);

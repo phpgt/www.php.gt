@@ -25,7 +25,7 @@ function go(
 
 	if($switchRepo = $input->getString("repo")) {
 		$session->set("repo", $switchRepo);
-		$response->redirect($uri->withoutQueryValue("repo"));
+		$response->redirect("/docs/$switchRepo/Home/");
 	}
 
 	$binder->bindKeyValue(

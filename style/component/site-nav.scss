@@ -170,8 +170,10 @@ site-nav {
 			}
 
 			>li,h1 {
+				font-weight: normal;
+
 				&:first-of-type {
-					font-weight: bold;
+					//font-weight: bold;
 				}
 				&:not(h1,:first-of-type) {
 					padding-left: 1rem;
