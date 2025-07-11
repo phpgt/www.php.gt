@@ -15,17 +15,20 @@ class MarkdownPage {
 
 	public function loadElement(Element $element):void {
 		$contentName = $element->dataset->get("content");
-		$repo = "_phpgt";
+		$repo = ".github/profile";
 		$file = $contentName;
 
 		if(str_contains($contentName, "/")) {
 			[$repo, $file] = explode("/", $contentName);
 		}
 
-		$cacheFilePath = "$this->dir/$repo/$file.md";
-		if(!is_file($cacheFilePath)) {
+		$markdownFilePath = "$this->dir/$repo/$file.md";
+		if(!is_file($markdownFilePath)) {
 			$element->dataset->set("content-error", "not-found");
 			return;
 		}
+
+		$markdown = new Markdown($markdownFilePath);
+		$element->innerHTML = $markdown->getHtml();
 	}
 }

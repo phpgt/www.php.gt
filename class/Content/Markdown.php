@@ -22,9 +22,23 @@ readonly class Markdown implements Stringable {
 		]);
 
 		$markdownContent = file_get_contents($this->filePath);
+		$markdownContent = $this->fixRelativeLinks($markdownContent);
 		$markdownContent = $this->fixWikiLinks($markdownContent);
 
 		return $converter->convert($markdownContent);
+	}
+
+	private function fixRelativeLinks(string $markdown):string {
+		return preg_replace_callback(
+			'/\[([^\]]+)\]\((?!http|#)([^)]+)\)/',
+			fn(array $matches):string => sprintf(
+				"[%s](%s/%s)",
+				$matches[1],
+				rtrim($this->baseLink, "/"),
+				ltrim($matches[2], "/")
+			),
+			$markdown
+		);
 	}
 
 	private function fixWikiLinks(string $markdown):string {

@@ -10,11 +10,11 @@
 				<li><a href="/privacy/">Privacy</a></li>
 			</ul>
 			<ul>
-				<li>
+				<li class="repo-switcher">
+					<a href="/docs/{{repo}}/">Docs</a>
+
 					<form onchange="this.submit()">
 						<label>
-							<span>Docs: </span>
-
 							<select name="repo" data-bind:value="@name">
 								<option data-list data-bind:text>Repo name</option>
 							</select>

@@ -20,17 +20,19 @@ site-nav {
 		z-index: 1;
 		height: 100%;
 
-		@media(min-width: break.$medium) {
-			&::before {
-				content: "";
-				display: block;
-				position: absolute;
-				top: 0;
-				left: -50vw;
-				width: 50vw;
-				height: 100vh;
-				background-color: var(--pal-sidebar);
-			}
+		&::before {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: -50vw;
+			width: 50vw;
+			height: 100vh;
+			background-color: var(--pal-sidebar);
+		}
+
+		* {
+			font-size: 0.9rem;
 		}
 	}
 
@@ -139,6 +141,9 @@ site-nav {
 
 	nav {
 		a {
+			color: var(--pal-text);
+			text-decoration: none;
+
 			&:hover {
 				text-decoration: underline;
 				color: var(--pal-primary);
@@ -148,6 +153,7 @@ site-nav {
 		div {
 
 		}
+
 		ul {
 			margin: 0;
 			padding: 0;
@@ -163,15 +169,46 @@ site-nav {
 				background-color: var(--pal-sidebar);
 			}
 
-			>li {
+			>li,h1 {
 				&:first-of-type {
 					font-weight: bold;
 				}
-				&:not(:first-of-type) {
+				&:not(h1,:first-of-type) {
 					padding-left: 1rem;
+				}
+				&.repo-switcher {
+					a {
+						display: inline-block;
+						margin-right: 0;
+						padding-right: 0.5rem;
+					}
+					form {
+						display: inline-flex;
+						align-items: center;
+
+						&::before {
+							content: " - ";
+							padding-right: 0.5rem;
+						}
+
+						label {
+							padding: 0;
+						}
+					}
+				}
+
+				a,label {
+					display: block;
+					padding: 0.5rem 1rem;
+					margin-right: 1rem;
+					text-decoration: none;
+					color: var(--pal-text);
+					cursor: pointer;
 				}
 
 				&.selected {
+					position: relative;
+
 					a {
 						position: relative;
 						color: var(--pal-primary);
@@ -189,20 +226,13 @@ site-nav {
 					}
 				}
 
-				a,label {
-					display: block;
-					padding: 0.5rem 1rem;
-					margin-right: 1rem;
-					text-decoration: none;
-					color: var(--pal-text);
-					cursor: pointer;
-				}
-
 				select {
 					border: none;
 					background-color: transparent;
 					color: var(--pal-text);
 					font-weight: bold;
+					font-size: 0.9rem;
+					cursor: pointer;
 
 					&:hover {
 						color: var(--pal-link--hover);
@@ -228,17 +258,18 @@ site-nav {
 
 			}
 
+			h1 {
+				margin-bottom: 0;
+				padding-left: 0;
+			}
+
 			div.pageLinks {
 				padding-left: 1rem;
 
 				ul {
 					li {
 						font-weight: normal;
-						padding-left: 0;
-
-						a {
-
-						}
+						padding-left: 1rem;
 					}
 				}
 			}

@@ -6,6 +6,6 @@ use Gt\Website\Content\MarkdownPage;
 
 class ServiceLoader extends DefaultServiceLoader {
 	public function loadMarkdown():MarkdownPage {
-		return new MarkdownPage("data/markdown");
+		return new MarkdownPage("data/content");
 	}
 }

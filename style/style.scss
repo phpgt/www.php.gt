@@ -6,10 +6,10 @@
 @use "variable/palette.scss";
 @use "variable/size.scss";
 
+@use "element/article.scss";
 @use "element/body.scss";
 @use "element/html.scss";
 @use "element/main.scss";
-@use "element/section.scss";
 
 @use "component/global-header.scss";
 @use "component/docs-search.scss";
@@ -22,7 +22,6 @@ html {
 
 * {
 	font-family: "Ubuntu", sans-serif;
-	font-size: 1rem;
 }
 
 a {
