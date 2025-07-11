@@ -1,9 +1,20 @@
+@use "../variable/break";
+@use "../decoration/typography";
+
 article {
-	&:last-of-type {
-		min-height: 64rem;
+	@extend %d-typography;
+
+	padding: 0 1rem;
+
+	@media(min-width: break.$medium) {
+		padding: 0.5rem 2rem;
+		//font-size: 1.25rem;
+	}
+	@media(min-width: break.$large) {
+		//font-size: 1.5rem;
 	}
 
-	p,ul,ol {
-		line-height: 1.5;
+	&:last-of-type {
+		min-height: 64rem;
 	}
 }
