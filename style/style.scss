@@ -6,6 +6,7 @@
 @use "variable/palette.scss";
 @use "variable/size.scss";
 
+@use "element/a.scss";
 @use "element/article.scss";
 @use "element/body.scss";
 @use "element/html.scss";
@@ -14,6 +15,8 @@
 @use "component/global-header.scss";
 @use "component/docs-search.scss";
 @use "component/site-nav.scss";
+
+@use "page/index.scss";
 
 html {
 	color: var(--pal-text);

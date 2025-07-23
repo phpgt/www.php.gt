@@ -3,6 +3,7 @@
 global-header {
 	@media(min-width: break.$medium) {
 		position: fixed;
+		z-index: 1;
 	}
 
 	>header {

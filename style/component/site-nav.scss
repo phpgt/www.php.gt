@@ -6,12 +6,24 @@ site-nav {
 
 	display: block;
 	width: 100%;
-	position: sticky;
+	position: relative;
 	top: 0;
 	left: 0;
 	right: 0;
 	z-index: 10;
 	background-color: var(--pal-sidebar);
+
+	body.scrolled & {
+		position: fixed;
+
+		@media(min-width: break.$medium) {
+			position: absolute;
+		}
+	}
+
+	* {
+		font-size: 0.9rem;
+	}
 
 	@media(min-width: break.$medium) {
 		position: absolute;
@@ -29,10 +41,6 @@ site-nav {
 			width: 50vw;
 			height: 100vh;
 			background-color: var(--pal-sidebar);
-		}
-
-		* {
-			font-size: 0.9rem;
 		}
 	}
 
@@ -140,6 +148,10 @@ site-nav {
 	}
 
 	nav {
+		.heading-permalink {
+			display: none;
+		}
+
 		a {
 			color: var(--pal-text);
 			text-decoration: none;

@@ -1,0 +1,72 @@
+@use "../variable/break";
+
+body.uri--index {
+	article {
+		position: relative;
+		margin-top: 4rem;
+
+		p {
+			&:first-of-type {
+				@media(min-width: break.$medium) {
+					width: 70%;
+				}
+			}
+		}
+
+		blockquote {
+			display: inline-block;
+			order: -1;
+			margin: 0;
+			margin-top: 2rem;
+			margin-bottom: -4rem;
+			border: 4px solid var(--pal-button);
+			background-color: var(--pal-page);
+
+			@media(min-width: break.$large) {
+				position: absolute;
+				top: 0;
+				translate: 125% 0;
+				margin: 0;
+			}
+
+			ul {
+				margin: 0;
+				padding: 1rem;
+
+				li {
+					position: relative;
+					list-style: none;
+					margin: 1rem 0;
+					padding-left: 2.5rem;
+
+					&::before {
+						content: "";
+						position: absolute;
+						display: block;
+						width: 2rem;
+						height: 2rem;
+						margin-left: -2.5rem;
+						margin-top: -0.25rem;
+						background-color: var(--pal-primary);
+						mask-image: url("/asset/icon/arrow-right.svg");
+						mask-repeat: no-repeat;
+						mask-size: 100%;
+
+						@media(min-width: break.$medium) {
+							margin-top: -0.1rem;
+						}
+						@media(min-width: break.$large) {
+							margin-top: 0;
+						}
+					}
+
+					@for $i from 1 through 5 {
+						&:nth-of-type(#{$i})::before {
+							filter: hue-rotate(($i) * 60deg) saturate(2);
+						}
+					}
+				}
+			}
+		}
+	}
+}

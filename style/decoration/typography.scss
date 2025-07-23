@@ -10,10 +10,34 @@
 	}
 	@media(min-width: break.$large) {
 		font-size: 1.25rem;
+		max-width: 54rem;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
+		position: relative;
 		margin-top: 8rem;
+
+		a {
+			position: absolute;
+			top: -3rem;
+			left: -1rem;
+			text-decoration: none;
+			padding: 1rem;
+			opacity: 0;
+			transition: opacity 0.25s ease-in-out;
+
+			@media(min-width: break.$medium) {
+				left: -1.5rem;
+				top: initial;
+				padding: 0;
+			}
+		}
+
+		&:hover, &:has(:focus), &:focus, &:active {
+			a {
+				opacity: 1;
+			}
+		}
 	}
 
 	h1 {

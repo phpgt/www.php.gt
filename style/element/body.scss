@@ -5,6 +5,14 @@ body {
 	overflow-x: hidden;
 	height: 100%;
 
+	&.scrolled {
+		padding-top: var(--size-fixed-heading);
+
+		@media(min-width: break.$medium) {
+			padding-top: 0;
+		}
+	}
+
 	@media(min-width: break.$medium) {
 		max-width: 96rem;
 		margin-left: auto;

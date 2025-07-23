@@ -13,7 +13,6 @@ function summaryAnim(details, summary, detailsDiv) {
 		if(details.open) {
 			e.preventDefault();
 			detailsDiv.addEventListener("transitionend", transitionEnd);
-
 			details.classList.add("closing");
 		}
 	}
