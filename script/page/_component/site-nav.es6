@@ -34,7 +34,7 @@ function desktopSidebar(details, skipResizeEvent = false) {
 	let screenBreak = getComputedStyle(document.documentElement).getPropertyValue("--break");
 
 	if(screenBreak === "none" || screenBreak === "small") {
-		// details.open = false;
+		details.open = false;
 		return;
 	}
 

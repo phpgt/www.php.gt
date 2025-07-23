@@ -25,10 +25,12 @@
 			padding: 1rem;
 			opacity: 0;
 			transition: opacity 0.25s ease-in-out;
+			font-size: 0.5em;
 
 			@media(min-width: break.$medium) {
 				left: -1.5rem;
-				top: initial;
+				top: auto;
+				bottom: 0.5em;
 				padding: 0;
 			}
 		}
