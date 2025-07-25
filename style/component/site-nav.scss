@@ -103,10 +103,12 @@ site-nav {
 		>div {
 			position: absolute;
 			z-index: 1;
+			box-sizing: border-box;
 
 			left: 0;
 			right: 0;
 			height: calc(100svh - 3rem);
+			padding-bottom: 8rem;
 			overflow-y: auto;
 			clip-path: inset(0 0 100% 0);
 			transition: clip-path var(--transition-time) var(--transition-function);
@@ -274,7 +276,11 @@ site-nav {
 
 			h1 {
 				margin-bottom: 0;
-				padding-left: 0;
+				padding-left: 1rem;
+
+				&:has(a:not(.heading-permalink)) {
+					padding-left: 0;
+				}
 			}
 
 			div.pageLinks {
