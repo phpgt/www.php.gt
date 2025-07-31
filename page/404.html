@@ -1,0 +1,21 @@
+<article class="_error">
+	<h1>
+		<span>Page Not Found</span>
+	</h1>
+
+	<p>
+		<strong>This is a 404 error page.</strong> It has been served to your browser because the requested URI does not have a matching Page View within the project's <code>page/</code> directory.
+	</p>
+
+	<p>
+		In case it wasn't obvious, this website is a <a href="/docs/webengine">WebEngine application</a>. WebEngine allows the developer to create their own 404 pages by storing them at <code>page/404.html</code>. That's what you're looking at now.
+	</p>
+
+	<p>
+		When the <code>Lifecycle</code> class calls the <code>Dispatcher::handle</code> function, the Dispatcher attempts to create a <code>ViewAssembly</code>, which is a collection of streams that make up the whole response (such as the header, main page, and footer). If a matching main page can't be located to match the requested URI, the Assembly throws an exception which causes the <code>handle</code> function to be called again, but this time with a modified <code>Request</code> object - it's identical to the original request, apart from the URI is changed to <code>/404</code> (or whatever error code is being served).
+	</p>
+
+	<p>
+		<a href="/docs/webengine/error-handling">Read more about how errors are handled</a>.
+	</p>
+</article>
