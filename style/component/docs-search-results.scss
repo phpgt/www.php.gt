@@ -1,0 +1,61 @@
+@use "../variable/break";
+
+docs-search-results {
+	position: relative;
+	z-index: 20;
+	display: block;
+	border: 1px solid var(--pal-primary);
+	border-top: none;
+	border-radius: 1rem;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	width: calc(100% - 4rem);
+	margin: 0 auto;
+	margin-top: -4rem;
+	background-color: var(--pal-page);
+
+	@media(min-width: break.$medium) {
+		margin-left: 4rem;
+		margin-top: calc(-1.5rem + 4px);
+		width: calc(48rem - 4rem);
+	}
+
+	ul {
+		margin: 0;
+		padding: 1rem 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		list-style-type: none;
+
+		&:empty {
+			&::before {
+				content: "No matches for '" attr(data-query) "'";
+				display: block;
+				padding: 2rem 0;
+				text-align: center;
+				opacity: 0.5;
+			}
+		}
+
+		li {
+			&:not(:last-of-type) {
+				border-bottom: 2px solid var(--pal-sidebar);
+			}
+
+			a {
+				display: block;
+				padding: 1rem 2.5rem;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+
+				h3 {
+					margin: 0;
+				}
+			}
+		}
+	}
+}

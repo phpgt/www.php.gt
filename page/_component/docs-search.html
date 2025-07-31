@@ -1,6 +1,6 @@
-<form method="post">
+<form action="/search/">
 	<label>
 		<span>Search this site</span>
-		<input name="query" placeholder="Search this site..." type="search" autocomplete="off" />
+		<input name="query" placeholder="Search this site..." type="search" autocomplete="off" data-bind:value="@name" data-bind:autofocus="?query" />
 	</label>
 </form>

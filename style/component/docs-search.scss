@@ -8,7 +8,7 @@ docs-search {
 	position: absolute;
 	top: 0;
 	right: 0;
-	z-index: 2;
+	z-index: 20;
 	//box-sizing: border-box;
 	padding: 1rem;
 	width: min(var(--size-logo), 3rem);
@@ -41,7 +41,7 @@ docs-search {
 		left: 18rem;
 	}
 
-	&:has(input:focus) {
+	&:has(input:focus), body.uri--search & {
 		width: calc(100% - 2rem);
 
 		@media(min-width: break.$medium) {
@@ -100,7 +100,7 @@ docs-search {
 				outline: 1px solid var(--pal-primary);
 			}
 
-			&:focus {
+			&:focus, body.uri--search & {
 				cursor: text;
 				border-radius: 2rem;
 				box-shadow: 0 0 0 1rem white;
