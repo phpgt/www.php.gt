@@ -9,9 +9,18 @@
 		"scrivo/highlight.php": "^9.18"
 	},
 
+	"require-dev": {
+		"phpunit/phpunit": "^12.2"
+	},
+
 	"autoload": {
 		"psr-4": {
 			"GT\\Website\\": "./class"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"GT\\Website\\Test\\": "./test/phpunit"
 		}
 	}
 }
