@@ -40,7 +40,7 @@ function go(MarkdownPage $markdownPage):void {
 			continue;
 		}
 		chdir($dirToPull);
-		exec("git pull", $output, $exitCode);
+		exec("git stash && git pull", $output, $exitCode);
 
 		if($exitCode === 0) {
 			echo "Successfully updated $existingDirectory", PHP_EOL;

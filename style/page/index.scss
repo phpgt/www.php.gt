@@ -69,7 +69,8 @@ body.uri--index {
 			}
 		}
 
-		blockquote+h2 {
+		blockquote+h1 {
+			margin-top: 8rem;
 			font-size: 10vw;
 
 			@media(min-width: break.$medium) {
