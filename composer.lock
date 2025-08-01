@@ -2394,12 +2394,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpgt/WebEngine.git",
-                "reference": "467bbf1780ab3f4bb8d9a6658037b23a58606315"
+                "reference": "51b8046e25765dea145ef5c455e4fa0ae93d26fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpgt/WebEngine/zipball/467bbf1780ab3f4bb8d9a6658037b23a58606315",
-                "reference": "467bbf1780ab3f4bb8d9a6658037b23a58606315",
+                "url": "https://api.github.com/repos/phpgt/WebEngine/zipball/51b8046e25765dea145ef5c455e4fa0ae93d26fe",
+                "reference": "51b8046e25765dea145ef5c455e4fa0ae93d26fe",
                 "shasum": ""
             },
             "require": {
@@ -2474,7 +2474,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-07-11T14:21:57+00:00"
+            "time": "2025-08-01T12:29:13+00:00"
         },
         {
             "name": "psr/container",
