@@ -1,0 +1,35 @@
+%d-syntax {
+	.hljs-comment {
+		font-style: italic;
+		opacity: 0.5;
+	}
+
+	.hljs-tag {
+		color: var(--pal-primary);
+		filter: hue-rotate(60deg * 3) saturate(2);
+	}
+	.hljs-attr {
+		color: var(--pal-primary);
+		filter: hue-rotate(60deg * 1) saturate(2);
+	}
+	.hljs-string {
+		color: var(--pal-primary);
+		filter: hue-rotate(60deg * 2) saturate(2);
+	}
+
+	.hljs-meta {
+		opacity: 0.25;
+	}
+	.hljs-title {
+		color: var(--pal-primary);
+		filter: hue-rotate(60deg * 3) saturate(2);
+	}
+	.hljs-keyword {
+		color: var(--pal-primary);
+		filter: hue-rotate(60deg * 2) saturate(2);
+	}
+	.hljs-params {
+		color: var(--pal-primary);
+		filter: hue-rotate(60deg * 1) saturate(2);
+	}
+}

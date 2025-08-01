@@ -5,7 +5,8 @@
 	"require": {
 		"php": ">=8.4",
 		"phpgt/webengine": "dev-master",
-		"league/commonmark": "2.7.0"
+		"league/commonmark": "2.7.0",
+		"scrivo/highlight.php": "^9.18"
 	},
 
 	"autoload": {

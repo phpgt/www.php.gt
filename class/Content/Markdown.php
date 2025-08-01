@@ -4,6 +4,7 @@ namespace GT\Website\Content;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkRenderer;
@@ -11,6 +12,7 @@ use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
 use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use League\CommonMark\MarkdownConverter;
+use League\CommonMark\Util\HtmlFilter;
 use Stringable;
 
 readonly class Markdown implements Stringable {
@@ -26,7 +28,7 @@ readonly class Markdown implements Stringable {
 
 	public function getHtml():string {
 		$config = [
-			"html_input" => "strip",
+			"html_input" => HtmlFilter::ALLOW,
 			"allow_unsafe_links" => false,
 
 			"heading_permalink" => [
@@ -66,6 +68,8 @@ readonly class Markdown implements Stringable {
 		$environment->addExtension(new HeadingPermalinkExtension());
 		$environment->addExtension(new SmartPunctExtension());
 //		$environment->addExtension(new TableOfContentsExtension());
+
+		$environment->addRenderer(FencedCode::class, new SyntaxHighlighterRenderer());
 
 		$converter = new MarkdownConverter($environment);
 

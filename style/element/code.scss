@@ -1,0 +1,6 @@
+@use "../decoration/syntax";
+
+code {
+	@extend %d-syntax;
+	background-color: var(--pal-code-bg);
+}

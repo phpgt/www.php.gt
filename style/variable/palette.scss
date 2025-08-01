@@ -14,4 +14,7 @@
 	--pal-button--selected: color-mix(in srgb, var(--pal-primary) 25%, #fff);
 
 	--pal-sidebar: color-mix(in srgb, var(--pal-primary) 10%, #fff);
+
+	--pal-code-bg: var(--pal-sidebar);
+	--pal-code-outline: color-mix(in srgb, var(--pal-sidebar), var(--pal-primary) 10%);
 }
