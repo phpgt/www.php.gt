@@ -20,4 +20,7 @@ function go_before(
 	}
 
 	$markdown->loadDocument($document);
+
+	$linkNormaliser = new LinkNormaliser($document->querySelector("article"));
+	$linkNormaliser->normalise($uri);
 }
