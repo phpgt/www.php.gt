@@ -24,6 +24,7 @@ class LinkNormaliser {
 			$linkHost = $linkUri->getHost();
 			$linkPath = $linkUri->getPath();
 			if($linkHost !== $host) {
+// TODO: Some links just go to the name of the repo, but shouldn't be shown as external. Should these links be in redirect.csv or should we manipulate here?
 				if($linkHost === "www.php.gt" && str_starts_with($linkPath, "/docs/")) {
 					$link->classList->add(self::CLASS_DOCS_LINK);
 					$link->href = $linkPath;
