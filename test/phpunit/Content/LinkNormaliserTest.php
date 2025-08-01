@@ -35,6 +35,8 @@ class LinkNormaliserTest extends TestCase {
 		self::assertNotSame($htmlBefore, $htmlAfter);
 		$link = $document->querySelector("article a");
 		self::assertTrue($link->classList->contains(LinkNormaliser::CLASS_EXTERNAL_LINK));
+		self::assertSame("_blank", $link->getAttribute("target"));
+		self::assertSame("noopener", $link->getAttribute("rel"));
 	}
 
 	public function testNormalise_hasDocsLink():void {
@@ -51,6 +53,8 @@ class LinkNormaliserTest extends TestCase {
 		self::assertNotSame($htmlBefore, $htmlAfter);
 		$link = $document->querySelector("article a");
 		self::assertTrue($link->classList->contains(LinkNormaliser::CLASS_DOCS_LINK));
+		self::assertFalse($link->hasAttribute("target"));
+		self::assertFalse($link->hasAttribute("rel"));
 	}
 
 	public function testNormalise_docsLinkAbsolute():void {
@@ -64,5 +68,7 @@ class LinkNormaliserTest extends TestCase {
 
 		$link = $document->querySelector("article a");
 		self::assertSame("/docs/webengine/getting-started/", $link->href);
+		self::assertFalse($link->hasAttribute("target"));
+		self::assertFalse($link->hasAttribute("rel"));
 	}
 }

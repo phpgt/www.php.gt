@@ -69,4 +69,19 @@
 			font-size: 1.1em;
 		}
 	}
+
+	a {
+		&.link-external {
+			&::after {
+				content: "";
+				display: inline-block;
+				width: 1em;
+				height: 1em;
+				background-color: currentColor;
+				mask-image: url("/asset/icon/arrow-top-right-on-square.svg");
+				mask-size: 100%;
+				mask-repeat: no-repeat;
+			}
+		}
+	}
 }

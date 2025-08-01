@@ -30,6 +30,8 @@ class LinkNormaliser {
 				}
 				else {
 					$link->classList->add(self::CLASS_EXTERNAL_LINK);
+					$link->setAttribute("target", "_blank");
+					$link->setAttribute("rel", "noopener");
 				}
 			}
 		}
