@@ -9,10 +9,14 @@ class LinkNormaliser {
 	const CLASS_DOCS_LINK = "link-docs";
 
 	public function __construct(
-		private readonly Element $article
+		private readonly ?Element $article
 	) {}
 
 	public function normalise(Uri $currentUri):void {
+		if(!$this->article) {
+			return;
+		}
+
 		$linkList = $this->article->querySelectorAll("a[href]");
 		if($linkList->length === 0) {
 			return;
@@ -23,9 +27,8 @@ class LinkNormaliser {
 			$linkUri = new Uri($link->href);
 			$linkHost = $linkUri->getHost();
 			$linkPath = $linkUri->getPath();
-			if($linkHost !== $host) {
-// TODO: Some links just go to the name of the repo, but shouldn't be shown as external. Should these links be in redirect.csv or should we manipulate here?
-				if($linkHost === "www.php.gt" && str_starts_with($linkPath, "/docs/")) {
+			if($linkHost && $linkHost !== $host) {
+				if($linkHost === "www.php.gt") {
 					$link->classList->add(self::CLASS_DOCS_LINK);
 					$link->href = $linkPath;
 				}

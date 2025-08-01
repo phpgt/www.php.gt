@@ -71,4 +71,20 @@ class LinkNormaliserTest extends TestCase {
 		self::assertFalse($link->hasAttribute("target"));
 		self::assertFalse($link->hasAttribute("rel"));
 	}
+
+	public function testNormalise_docsLinkNoHost():void {
+		$document = new HTMLDocument("<article><h1>Hello, <a href='/docs/webengine/getting-started/'>PHP.GT</a>!</h1></article>");
+		$element = $document->querySelector("article");
+		$uri = self::createMock(Uri::class);
+		$uri->method("getHost")->willReturn("example.com");
+
+		$sut = new LinkNormaliser($element);
+		$sut->normalise($uri);
+
+		$link = $document->querySelector("article a");
+		self::assertSame("/docs/webengine/getting-started/", $link->href);
+		self::assertFalse($link->classList->contains(LinkNormaliser::CLASS_EXTERNAL_LINK));
+		self::assertFalse($link->hasAttribute("target"));
+		self::assertFalse($link->hasAttribute("rel"));
+	}
 }
