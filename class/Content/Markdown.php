@@ -1,6 +1,7 @@
 <?php
 namespace GT\Website\Content;
 
+use Gt\Dom\HTMLDocument;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
@@ -13,10 +14,25 @@ use League\CommonMark\Util\HtmlFilter;
 use Stringable;
 
 readonly class Markdown implements Stringable {
+	public string $filePath;
+	public ?string $hash;
+
 	public function __construct(
-		public string $filePath,
+		string $filePath,
 		public string $baseLink = "",
 	) {
+		if(str_contains($filePath, "#")) {
+			[$filePath, $this->hash] = explode(
+				"#",
+				$filePath,
+				2,
+			);
+		}
+		else {
+			$this->hash = null;
+		}
+
+		$this->filePath = $filePath;
 	}
 
 	public function __toString():string {
@@ -74,7 +90,33 @@ readonly class Markdown implements Stringable {
 		$markdownContent = $this->fixRelativeLinks($markdownContent);
 		$markdownContent = $this->fixWikiLinks($markdownContent);
 
-		return $converter->convert($markdownContent);
+		$content = $converter->convert($markdownContent);
+		if($this->hash) {
+			$document = new HTMLDocument($content);
+
+			foreach($document->querySelectorAll("a") as $link) {
+				if(!$link->classList->contains("heading-permalink")) {
+					continue;
+				}
+
+				if($this->hash !== trim($link->href, "#")) {
+					continue;
+				}
+
+				return "<p>" . $link->parentElement->nextElementSibling->innerHTML . "</p>";
+			}
+		}
+		return $content;
+	}
+
+	public function getHtmlPreview():string {
+		if($this->hash) {
+			return $this->getHtml();
+		}
+
+		$html = $this->getHtml();
+		$document = new HTMLDocument($html);
+		return $document->querySelector("p")->innerHTML;
 	}
 
 	private function fixRelativeLinks(string $markdown):string {
