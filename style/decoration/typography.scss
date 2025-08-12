@@ -84,4 +84,10 @@
 			}
 		}
 	}
+
+	blockquote {
+		border-left: 4px solid var(--pal-primary);
+		margin: 0;
+		padding-left: 1rem;
+	}
 }
