@@ -2,15 +2,12 @@
 namespace GT\Website\Content;
 
 use League\CommonMark\Environment\Environment;
-use League\CommonMark\Extension\Attributes\AttributesExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkRenderer;
 use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
-use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Util\HtmlFilter;
 use Stringable;
@@ -94,12 +91,13 @@ readonly class Markdown implements Stringable {
 	}
 
 	private function fixWikiLinks(string $markdown):string {
+
 		return preg_replace_callback(
 			'/\[\[([^\]]+)\]\]/',
 			fn(array $matches):string => sprintf(
 				"[%1\$s]($this->baseLink/%2\$s)",
 				$matches[1],
-				rtrim(str_replace(' ', '-', $matches[1]), '?')
+				str_replace(['?', ' '], ['%3F', '-'], $matches[1]),
 			),
 			$markdown
 		);

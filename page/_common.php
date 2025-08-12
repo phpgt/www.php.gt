@@ -13,7 +13,7 @@ function go_before(
 	HTMLDocument $document,
 	Uri $uri,
 ):void {
-	if($doc = $dynamicPath->get("doc")) {
+	if($doc = urldecode($dynamicPath->get("doc"))) {
 		$binder->bindKeyValue("repo", $dynamicPath->get("repo"));
 		$binder->bindKeyValue("doc", $doc);
 		$binder->bindKeyValue("docTitle", str_replace("-", " ", ucfirst($doc)));

@@ -9,7 +9,7 @@ function go(
 	Response $response,
 ):void {
 	$repoPage = $dynamicPath->get("repo");
-	$docPage = $dynamicPath->get("doc");
+	$docPage = urldecode($dynamicPath->get("doc"));
 
 // Ensure the URL is cased correctly according to the repo names.
 	foreach(glob("data/content/*/") as $dir) {
