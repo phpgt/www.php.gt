@@ -43,3 +43,9 @@ This README acts as a guide to understanding how the website is put together and
 // TODO: Github webhook could be forged by anyone - how should this be protected?
 
 // TODO: Deploying to a server.
+
+### Proudly sponsored by
+
+[JetBrains Open Source sponsorship program](https://www.jetbrains.com/community/opensource/)
+
+[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://www.jetbrains.com/community/opensource/)
