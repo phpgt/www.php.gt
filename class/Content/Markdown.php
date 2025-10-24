@@ -40,6 +40,16 @@ readonly class Markdown implements Stringable {
 	}
 
 	public function getHtml():string {
+		if(!file_exists($this->filePath)) {
+			return "";
+		}
+
+		$md5 = md5_file($this->filePath);
+		$cacheFile = "cache/markdown/$md5.html";
+		if(file_exists($cacheFile)) {
+			return file_get_contents($cacheFile);
+		}
+
 		$config = [
 			"html_input" => HtmlFilter::ALLOW,
 			"allow_unsafe_links" => false,
@@ -106,6 +116,12 @@ readonly class Markdown implements Stringable {
 				return "<p>" . $link->parentElement->nextElementSibling->innerHTML . "</p>";
 			}
 		}
+
+		if(!is_dir(dirname($cacheFile))) {
+			mkdir(dirname($cacheFile), recursive: true);
+		}
+		file_put_contents($cacheFile, $content);
+
 		return $content;
 	}
 

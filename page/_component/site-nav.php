@@ -4,29 +4,39 @@ use Gt\DomTemplate\Binder;
 use Gt\Http\Response;
 use Gt\Http\Uri;
 use Gt\Input\Input;
+use Gt\Routing\Path\DynamicPath;
 use Gt\Session\Session;
 use GT\Website\Content\Markdown;
-use Gt\Website\Content\RepoList;
+use GT\Website\Content\RepoList;
 
 function go(
 	Element $element,
 	Binder $binder,
 	Input $input,
 	Session $session,
+	DynamicPath $dynamicPath,
 	Uri $uri,
 	Response $response,
 ):void {
 	$repoList = new RepoList();
 	$binder->bindList($repoList);
 
-	if($currentRepo = $session->getString("repo") ?? "WebEngine") {
-		$binder->bindKeyValue("repo", $currentRepo);
+	if($inputRepo = $input->getString("repo")) {
+		$session->set("repo", $inputRepo);
+		$response->redirect("/docs/$inputRepo/Home/");
 	}
 
-	if($switchRepo = $input->getString("repo")) {
-		$session->set("repo", $switchRepo);
-		$response->redirect("/docs/$switchRepo/Home/");
+	$sessionRepo = $session->getString("repo");
+	$pathRepo = $dynamicPath->get("repo");
+	$currentRepo = $pathRepo ?? $sessionRepo ?? "WebEngine";
+	$binder->bindKeyValue("repo", $currentRepo);
+
+	if($pathRepo && $pathRepo !== $currentRepo) {
+		$session->set("repo", $currentRepo);
+		$response->redirect("/docs/$currentRepo/Home/");
+		return;
 	}
+	
 
 	$binder->bindKeyValue(
 		"sidebarContent",

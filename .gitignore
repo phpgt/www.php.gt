@@ -1,7 +1,8 @@
-/.idea
-/data/content
-/node_modules
-/vendor
-/www
-/data
+/.idea/
+/data/content/
+/node_modules/
+/vendor/
+/www/
+/data/
 /config.*.ini
+/cache/

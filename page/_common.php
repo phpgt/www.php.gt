@@ -4,7 +4,7 @@ use Gt\DomTemplate\Binder;
 use Gt\Http\Uri;
 use Gt\Routing\Path\DynamicPath;
 use GT\Website\Content\LinkNormaliser;
-use Gt\Website\Content\MarkdownPage;
+use GT\Website\Content\MarkdownPage;
 
 function go_before(
 	Binder $binder,
@@ -13,8 +13,10 @@ function go_before(
 	HTMLDocument $document,
 	Uri $uri,
 ):void {
+	$repo = $dynamicPath->get("repo");
+
 	if($doc = urldecode($dynamicPath->get("doc"))) {
-		$binder->bindKeyValue("repo", $dynamicPath->get("repo"));
+		$binder->bindKeyValue("repo", $repo);
 		$binder->bindKeyValue("doc", $doc);
 		$binder->bindKeyValue("docTitle", str_replace("-", " ", ucfirst($doc)));
 	}

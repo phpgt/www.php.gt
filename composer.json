@@ -1,10 +1,30 @@
 {
 	"name": "phpgt/website",
 	"description": "The public www.php.gt website and documentation",
-
+	"repositories": [{
+		"type": "path",
+		"url": "/home/g105b/Code/PhpGt/WebEngine",
+		"options": {
+			"symlink": true
+		}
+	}, {
+		"type": "path",
+		"url": "/home/g105b/Code/PhpGt/WebEngine/vendor/phpgt/domtemplate",
+		"options": {
+			"symlink": true
+		}
+	}, {
+		"type": "path",
+		"url": "/home/g105b/Code/PhpGt/WebEngine/vendor/phpgt/servicecontainer",
+		"options": {
+			"symlink": true
+		}
+	}],
 	"require": {
 		"php": ">=8.4",
-		"phpgt/webengine": "dev-master",
+		"phpgt/webengine": "dev-new-v5--refactor",
+		"phpgt/domtemplate": "dev-master as 3.4.2",
+		"phpgt/servicecontainer": "dev-master as 1.3.3",
 		"league/commonmark": "2.7.0",
 		"scrivo/highlight.php": "^9.18"
 	},

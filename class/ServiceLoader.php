@@ -1,8 +1,8 @@
 <?php
 namespace GT\Website;
 
-use Gt\WebEngine\Middleware\DefaultServiceLoader;
-use Gt\Website\Content\MarkdownPage;
+use GT\WebEngine\Service\DefaultServiceLoader;
+use GT\Website\Content\MarkdownPage;
 
 class ServiceLoader extends DefaultServiceLoader {
 	public function loadMarkdownPage():MarkdownPage {
