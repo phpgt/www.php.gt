@@ -19,12 +19,20 @@
 		"options": {
 			"symlink": true
 		}
+	}, {
+		"type": "path",
+		"url": "/home/g105b/Code/PhpGt/WebEngine/vendor/phpgt/routing",
+		"options": {
+			"symlink": true
+		}
 	}],
 	"require": {
 		"php": ">=8.4",
 		"phpgt/webengine": "dev-new-v5--refactor",
 		"phpgt/domtemplate": "dev-master as 3.4.2",
 		"phpgt/servicecontainer": "dev-master as 1.3.3",
+		"phpgt/routing": "dev-master as 1.1.5",
+		"phpgt/logger": "^1.1.0",
 		"league/commonmark": "2.7.0",
 		"scrivo/highlight.php": "^9.18"
 	},
@@ -41,6 +49,11 @@
 	"autoload-dev": {
 		"psr-4": {
 			"GT\\Website\\Test\\": "./test/phpunit"
+		}
+	},
+	"config": {
+		"audit": {
+			"ignore": ["GHSA-4v6x-c7xx-hw9f", "PKSA-2cx9-ynrq-qdk3"]
 		}
 	}
 }

@@ -1,0 +1,16 @@
+<article class="_error">
+	<h1>
+		<span>Error: <span data-bind:text>There was an error processing the request</span></span>
+	</h1>
+
+	<p><strong>This is a 500 error page.</strong></p>
+	<p>When something triggers an exception or other error, this error page will be shown to help diagnose the issue.</p>
+	<p>In development, the stack trace will be visible.</p>
+	<p>This page is an HTML page stored at <code>_error/500.html</code>, and uses <code>data-bind</code> attributes to assign the different parts of the exception.</p>
+
+	<pre data-element data-bind:text="trace">Exception will go here</pre>
+
+	<p>
+		<a href="/docs/webengine/error-handling">Read more about how errors are handled</a>.
+	</p>
+</article>
