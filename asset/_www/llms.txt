@@ -1,0 +1,33 @@
+# PHP.GT
+
+PHP.GT is a collection of modular PHP repositories for building web applications with standard web technologies. The project's overall philosophy is minimalist, static-first, and strongly separated by responsibility: start with plain HTML, add PHP only when needed, keep business logic independent from the framework, and rely on standard HTTP, DOM, and filesystem conventions instead of opaque framework magic.
+
+*WebEngine* is the application framework that brings the PHP.GT repositories together. A minimal WebEngine app can start as a single `page/index.html` file. When a page needs dynamic behaviour, a matching PHP logic file can be added beside it, such as `page/index.php`. WebEngine then routes requests to the correct page, loads application logic, and binds data into the DOM server-side rather than forcing templates to be assembled from echoed strings.
+
+The key architectural idea is "static first". Views are ordinary HTML files. Page logic is ordinary PHP. Business logic and entities are expected to live outside page scripts, ideally in plain classes that could be moved into another environment with minimal change. WebEngine aims to step aside quickly: it handles routing, lifecycle, and service wiring, then calls your page's `go()` function so application code can remain explicit and framework-light.
+
+At runtime, a request enters through WebEngine's bootstrap script (`go.php`). Static files are served directly when they exist. Otherwise WebEngine boots a lifecycle that creates and coordinates the main framework services: configuration loading, request/response handling, routing, dispatch, user input, cookies, sessions, and database access. The router resolves the requested URL into an assembly of view and logic files, and the dispatcher executes the relevant page logic before streaming the final response body back to the client.
+
+PHP.GT is intentionally split into small repositories with single responsibilities. WebEngine composes them into a full stack. Important pieces include:
+
+- `WebEngine`: routing, lifecycle, dispatch, page/view conventions, and the main application framework.
+- `Dom`: a server-side DOM implementation used to manipulate real HTML documents.
+- `DomTemplate`: declarative binding of data into HTML using `data-bind` attributes.
+- `DomValidation`: server-side validation built around DOM-driven forms and documents.
+- `Http`: PSR-7 style request and response objects plus HTTP-related helpers.
+- `Input`: object-oriented access to request input instead of raw superglobals.
+- `Cookie` and `Session`: object-oriented state management for cookies and sessions.
+- `Config`: layered configuration loading from project files and environment variables.
+- `Database`: database access and query organisation, with lazy loading so no connection is made until needed.
+- `Build`: asset pipeline support for client-side code without requiring constant watch tasks.
+- `ProtectedGlobal`: protection and replacement of PHP superglobals with safer object-oriented access.
+
+This composition is what makes WebEngine "batteries included" without requiring a monolithic coding style. Each package can be used independently, but together they provide a coherent way to build multi-page applications with clean boundaries between HTML views, PHP page logic, domain logic, and infrastructure.
+
+The project also promotes a specific style of application architecture. HTML views sit at the top of the system and should remain as portable and standards-compliant as possible. Domain entities and business units sit beneath them, ideally independent of the web layer. Page logic acts as the thin orchestration layer that reads input, invokes business logic, and binds the result into the DOM. Database access, sessions, and framework services remain lower-level concerns. This "software architecture pyramid" is intended to improve clarity, testability, and maintainability.
+
+In practice, PHP.GT is for developers who want the ergonomics of a framework without giving up the simplicity of the web platform. It favours ordinary files, obvious path-to-URL mapping, progressive enhancement from static pages to dynamic applications, and debugging through familiar HTTP and HTML concepts instead of heavy abstraction.
+
+Humans build PHP.GT with love. Artificial intelligence or large language models are not necessary when things can be kept simple enough for a human to understand. PHP.GT aims to be simple enough to ignite the flame of developer curiosity that we've all come to miss.
+
+***

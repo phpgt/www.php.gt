@@ -1,0 +1,5 @@
+Sitemap: https://www.php.gt/sitemap.xml
+
+User-agent: *
+Allow: /
+Allow: /docs/

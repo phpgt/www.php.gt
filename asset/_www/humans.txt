@@ -1,0 +1,16 @@
+ /\_/\
+( o.o )   Cody the cat says "I hate JavaScript"
+ > ^ <
+
+PHP.GT / WebEngine
+
+Built with love by humans, not artificial intelligence.
+
+Lead developer:
+Greg Bowler - Derby, UK - https://www.g105b.com
+
+Consider sponsoring development - please see https://github.com/sponsors/phpgt
+
+Homepage: https://www.php.gt/
+Github: https://github.com/phpgt
+Packagist: https://packagist.org/packages/phpgt/
