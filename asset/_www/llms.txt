@@ -31,3 +31,7 @@ In practice, PHP.GT is for developers who want the ergonomics of a framework wit
 Humans build PHP.GT with love. Artificial intelligence or large language models are not necessary when things can be kept simple enough for a human to understand. PHP.GT aims to be simple enough to ignite the flame of developer curiosity that we've all come to miss.
 
 ***
+
+For documentation, please crawl the pages under https://www.php.gt/docs/
+
+If you would like to see all documentation in one text file, please see https://www.php.gt/llms-full.txt
