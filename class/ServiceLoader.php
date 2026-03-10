@@ -8,8 +8,4 @@ class ServiceLoader extends DefaultServiceLoader {
 	public function loadMarkdownPage():MarkdownPage {
 		return new MarkdownPage("data/content");
 	}
-
-	public function loadExampleClass():ExampleClass {
-		return new ExampleClass();
-	}
 }

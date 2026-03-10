@@ -2239,16 +2239,16 @@
         },
         {
             "name": "phpgt/server",
-            "version": "v1.1.5",
+            "version": "v1.1.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PhpGt/Server.git",
-                "reference": "6e959fcf874d3363ddbe708f25f907b42dcb17bc"
+                "url": "https://github.com/phpgt/Server.git",
+                "reference": "162eeb581973e7c8de3da7c2117af659df39b582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Server/zipball/6e959fcf874d3363ddbe708f25f907b42dcb17bc",
-                "reference": "6e959fcf874d3363ddbe708f25f907b42dcb17bc",
+                "url": "https://api.github.com/repos/phpgt/Server/zipball/162eeb581973e7c8de3da7c2117af659df39b582",
+                "reference": "162eeb581973e7c8de3da7c2117af659df39b582",
                 "shasum": ""
             },
             "require": {
@@ -2257,7 +2257,7 @@
             },
             "require-dev": {
                 "phpmd/phpmd": "^2.13",
-                "phpstan/phpstan": "v1.10",
+                "phpstan/phpstan": "^2.1",
                 "squizlabs/php_codesniffer": "^3.7"
             },
             "bin": [
@@ -2272,8 +2272,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "description": "Development HTTP server.",
             "support": {
-                "issues": "https://github.com/PhpGt/Server/issues",
-                "source": "https://github.com/PhpGt/Server/tree/v1.1.5"
+                "issues": "https://github.com/phpgt/Server/issues",
+                "source": "https://github.com/phpgt/Server/tree/v1.1.6"
             },
             "funding": [
                 {
@@ -2281,7 +2281,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-09T15:21:06+00:00"
+            "time": "2026-03-09T18:54:33+00:00"
         },
         {
             "name": "phpgt/servicecontainer",
@@ -2547,7 +2547,7 @@
             "dist": {
                 "type": "path",
                 "url": "/home/g105b/Code/PhpGt/WebEngine",
-                "reference": "34e3469c2480d8332a6b5d9c7440abde5496f311"
+                "reference": "95296a9508dfe6c217a444f58da032241ddb934a"
             },
             "require": {
                 "ext-curl": "*",
@@ -2620,7 +2620,7 @@
             "funding": [
                 {
                     "type": "github",
-                    "url": "https://github.com/sponsors/PhpGt"
+                    "url": "https://github.com/sponsors/phpgt"
                 }
             ],
             "transport-options": {
