@@ -1,9 +1,7 @@
 <?php
-use Exception;
 use Gt\Dom\HTMLDocument;
-use GT\Website\ExampleClass;
 
-function go(HTMLDocument $document, ExampleClass $exampleClass):void {
+function go(HTMLDocument $document):void {
 	$document->querySelector("main h1")->textContent = "Updated from go";
 
 	$exampleClass->doSomethingBad();
