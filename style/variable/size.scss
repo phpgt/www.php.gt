@@ -3,6 +3,7 @@
 :root {
 	--size-logo: 2rem;
 	--size-fixed-heading: 0;
+	--size-content-width: 48rem;
 
 	body.uri--index {
 		--size-logo: 4rem;
@@ -10,5 +11,6 @@
 
 	@media(min-width: break.$medium) {
 		--size-logo: 4rem;
+		--size-content-width: 54rem;
 	}
 }

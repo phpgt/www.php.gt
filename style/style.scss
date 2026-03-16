@@ -45,6 +45,7 @@ body>main>footer {
 	@media(min-width: break.$medium) {
 		position: relative;
 		padding: 4rem;
+		container-type: inline-size;
 
 		&::before {
 			content: "";
@@ -61,6 +62,17 @@ body>main>footer {
 			);
 			mask-size: 100% 100%;
 			mask-repeat: no-repeat;
+		}
+
+		&::after {
+			--size: calc(50vw - 50cqw - (var(--size-content-width) / 4) + 1rem);
+			content: "";
+			position: absolute;
+			right: calc(var(--size) * -1);
+			top: 0;
+			height: 100%;
+			width: var(--size);
+			background-color: var(--pal-sidebar);
 		}
 	}
 
