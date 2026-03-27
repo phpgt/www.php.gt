@@ -9,7 +9,7 @@ window.addEventListener("scroll", e => {
 			threshold = fixedHeadingElement.offsetTop;
 		}
 		else {
-			threshold = null;
+			threshold = fixedHeadingElement.offsetHeight;
 		}
 
 		document.body.style.setProperty('--size-fixed-heading', `${fixedHeadingElement.offsetHeight}px`);

@@ -28,11 +28,13 @@ docs-search {
 			right: -80rem;
 			height: calc(100% + 1.5rem);
 			background-color: var(--pal-page);
-			border-bottom: 4px solid transparent;
+			border-bottom: 0 solid transparent;
+			transition: border 0.25s ease-in-out;
 		}
 
 		body.scrolled &::before {
 			border-bottom-color: var(--pal-sidebar);
+			border-bottom-width: 4px;
 		}
 	}
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d94b7e09847223c00322066d93889221",
+    "content-hash": "60f3d67c7ba3a49005e6ecdbc7e63c0d",
     "packages": [
         {
             "name": "composer/semver",
@@ -157,6 +157,70 @@
                 "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.3"
             },
             "time": "2024-07-08T12:26:09+00:00"
+        },
+        {
+            "name": "dragonmantank/cron-expression",
+            "version": "v2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dragonmantank/cron-expression.git",
+                "reference": "65b2d8ee1f10915efb3b55597da3404f096acba2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/65b2d8ee1f10915efb3b55597da3404f096acba2",
+                "reference": "65b2d8ee1f10915efb3b55597da3404f096acba2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4|^7.0|^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cron\\": "src/Cron/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Chris Tankersley",
+                    "email": "chris@ctankersley.com",
+                    "homepage": "https://github.com/dragonmantank"
+                }
+            ],
+            "description": "CRON for PHP: Calculate the next or previous run date and determine if a CRON expression is due",
+            "keywords": [
+                "cron",
+                "schedule"
+            ],
+            "support": {
+                "issues": "https://github.com/dragonmantank/cron-expression/issues",
+                "source": "https://github.com/dragonmantank/cron-expression/tree/v2.3.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/dragonmantank",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-10-13T00:52:37+00:00"
         },
         {
             "name": "greenlion/php-sql-parser",
@@ -1038,19 +1102,20 @@
         },
         {
             "name": "phpgt/cron",
-            "version": "dev-11-custom-expressions",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpgt/Cron.git",
-                "reference": "ab5763cda840bca56c8aeb24706b58906ec3fd8d"
+                "reference": "12e2e741d623cf05422f6afa55865b2b15543999"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpgt/Cron/zipball/ab5763cda840bca56c8aeb24706b58906ec3fd8d",
-                "reference": "ab5763cda840bca56c8aeb24706b58906ec3fd8d",
+                "url": "https://api.github.com/repos/phpgt/Cron/zipball/12e2e741d623cf05422f6afa55865b2b15543999",
+                "reference": "12e2e741d623cf05422f6afa55865b2b15543999",
                 "shasum": ""
             },
             "require": {
+                "dragonmantank/cron-expression": "^2.2",
                 "php": ">=8.1",
                 "phpgt/cli": "1.*"
             },
@@ -1073,7 +1138,7 @@
             "description": "Run scripts or static functions at regular intervals.",
             "support": {
                 "issues": "https://github.com/phpgt/Cron/issues",
-                "source": "https://github.com/phpgt/Cron/tree/11-custom-expressions"
+                "source": "https://github.com/phpgt/Cron/tree/v1.0.4"
             },
             "funding": [
                 {
@@ -1081,7 +1146,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-16T17:49:03+00:00"
+            "time": "2025-03-07T18:07:32+00:00"
         },
         {
             "name": "phpgt/csrf",
@@ -1143,26 +1208,28 @@
         },
         {
             "name": "phpgt/cssxpath",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpgt/CssXPath.git",
-                "reference": "008aaf7f381e2396590fc53830f4a8ad9f517c7f"
+                "reference": "577781742ff61742332740d50f35f2b6cc037e2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpgt/CssXPath/zipball/008aaf7f381e2396590fc53830f4a8ad9f517c7f",
-                "reference": "008aaf7f381e2396590fc53830f4a8ad9f517c7f",
+                "url": "https://api.github.com/repos/phpgt/CssXPath/zipball/577781742ff61742332740d50f35f2b6cc037e2a",
+                "reference": "577781742ff61742332740d50f35f2b6cc037e2a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0"
+                "php": ">=8.2"
             },
             "require-dev": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
+                "phpmd/phpmd": "^2.15",
                 "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^9.6"
+                "phpunit/phpunit": "^10.5",
+                "squizlabs/php_codesniffer": "^4.0"
             },
             "type": "library",
             "autoload": {
@@ -1185,7 +1252,7 @@
             "description": "Convert CSS selectors to XPath queries.",
             "support": {
                 "issues": "https://github.com/phpgt/CssXPath/issues",
-                "source": "https://github.com/phpgt/CssXPath/tree/v1.4.0"
+                "source": "https://github.com/phpgt/CssXPath/tree/v1.5.0"
             },
             "funding": [
                 {
@@ -1193,20 +1260,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-24T09:11:43+00:00"
+            "time": "2026-03-16T12:14:14+00:00"
         },
         {
             "name": "phpgt/curl",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpgt/Curl.git",
-                "reference": "cbeb514a700253a94200b3e91107f1fb0bb32b03"
+                "reference": "125cc2d2eef8656913c13dd11fb451115dc5de9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpgt/Curl/zipball/cbeb514a700253a94200b3e91107f1fb0bb32b03",
-                "reference": "cbeb514a700253a94200b3e91107f1fb0bb32b03",
+                "url": "https://api.github.com/repos/phpgt/Curl/zipball/125cc2d2eef8656913c13dd11fb451115dc5de9f",
+                "reference": "125cc2d2eef8656913c13dd11fb451115dc5de9f",
                 "shasum": ""
             },
             "require": {
@@ -1216,14 +1283,15 @@
                 "phpgt/json": "^2.2"
             },
             "require-dev": {
-                "phpmd/phpmd": "^2.13",
+                "phpmd/phpmd": "^2.15",
                 "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^10.0",
-                "squizlabs/php_codesniffer": "^3.7"
+                "phpunit/phpunit": "^12.5",
+                "squizlabs/php_codesniffer": "^4.0"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
+                    "GT\\Curl\\": "./src",
                     "Gt\\Curl\\": "./src"
                 }
             },
@@ -1246,7 +1314,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpgt/Curl/issues",
-                "source": "https://github.com/phpgt/Curl/tree/v3.2.0"
+                "source": "https://github.com/phpgt/Curl/tree/v3.2.1"
             },
             "funding": [
                 {
@@ -1254,7 +1322,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-12-09T22:55:13+00:00"
+            "time": "2026-03-18T22:36:08+00:00"
         },
         {
             "name": "phpgt/daemon",
@@ -1524,11 +1592,17 @@
         },
         {
             "name": "phpgt/domtemplate",
-            "version": "dev-master",
+            "version": "v3.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpgt/DomTemplate.git",
+                "reference": "f724ad744ebd32f753c63782ebeebb756fd01f08"
+            },
             "dist": {
-                "type": "path",
-                "url": "/home/g105b/Code/PhpGt/WebEngine/vendor/phpgt/domtemplate",
-                "reference": "e88b1a49c652f2aa36ebfa4471db675e64ecf304"
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpgt/DomTemplate/zipball/f724ad744ebd32f753c63782ebeebb756fd01f08",
+                "reference": "f724ad744ebd32f753c63782ebeebb756fd01f08",
+                "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
@@ -1547,48 +1621,22 @@
                     "Gt\\DomTemplate\\": "./src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Gt\\DomTemplate\\Test\\": "./test/phpunit"
-                }
-            },
-            "scripts": {
-                "phpunit": [
-                    "vendor/bin/phpunit --configuration phpunit.xml"
-                ],
-                "phpunit:coverage": [
-                    "XDEBUG_MODE=coverage vendor/bin/phpunit --configuration phpunit.xml --coverage-text"
-                ],
-                "phpstan": [
-                    "vendor/bin/phpstan analyse --level 6 src --memory-limit 256M"
-                ],
-                "phpcs": [
-                    "vendor/bin/phpcs src --standard=phpcs.xml"
-                ],
-                "phpmd": [
-                    "vendor/bin/phpmd src/ text phpmd.xml"
-                ],
-                "test": [
-                    "@phpunit",
-                    "@phpstan",
-                    "@phpcs",
-                    "@phpmd"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Bind dynamic data to reusable HTML components.",
+            "support": {
+                "issues": "https://github.com/phpgt/DomTemplate/issues",
+                "source": "https://github.com/phpgt/DomTemplate/tree/v3.5.1"
+            },
             "funding": [
                 {
-                    "type": "github",
-                    "url": "https://github.com/sponsors/PhpGt"
+                    "url": "https://github.com/sponsors/PhpGt",
+                    "type": "github"
                 }
             ],
-            "transport-options": {
-                "symlink": true,
-                "relative": false
-            }
+            "time": "2026-03-14T13:50:44+00:00"
         },
         {
             "name": "phpgt/domvalidation",
@@ -1768,16 +1816,16 @@
         },
         {
             "name": "phpgt/http",
-            "version": "v1.3.7",
+            "version": "v1.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpgt/Http.git",
-                "reference": "7c92bd2d0c7b9d68aa29c39f01ce41a7fcb221ee"
+                "reference": "5e12783b8a339340fd886217a805ae70bbf82b23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpgt/Http/zipball/7c92bd2d0c7b9d68aa29c39f01ce41a7fcb221ee",
-                "reference": "7c92bd2d0c7b9d68aa29c39f01ce41a7fcb221ee",
+                "url": "https://api.github.com/repos/phpgt/Http/zipball/5e12783b8a339340fd886217a805ae70bbf82b23",
+                "reference": "5e12783b8a339340fd886217a805ae70bbf82b23",
                 "shasum": ""
             },
             "require": {
@@ -1786,7 +1834,7 @@
                 "ext-fileinfo": "*",
                 "php": ">=8.4",
                 "phpgt/async": "^1.0",
-                "phpgt/curl": "^3.1",
+                "phpgt/curl": "^3.2",
                 "phpgt/input": "^1.3",
                 "phpgt/json": "^2.2",
                 "phpgt/promise": "^2.4",
@@ -1797,8 +1845,8 @@
             },
             "require-dev": {
                 "phpmd/phpmd": "^2.13",
-                "phpstan/phpstan": "^1.12",
-                "phpunit/phpunit": "10.1.*",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.5",
                 "squizlabs/php_codesniffer": "^3.7"
             },
             "type": "library",
@@ -1819,7 +1867,7 @@
             "description": "PSR-7 HTTP message implementation.",
             "support": {
                 "issues": "https://github.com/phpgt/Http/issues",
-                "source": "https://github.com/phpgt/Http/tree/v1.3.7"
+                "source": "https://github.com/phpgt/Http/tree/v1.3.8"
             },
             "funding": [
                 {
@@ -1827,7 +1875,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-06T13:08:42+00:00"
+            "time": "2026-03-19T18:22:33+00:00"
         },
         {
             "name": "phpgt/input",
@@ -2510,11 +2558,17 @@
         },
         {
             "name": "phpgt/webengine",
-            "version": "dev-new-v5--refactor",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpgt/WebEngine.git",
+                "reference": "8ca206af2490b0da9eda3812e24498761b0e2bcb"
+            },
             "dist": {
-                "type": "path",
-                "url": "/home/g105b/Code/PhpGt/WebEngine",
-                "reference": "4b70a489d230faf9114f53000fbf1a99eb7435f9"
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpgt/WebEngine/zipball/8ca206af2490b0da9eda3812e24498761b0e2bcb",
+                "reference": "8ca206af2490b0da9eda3812e24498761b0e2bcb",
+                "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
@@ -2554,25 +2608,25 @@
                 "phpmd/phpmd": "^2.13",
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^12.4",
-                "squizlabs/php_codesniffer": "^3.7"
+                "squizlabs/php_codesniffer": "^3.7 || ^4.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
+                "files": [
+                    "./gt-compat.php"
+                ],
                 "psr-4": {
-                    "GT\\WebEngine\\": "./src/",
-                    "Gt\\WebEngine\\": "./src/"
+                    "GT\\WebEngine\\": "./src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "GT\\WebEngine\\Test\\": "./test/phpunit"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Minimalistic, ergonomic PHP toolkit.",
             "keywords": [
+                "Toolbox",
                 "framework",
                 "gt",
                 "php",
@@ -2580,20 +2634,20 @@
                 "phpgt",
                 "prototype",
                 "router",
-                "toolbox",
                 "webengine",
                 "webservice"
             ],
+            "support": {
+                "issues": "https://github.com/phpgt/WebEngine/issues",
+                "source": "https://github.com/phpgt/WebEngine/tree/master"
+            },
             "funding": [
                 {
-                    "type": "github",
-                    "url": "https://github.com/sponsors/phpgt"
+                    "url": "https://github.com/sponsors/phpgt",
+                    "type": "github"
                 }
             ],
-            "transport-options": {
-                "symlink": true,
-                "relative": false
-            }
+            "time": "2026-03-27T15:55:08+00:00"
         },
         {
             "name": "psr/container",
@@ -4885,24 +4939,9 @@
             "time": "2025-12-08T11:19:18+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "phpgt/cron",
-            "version": "dev-11-custom-expressions",
-            "alias": "v1.0.5",
-            "alias_normalized": "1.0.5.0"
-        },
-        {
-            "package": "phpgt/domtemplate",
-            "version": "9999999-dev",
-            "alias": "3.4.2",
-            "alias_normalized": "3.4.2.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpgt/cron": 20,
-        "phpgt/domtemplate": 20,
         "phpgt/webengine": 20
     },
     "prefer-stable": false,
