@@ -6,6 +6,10 @@
 
 	padding: 0 1rem;
 
+	article, section {
+		padding: 0;
+	}
+
 	@media(min-width: break.$medium) {
 		padding: 0.5rem 2rem;
 		//font-size: 1.25rem;
@@ -16,5 +20,9 @@
 
 	&:last-of-type {
 		min-height: 64rem;
+	}
+
+	&:not(:first-of-type) {
+		margin-top: 16rem;
 	}
 }

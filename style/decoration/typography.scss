@@ -59,6 +59,11 @@
 				font-size: 3em;
 			}
 		}
+
+		p {
+			color: color-mix(in srgb, var(--pal-text), var(--pal-page) 25%);
+			font-size: 0.75em;
+		}
 	}
 
 	p, ul, ol {
