@@ -27,10 +27,10 @@ readonly class MarkdownFile implements Stringable {
 	}
 
 	public function __toString():string {
-		return $this->getHtml();
+		return $this->getHTML();
 	}
 
-	public function getHtml():string {
+	public function getHTML():string {
 		if(!file_exists($this->filePath)) {
 			return "";
 		}
@@ -65,10 +65,10 @@ readonly class MarkdownFile implements Stringable {
 
 	public function getHtmlPreview():string {
 		if($this->hash) {
-			return $this->getHtml();
+			return $this->getHTML();
 		}
 
-		$html = $this->getHtml();
+		$html = $this->getHTML();
 		$document = new HTMLDocument($html);
 		return $document->querySelector("p")->innerHTML;
 	}

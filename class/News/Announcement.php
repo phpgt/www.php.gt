@@ -49,6 +49,6 @@ class Announcement implements NewsUpdateItem {
 
 	#[BindGetter]
 	public function getHtmlContent():string {
-		return new MarkdownToHTML($this->body)->outputHTML();
+		return new MarkdownToHTML($this->body)->outputHTML(2);
 	}
 }

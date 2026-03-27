@@ -54,7 +54,7 @@ class SearchIndex {
 
 	private function generateScores(string $markdownFilePath):array {
 		$markdown = new MarkdownFile($markdownFilePath);
-		$html = $markdown->getHtml();
+		$html = $markdown->getHTML();
 		$document = new HTMLDocument($html);
 
 		$scores = [];

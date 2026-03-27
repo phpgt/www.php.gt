@@ -13,7 +13,7 @@ class MarkdownTest extends TestCase {
 		file_put_contents($tmpPath, "This is a [[Wiki Link]] in the content");
 
 		$sut = new MarkdownFile($tmpPath);
-		$html = $sut->getHtml();
+		$html = $sut->getHTML();
 
 		unlink($tmpPath);
 		self::assertStringContainsString('<a href="/Wiki-Link">Wiki Link</a>', $html);

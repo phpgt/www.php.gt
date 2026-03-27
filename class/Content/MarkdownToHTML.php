@@ -1,6 +1,7 @@
 <?php
 namespace GT\Website\Content;
 
+use Gt\Dom\HTMLDocument;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
@@ -22,7 +23,7 @@ class MarkdownToHTML implements Stringable {
 		return $this->outputHTML();
 	}
 
-	public function outputHTML():string {
+	public function outputHTML(int $disallowHeadingLevelAndAbove = 0):string {
 		if($this->cacheFile && file_exists($this->cacheFile)) {
 			return file_get_contents($this->cacheFile);
 		}
@@ -71,6 +72,9 @@ class MarkdownToHTML implements Stringable {
 
 		$converter = new MarkdownConverter($environment);
 		$html = (string)$converter->convert($this->markdown);
+		if($disallowHeadingLevelAndAbove > 0) {
+			$html = $this->shiftHeadings($html, $disallowHeadingLevelAndAbove);
+		}
 
 		if($this->cacheFile) {
 			if(!is_dir(dirname($this->cacheFile))) {
@@ -81,5 +85,52 @@ class MarkdownToHTML implements Stringable {
 		}
 
 		return $html;
+	}
+
+	private function shiftHeadings(string $html, int $disallowHeadingLevelAndAbove):string {
+		$document = new HTMLDocument($html);
+		$headingList = $document->querySelectorAll("h1, h2, h3, h4, h5, h6");
+		$shift = $this->getHeadingShift($headingList, $disallowHeadingLevelAndAbove);
+		if($shift === 0) {
+			return $html;
+		}
+
+		foreach($headingList as $heading) {
+			$currentLevel = (int)substr($heading->tagName, 1);
+			$targetLevel = min(6, $currentLevel + $shift);
+			if($targetLevel === $currentLevel) {
+				continue;
+			}
+
+			$replacement = $document->createElement("h$targetLevel");
+			foreach($heading->attributes as $attribute) {
+				$replacement->setAttribute($attribute->name, $attribute->value);
+			}
+
+			while($heading->firstChild) {
+				$replacement->appendChild($heading->firstChild);
+			}
+
+			$heading->parentNode->replaceChild($replacement, $heading);
+		}
+
+		return $document->body->innerHTML;
+	}
+
+	private function getHeadingShift(
+		iterable $headingList,
+		int $disallowHeadingLevelAndAbove,
+	):int {
+		$highestHeadingLevel = 7;
+		foreach($headingList as $heading) {
+			$level = (int)substr($heading->tagName, 1);
+			$highestHeadingLevel = min($highestHeadingLevel, $level);
+		}
+
+		if($highestHeadingLevel > $disallowHeadingLevelAndAbove) {
+			return 0;
+		}
+
+		return $disallowHeadingLevelAndAbove + 1 - $highestHeadingLevel;
 	}
 }
