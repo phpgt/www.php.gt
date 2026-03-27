@@ -12,11 +12,14 @@ function go(ConfigSection $githubConfig):void {
 		new Http(),
 		$githubConfig->getString("access_token"),
 	);
-	/** @var array<NewsUpdateItem> $newsUpdateList */
-	$newsUpdateList = $loader->sort(
-		...$loader->loadReleaseList(),
+	$announcementList = $loader->sort(
 		...$loader->loadAnnouncementList(),
 	);
+	$releaseList = $loader->sort(
+		...$loader->loadReleaseList(),
+	);
+	file_put_contents("data/content/announcement-list.dat", serialize($announcementList));
+	file_put_contents("data/content/release-list.dat", serialize($releaseList));
 }
 
 // TODO: Automate when cron is implemented.

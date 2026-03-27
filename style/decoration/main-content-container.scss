@@ -1,0 +1,20 @@
+@use "../variable/break";
+@use "../decoration/typography";
+
+%d-main-content-container {
+	@extend %d-typography;
+
+	padding: 0 1rem;
+
+	@media(min-width: break.$medium) {
+		padding: 0.5rem 2rem;
+		//font-size: 1.25rem;
+	}
+	@media(min-width: break.$large) {
+		//font-size: 1.5rem;
+	}
+
+	&:last-of-type {
+		min-height: 64rem;
+	}
+}

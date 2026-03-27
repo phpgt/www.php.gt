@@ -2,24 +2,25 @@
 @use "font/ubuntu-mono";
 @use "font/ubuntu-condensed";
 
-@use "variable/break.scss";
-@use "variable/palette.scss";
-@use "variable/size.scss";
+@use "variable/break";
+@use "variable/palette";
+@use "variable/size";
 
-@use "element/a.scss";
-@use "element/article.scss";
-@use "element/body.scss";
-@use "element/code.scss";
-@use "element/html.scss";
-@use "element/main.scss";
-@use "element/pre.scss";
+@use "element/a";
+@use "element/article";
+@use "element/body";
+@use "element/code";
+@use "element/html";
+@use "element/main";
+@use "element/pre";
+@use "element/section";
 
-@use "component/global-header.scss";
-@use "component/docs-search.scss";
-@use "component/docs-search-results.scss";
-@use "component/site-nav.scss";
+@use "component/global-header";
+@use "component/docs-search";
+@use "component/docs-search-results";
+@use "component/site-nav";
 
-@use "page/index.scss";
+@use "page/index";
 
 html {
 	color: var(--pal-text);

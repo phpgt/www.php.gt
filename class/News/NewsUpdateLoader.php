@@ -68,11 +68,15 @@ query($categoryId: ID!, $cursor: String) {
       orderBy: {field: CREATED_AT, direction: DESC}
     ) {
       nodes {
+        number
         title
         body
         createdAt
         author {
           login
+          ... on User {
+            name
+          }
         }
       }
       pageInfo {
@@ -98,10 +102,14 @@ GRAPHQL,
 
 			foreach($discussionConnection["nodes"] as $discussion) {
 				array_push($announcementList, new Announcement(
+					$discussion["number"],
 					$discussion["title"],
 					$discussion["body"],
 					new DateTime($discussion["createdAt"]),
-					$discussion["author"]["login"],
+					$this->formatAuthor(
+						$discussion["author"]["login"] ?? null,
+						$discussion["author"]["name"] ?? null
+					),
 				));
 			}
 
@@ -180,6 +188,18 @@ GRAPHQL
 			"headers" => $this->getGithubHeaders(),
 		]);
 		return $response->awaitText();
+	}
+
+	private function formatAuthor(?string $login, ?string $name):?string {
+		if(!$login) {
+			return null;
+		}
+
+		if(!$name) {
+			return $login;
+		}
+
+		return "$login:$name";
 	}
 
 	/** @param array<string, string> $additionalHeaders */

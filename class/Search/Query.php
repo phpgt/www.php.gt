@@ -2,7 +2,7 @@
 namespace GT\Website\Search;
 
 use ArrayIterator;
-use GT\Website\Content\Markdown;
+use GT\Website\Content\MarkdownFile;
 
 class Query extends ArrayIterator {
 	public function __construct(
@@ -64,7 +64,7 @@ class Query extends ArrayIterator {
 			if($title === "Home") {
 				$title = "$repo docs homepage";
 			}
-			$markdown = new Markdown("$contentDir/$path");
+			$markdown = new MarkdownFile("$contentDir/$path");
 
 			array_push(
 				$searchHitList[$repo], [

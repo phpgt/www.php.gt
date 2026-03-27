@@ -6,7 +6,7 @@ use Gt\Http\Uri;
 use Gt\Input\Input;
 use Gt\Routing\Path\DynamicPath;
 use Gt\Session\Session;
-use GT\Website\Content\Markdown;
+use GT\Website\Content\MarkdownFile;
 use GT\Website\Content\RepoList;
 
 function go(
@@ -40,7 +40,7 @@ function go(
 
 	$binder->bindKeyValue(
 		"sidebarContent",
-		new Markdown(
+		new MarkdownFile(
 			"data/content/$currentRepo/_Sidebar.md",
 			"/docs/$currentRepo"
 		)

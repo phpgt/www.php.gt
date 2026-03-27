@@ -2,7 +2,7 @@
 namespace GT\Website\Search;
 
 use Gt\Dom\HTMLDocument;
-use GT\Website\Content\Markdown;
+use GT\Website\Content\MarkdownFile;
 
 class SearchIndex {
 	const array SCORE_SELECTOR_MAP = [
@@ -53,7 +53,7 @@ class SearchIndex {
 	}
 
 	private function generateScores(string $markdownFilePath):array {
-		$markdown = new Markdown($markdownFilePath);
+		$markdown = new MarkdownFile($markdownFilePath);
 		$html = $markdown->getHtml();
 		$document = new HTMLDocument($html);
 

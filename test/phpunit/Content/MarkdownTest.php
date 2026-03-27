@@ -1,7 +1,7 @@
 <?php
 namespace GT\Website\Test\Content;
 
-use GT\Website\Content\Markdown;
+use GT\Website\Content\MarkdownFile;
 use PHPUnit\Framework\TestCase;
 use function sys_get_temp_dir;
 use function tempnam;
@@ -12,7 +12,7 @@ class MarkdownTest extends TestCase {
 		$tmpPath = tempnam(sys_get_temp_dir(), "markdown-test");
 		file_put_contents($tmpPath, "This is a [[Wiki Link]] in the content");
 
-		$sut = new Markdown($tmpPath);
+		$sut = new MarkdownFile($tmpPath);
 		$html = $sut->getHtml();
 
 		unlink($tmpPath);

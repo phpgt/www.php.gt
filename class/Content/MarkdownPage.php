@@ -28,7 +28,7 @@ readonly class MarkdownPage {
 			return;
 		}
 
-		$markdown = new Markdown($markdownFilePath);
+		$markdown = new MarkdownFile($markdownFilePath);
 		$element->innerHTML = $markdown->getHtml();
 	}
 }

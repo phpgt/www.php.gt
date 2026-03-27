@@ -1,5 +1,5 @@
 @use "../decoration/main-content-container";
 
-article {
+section {
 	@extend %d-main-content-container;
 }
