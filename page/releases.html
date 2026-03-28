@@ -1,0 +1,28 @@
+<section>
+	<header>
+		<h1>Latest releases</h1>
+	</header>
+
+	<article data-list-no>
+		<header>
+			<h2>
+				<a href="https://github.com/orgs/phpgt/discussions/{{id}}" data-bind:text="title">This is the article title</a>
+			</h2>
+			<p>
+				Published on
+				<time data-bind:text="publishedDateString">1st January 2000</time>
+				by
+				<a href="https://github.com/{{authorUsername}}" data-bind:text="authorName" target="_blank">PHP.GT admin</a>
+			</p>
+		</header>
+		<div data-bind:html="htmlContent" class="inner-content">
+			<p>Article content goes here.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A at autem consequatur corporis, dolorum et exercitationem explicabo laboriosam maxime modi molestias natus necessitatibus neque nesciunt, repellendus sunt suscipit tenetur! Ab.</p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consectetur debitis dolorem, eos eveniet excepturi, incidunt ipsam ipsum iure molestiae molestias nisi non quidem tenetur ut, vel velit vero. Ipsa.</p>
+		</div>
+
+		<footer>
+			<a href="https://github.com/orgs/phpgt/discussions/{{id}}" target="_blank">Leave a comment on GitHub</a>.
+		</footer>
+	</article>
+</section>

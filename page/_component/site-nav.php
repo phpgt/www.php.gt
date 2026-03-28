@@ -46,6 +46,10 @@ function go(
 		)
 	);
 
+	foreach($element->querySelectorAll("a") as $link) {
+		$link->dataset->set("flux", "link");
+	}
+
 	foreach($element->querySelectorAll(".pageLinks > h1") as $pageHeading) {
 		if($pageHeading->firstElementChild) {
 			continue;

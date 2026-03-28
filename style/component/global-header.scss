@@ -50,6 +50,10 @@ global-header {
 	body.uri--index & {
 		docs-search {
 			margin-top: 0.5rem;
+
+			@media(min-width: break.$medium) {
+				margin-top: 0;
+			}
 		}
 	}
 }

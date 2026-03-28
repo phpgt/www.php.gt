@@ -6,7 +6,7 @@
 		"php": ">=8.4",
 		"phpgt/webengine": "dev-master",
 		"phpgt/logger": "^1.1",
-		"league/commonmark": "2.7.0",
+		"league/commonmark": "^2.8.2",
 		"scrivo/highlight.php": "^9.18"
 	},
 
@@ -22,11 +22,6 @@
 	"autoload-dev": {
 		"psr-4": {
 			"GT\\Website\\Test\\": "./test/phpunit"
-		}
-	},
-	"config": {
-		"audit": {
-			"ignore": ["PKSA-21fb-n1x5-5nf7", "GHSA-4v6x-c7xx-hw9f", "PKSA-2cx9-ynrq-qdk3"]
 		}
 	}
 }
