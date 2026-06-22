@@ -3,8 +3,8 @@
 	"description": "The public www.php.gt website and documentation",
 
 	"require": {
-		"php": ">=8.4",
-		"phpgt/webengine": "dev-master",
+		"php": ">=8.5",
+		"phpgt/webengine": "^5.0",
 		"phpgt/logger": "^1.1",
 		"league/commonmark": "^2.8.2",
 		"scrivo/highlight.php": "^9.18"
