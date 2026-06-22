@@ -1383,8 +1383,8 @@ username=app_user
 password=app_pass
 
 [stripe]
-api_key=pk_test_80dbaff1f54f61fe104ce87832ae6c4e
-secret_key=sk_test_de297e4be8dbc589d309ba04541d58db
+api_key=pay_test_80dbaff1f54f61fe104ce87832ae6c4e
+secret_key=pay_test_de297e4be8dbc589d309ba04541d58db
 ```
 
 In this example we can see three sections:
