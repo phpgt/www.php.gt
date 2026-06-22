@@ -1383,8 +1383,8 @@ username=app_user
 password=app_pass
 
 [stripe]
-api_key=pay_test_80dbaff1f54f61fe104ce87832ae6c4e
-secret_key=pay_test_de297e4be8dbc589d309ba04541d58db
+api_key=pk_fake_66616b652046414b4521
+secret_key=sk_fake_7265616c6c792066616b6521
 ```
 
 In this example we can see three sections:
@@ -1408,8 +1408,8 @@ username=live-example
 password=260d153ad1bc8b5b
 
 [stripe]
-api_key=pk_test_80dbaff1f54f61fe104ce87832ae6c4e
-secret_key=sk_test_de297e4be8dbc589d309ba04541d58db
+api_key=pk_fake_66616b652046414b4521
+secret_key=sk_fake_7265616c6c792066616b6521
 ```
 
 Only the keys that need to change have to be present. Everything else is inherited from the earlier config files.
