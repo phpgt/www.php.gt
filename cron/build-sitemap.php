@@ -1,5 +1,8 @@
 <?php
+use GT\Dom\XMLDocument;
+
 const BASE_URL = "https://www.php.gt";
+const SITEMAP_NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
 function go(
 	string $pageDir = "page",
@@ -104,26 +107,21 @@ function getDocumentationPathList(string $contentDir):Generator {
 }
 
 function writeSitemap(array $urlMap, string $outputPath):void {
-	$writer = new XMLWriter();
-	$writer->openMemory();
-	$writer->startDocument("1.0", "UTF-8");
-	$writer->setIndent(true);
-	$writer->startElement("urlset");
-	$writer->writeAttribute("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9");
+	$document = new XMLDocument();
+	$document->formatOutput = true;
+	$urlSet = $document->createElementNS(SITEMAP_NAMESPACE, "urlset");
+	$document->replaceChild($urlSet, $document->documentElement);
 
 	foreach($urlMap as $path => $lastModified) {
-		$writer->startElement("url");
-		$writer->writeElement("loc", BASE_URL . $path);
-		$writer->writeElement("lastmod", gmdate("Y-m-d", $lastModified));
-		$writer->endElement();
+		$url = $document->createElement("url");
+		$urlSet->appendChild($url);
+		$url->appendChild(
+			$document->createElement("loc", BASE_URL . $path)
+		);
+		$url->appendChild(
+			$document->createElement("lastmod", gmdate("Y-m-d", $lastModified))
+		);
 	}
 
-	$writer->endElement();
-	$writer->endDocument();
-
-	file_put_contents($outputPath, $writer->outputMemory());
+	file_put_contents($outputPath, (string)$document);
 }
-
-// TODO: Automate when cron is implemented.
-chdir(__DIR__ . "/..");
-go();

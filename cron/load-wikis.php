@@ -206,8 +206,3 @@ function normalizeMarkdownReference(string $reference):string {
 	$reference = preg_replace('/-+/', "-", $reference);
 	return strtolower(trim($reference, "-."));
 }
-
-// TODO: Automate when cron is implemented.
-chdir(__DIR__ . "/..");
-require "vendor/autoload.php";
-go(new MarkdownPage("data/content"));
