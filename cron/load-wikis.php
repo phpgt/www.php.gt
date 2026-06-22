@@ -4,7 +4,6 @@ use Gt\Json\JsonKvpObject;
 use Gt\Json\JsonPrimitive\JsonArrayPrimitive;
 use GT\Website\Content\MarkdownPage;
 
-##[Cron(CronEveryDayAt("00:00"))]
 function go(MarkdownPage $markdownPage):void {
 	$repoNameList = [];
 

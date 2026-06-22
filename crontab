@@ -1,0 +1,4 @@
+0 * * * * build-index
+30 0 * * * build-sitemap
+15 */6 * * * load-news-releases
+0 */6 * * * load-wikis
