@@ -23,4 +23,13 @@ function go(
 		$firstHeading = $document->querySelector("article h1");
 		$firstHeading->innerText = "$repoPage documentation";
 	}
+
+// Normalise all relative links:
+	foreach($document->querySelectorAll("main article a") as $link) {
+		if($link->href[0] !== "/") {
+			continue;
+		}
+
+		$link->href = "/docs/$repoPage" . $link->href;
+	}
 }
