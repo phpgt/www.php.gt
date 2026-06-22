@@ -1,5 +1,6 @@
 <?php
 use Gt\Dom\Element;
+use GT\Dom\Text;
 use Gt\DomTemplate\Binder;
 use Gt\Http\Response;
 use Gt\Http\Uri;
@@ -48,6 +49,19 @@ function go(
 
 	foreach($element->querySelectorAll("a") as $link) {
 		$link->dataset->set("flux", "link");
+		$linkText = $link->textContent;
+		$liText = $link->parentElement->textContent;
+		if($linkText !== "Docs" && $linkText !== "¶" && $linkText !== $liText) {
+			$diff = str_replace($linkText, "", $liText);
+			$diff = trim($diff);
+			$link->parentElement->dataset->set("type", $diff);
+
+			foreach($link->parentElement->childNodes as $child) {
+				if($child instanceof Text) {
+					$child->remove();
+				}
+			}
+		}
 	}
 
 	foreach($element->querySelectorAll(".pageLinks > h1") as $pageHeading) {

@@ -296,4 +296,22 @@ site-nav {
 		}
 	}
 
+	[data-type] {
+		position: relative;
+
+		&::after {
+			content: attr(data-type);
+			font-size: 0.5rem;
+			font-weight: bold;
+			position: absolute;
+			left: -1rem;
+			top: 0.4rem;
+			margin: 0.25rem;
+			padding: 0.1rem;
+			background-color: var(--pal-primary);
+			color: var(--pal-bg);
+			filter: invert(1);
+		}
+	}
+
 }
