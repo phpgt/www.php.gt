@@ -1,6 +1,8 @@
 <?php
 use Gt\Dom\Text;
 use Gt\Dom\HTMLDocument;
+use GT\DomTemplate\Binder;
+use GT\Input\Input;
 
 function go(HTMLDocument $document):void {
 // The first h1 on the homepage is designed in a way that needs its words
@@ -20,4 +22,14 @@ function go(HTMLDocument $document):void {
 	}
 
 	$h1->appendChild($fragment);
+
+// The example code is stored outside of the page content, but it should be
+// displayed inline with the code example.
+	$codeOutputEl = $document->getElementById("example-output");
+	$exampleContainer = $document->querySelector("main article .example");
+	$exampleContainer->appendChild($codeOutputEl);
+}
+
+function do_greet(Input $input, Binder $binder):void {
+	$binder->bindData($input);
 }
