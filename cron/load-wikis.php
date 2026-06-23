@@ -104,7 +104,10 @@ function go(MarkdownPage $markdownPage):void {
 	}
 
 	chdir($originalCwd);
-	file_put_contents("asset/_www/llms-full.txt", trim($fullMarkdown) . PHP_EOL);
+	if(!is_dir("www")) {
+		mkdir("www", recursive: true);
+	}
+	file_put_contents("www/llms-full.txt", trim($fullMarkdown) . PHP_EOL);
 }
 
 function loadRepoList():JsonArrayPrimitive {
