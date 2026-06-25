@@ -1,4 +1,11 @@
+@use "sass:math";
 @use "../variable/break";
+
+@property --border-effect-angle {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 0deg;
+}
 
 body.uri--index {
 	article {
@@ -11,7 +18,6 @@ body.uri--index {
 				width: calc(100vw - 22rem);
 				max-width: 72rem;
 				margin-top: -4rem;
-				//margin-bottom: 4rem;
 			}
 
 			p {
@@ -23,7 +29,29 @@ body.uri--index {
 				}
 			}
 
+			@keyframes border-effect {
+				0% {
+					--border-effect-angle: 0deg;
+					opacity: 0;
+				}
+				50% {
+					opacity: 1;
+				}
+				100% {
+					--border-effect-angle: 360deg;
+					opacity: 0;
+				}
+			}
+
+			@keyframes slide-in {
+				from {
+					opacity: 0;
+					translate: -1rem 0;
+				}
+			}
+
 			blockquote {
+				position: relative;
 				display: inline-block;
 				order: -1;
 				margin: 0;
@@ -36,6 +64,23 @@ body.uri--index {
 				@media(min-width: break.$medium) {
 					float: left;
 					margin-bottom: 0;
+				}
+
+				&::before {
+					content: "";
+					position: absolute;
+					inset: -4px;
+					border: 4px solid transparent;
+					border-image: conic-gradient(from var(--border-effect-angle),
+						#f45b69,
+						#ffd166,
+						#06d6a0,
+						#118ab2,
+						#7b2cbf,
+						#f45b69
+					) 1;
+					pointer-events: none;
+					animation: border-effect 3s both ease-in-out;
 				}
 
 				ul {
@@ -77,8 +122,13 @@ body.uri--index {
 						}
 
 						@for $i from 1 through 5 {
-							&:nth-of-type(#{$i})::before {
-								filter: hue-rotate(($i) * 60deg) saturate(2);
+							&:nth-of-type(#{$i}) {
+								&::before {
+									filter: hue-rotate(($i) * 60deg) saturate(2);
+								}
+
+								animation: slide-in 0.5s 1 cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+								animation-delay: #{math.div($i - 1, 3)}s;
 							}
 						}
 					}
@@ -87,6 +137,8 @@ body.uri--index {
 		}
 
 		.example {
+			position: relative;
+
 			#example-output {
 				position: relative;
 				max-width: 32rem;
@@ -94,6 +146,12 @@ body.uri--index {
 				border: 4px solid var(--pal-code-outline);
 				border-radius: 1rem;
 				padding-top: 2rem;
+
+				@media(min-width: break.$large) {
+					position: absolute;
+					bottom: 12rem;
+					right: -24rem;
+				}
 
 				&::before {
 					content: "Example output";
@@ -149,6 +207,12 @@ body.uri--index {
 				font-size: 5rem;
 			}
 
+			@keyframes stretch-block {
+				from {
+					height: 0;
+				}
+			}
+
 			a {
 				display: none;
 			}
@@ -168,6 +232,7 @@ body.uri--index {
 					width: 3em;
 					height: 1rem;
 					background: var(--pal-link);
+					animation: stretch-block 1s ease-in-out both;
 				}
 
 				&:nth-of-type(3)::after {
