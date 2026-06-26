@@ -4,6 +4,13 @@ let easterEggCount = 0;
 document.querySelectorAll("docs-search").forEach(element => {
 	input = element.querySelector("input");
 	input.addEventListener("focus", easterEgg);
+
+	document.addEventListener("keydown", function(event) {
+		if (event.key === "/") {
+			event.preventDefault();
+			input.focus();
+		}
+	});
 });
 
 function easterEgg() {

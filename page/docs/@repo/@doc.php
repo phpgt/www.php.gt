@@ -12,10 +12,33 @@ function go(
 	$docPage = urldecode($dynamicPath->get("doc"));
 
 // Ensure the URL is cased correctly according to the repo names.
+	$repoDirName = null;
 	foreach(glob("data/content/*/") as $dir) {
 		$dirName = pathinfo($dir, PATHINFO_FILENAME);
-		if(strtolower($dirName) === $repoPage) {
-			$response->redirect("/docs/$dirName/$docPage");
+		if(strtolower($dirName) === strtolower($repoPage)) {
+			$repoDirName = $dirName;
+			break;
+		}
+	}
+
+	$docFileName = null;
+	if($repoDirName) {
+		foreach(glob("data/content/$repoDirName/*.md") as $filePath) {
+			$fileName = pathinfo($filePath, PATHINFO_FILENAME);
+			if(strtolower($fileName) === strtolower($docPage)) {
+				$docFileName = $fileName;
+				break;
+			}
+		}
+
+		if(
+			$repoDirName !== $repoPage
+			|| ($docFileName !== null && $docFileName !== $docPage)
+		) {
+			$response->redirect(
+				"/docs/$repoDirName/" . ($docFileName ?? $docPage),
+				301
+			);
 		}
 	}
 

@@ -43,7 +43,8 @@ docs-search {
 		left: 18rem;
 	}
 
-	&:has(input:focus), body.uri--search & {
+	&:has(input:focus), body.uri--search &,
+	&:not(:has(input:placeholder-shown)){
 		width: calc(100% - 2rem);
 
 		@media(min-width: break.$medium) {
@@ -119,5 +120,18 @@ docs-search {
 				}
 			}
 		}
+	}
+
+	docs-search-results {
+		position: absolute;
+		top: 5rem;
+		left: -2rem;
+		width: calc(100% - 4rem);
+
+		background-color: var(--pal-bg);
+		border: 4px solid var(--pal-primary);
+
+		max-height: 50vh;
+		overflow-y: scroll;
 	}
 }

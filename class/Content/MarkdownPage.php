@@ -22,7 +22,9 @@ readonly class MarkdownPage {
 			[$repo, $file] = explode("/", $contentName);
 		}
 
-		$markdownFilePath = "$this->dir/$repo/$file.md";
+		$markdownFilePath = $this->findCaseInsensitiveFile(
+			"$this->dir/$repo/$file.md"
+		);
 		if(!is_file($markdownFilePath)) {
 			$element->dataset->set("content-error", "not-found");
 			return;
@@ -30,5 +32,42 @@ readonly class MarkdownPage {
 
 		$markdown = new MarkdownFile($markdownFilePath);
 		$element->innerHTML = $markdown->getHTML();
+	}
+
+	private function findCaseInsensitiveFile(string $filePath):string {
+		if(is_file($filePath)) {
+			return $filePath;
+		}
+
+		$resolvedPath = "";
+		foreach(explode("/", $filePath) as $part) {
+			if($part === "") {
+				$resolvedPath = "/";
+				continue;
+			}
+
+			$dir = $resolvedPath === "" ? "." : $resolvedPath;
+			if(!is_dir($dir)) {
+				return $filePath;
+			}
+
+			$matchedPart = null;
+			foreach(scandir($dir) ?: [] as $entry) {
+				if(strtolower($entry) === strtolower($part)) {
+					$matchedPart = $entry;
+					break;
+				}
+			}
+
+			if($matchedPart === null) {
+				return $filePath;
+			}
+
+			$resolvedPath = $resolvedPath === "" || $resolvedPath === "/"
+				? $resolvedPath . $matchedPart
+				: "$resolvedPath/$matchedPart";
+		}
+
+		return $resolvedPath;
 	}
 }
