@@ -1,0 +1,31 @@
+@use "../variable/break";
+
+body.uri--learn>main>section {
+	form {
+		background-color: var(--pal-code-bg);
+		border: 4px solid var(--pal-code-outline);
+		padding: 1rem;
+
+		label,.actions {
+			display: flow-root;
+			margin: 2rem;
+
+			span {
+				display: block;
+			}
+			input,button {
+				font-size: 1rem;
+				padding: 0.5rem;
+
+				@media(min-width: break.$medium) {
+					font-size: 1.25rem;
+				}
+			}
+
+			[type='checkbox'] {
+				float: left;
+				margin-right: 0.5rem;
+			}
+		}
+	}
+}

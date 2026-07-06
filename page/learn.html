@@ -1,11 +1,54 @@
 <section>
 	<header>
-		<h1>Learn: The complete PHP.GT web development course</h1>
+		<h1>The complete PHP.GT web development course</h1>
 	</header>
 
-	<article>
-		<p>Throughout the documentation on this site, you'll find short videos showing how to use each discussed feature. But often, getting started with web development is the hardest part of everything.</p>
+	<article data-bind:remove="?complete">
+		<p>Throughout the documentation on this site, you'll find short videos showing how to use each discussed feature. These videos are intended to give immediate context to the problem at hand, but often, getting started with web development in general is the hardest part of everything.</p>
 		<p>It can be overwhelming to know what to learn first, which is what <em>The Complete PHP.GT web development course</em> aims to answer for you.</p>
+		<p>The course is currently invite-only, but will be made public here in time.</p>
 
+		<h2>Sign up for early access to the course</h2>
+
+		<form method="post">
+			<label>
+				<span>Your email address</span>
+				<input name="email" type="email" required />
+			</label>
+			<label class="spam">
+				<span>What is your favourite flavour of spam? Only fill this out if you are a robot.</span>
+				<input name="address" required />
+			</label>
+			<script>
+				let spamLabel = document.currentScript.previousElementSibling;
+				let emailInput = spamLabel.closest("form")["email"];
+				let spamInput = spamLabel.querySelector("input");
+				spamLabel.style.position = "absolute";
+				spamLabel.style.translate = "-100vw 0";
+				spamInput.tabIndex = -1;
+				emailInput.addEventListener("change", () => {
+					if(spamInput.dataset["human"]) {
+						return;
+					}
+					spamInput.dataset["human"] = (+new Date).toString();
+					setTimeout(() => {
+						spamInput.required = false;
+					}, 500);
+				})
+			</script>
+			<label>
+				<input type="checkbox" name="consent" required />
+				<span>I consent to receive at maximum 1 email per month regarding the course content.</span>
+			</label>
+
+			<div class="actions">
+				<button name="do" value="signup">Sign up</button>
+			</div>
+		</form>
+	</article>
+
+	<article data-element data-bind:data-thanks="complete">
+		<h2>Thank you for signing up to the course.</h2>
+		<p>You'll be one of the first to know when the course becomes available.</p>
 	</article>
 </section>
