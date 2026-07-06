@@ -21,6 +21,9 @@
 @use "component/site-nav";
 
 @use "page/index";
+@use "page/releases";
+@use "page/blueprints";
+
 
 html {
 	color: var(--pal-text);
