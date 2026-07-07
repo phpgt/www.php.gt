@@ -31,7 +31,7 @@ html {
 	font-size: 18px;
 }
 
-*:not(pre,code) {
+*:not(pre, code, pre span) {
 	font-family: "Ubuntu", sans-serif;
 }
 
