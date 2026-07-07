@@ -1,0 +1,10 @@
+body.dir--docs {
+	#rewrite {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		margin: 1rem;
+		padding: 1rem;
+		background-color: color-mix(in srgb, var(--pal-positive), transparent 10%);
+	}
+}
