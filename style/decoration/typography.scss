@@ -3,7 +3,6 @@
 %d-typography {
 	max-width: var(--size-content-width);
 	font-size: 1.0rem;
-	transition: font-size 0.5s ease-in-out;
 
 	@media(min-width: break.$medium) {
 		font-size: 1.1rem;

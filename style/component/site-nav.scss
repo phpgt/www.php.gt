@@ -26,20 +26,20 @@ site-nav {
 	}
 
 	@media(min-width: break.$medium) {
-		position: absolute;
+		position: fixed;
 		right: auto;
 		width: 17rem;
 		z-index: 1;
-		height: 100%;
+		height: calc(100dvh + 1rem);
 
 		&::before {
 			content: "";
 			display: block;
-			position: absolute;
+			position: fixed;
 			top: 0;
 			left: -50vw;
 			width: 50vw;
-			height: 100vh;
+			height: auto;
 			background-color: var(--pal-sidebar);
 		}
 	}
@@ -120,7 +120,7 @@ site-nav {
 				transition: none;
 				margin-top: calc(var(--size-logo) + 2rem);
 				clip-path: none !important;
-				height: calc(100svh - (var(--size-logo) + 2rem));
+				height: calc(100dvh - (var(--size-logo) + 2rem));
 			}
 		}
 
@@ -287,6 +287,10 @@ site-nav {
 				padding-left: 1rem;
 
 				ul {
+					@media(min-width: break.$medium) {
+						height: 100%;
+					}
+
 					li {
 						font-weight: normal;
 						padding-left: 1rem;
