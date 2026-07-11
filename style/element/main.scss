@@ -1,6 +1,8 @@
 @use "../variable/break";
 
 main {
+	overflow-x: hidden;
+
 	@media(min-width: break.$medium) {
 		margin-left: 17rem;
 		padding-top: calc(var(--size-logo) + 1.5rem);

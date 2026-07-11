@@ -2,36 +2,49 @@ document.querySelectorAll("site-nav").forEach(element => {
 	let details = element.querySelector("details");
 	let summary = details.querySelector("summary");
 
-	summaryAnim(summary);
+	summary.addEventListener("click", clickSummary);
 	desktopSidebar(details);
+	autoCloseOnNav(summary);
 });
 
-function summaryAnim(summary) {
-	summary.addEventListener("click", clickSummary);
-	function clickSummary(e) {
-		let summary = e.currentTarget;
-		let details = summary.closest("details");
-		let detailsDiv = details.querySelector(":scope > div");
+function clickSummary(e) {
+	let screenBreak = getComputedStyle(document.documentElement).getPropertyValue("--break");
 
-		if(details.open) {
-			e.preventDefault();
-			detailsDiv.addEventListener("transitionend", transitionEnd);
-			details.classList.add("closing");
-		}
+	let summary = this;
+	let details = summary.closest("details");
+	details.classList.add("clicked");
+	let detailsDiv = details.querySelector(":scope > div");
+
+	if(details.open) {
+		if(e) { e.preventDefault(); }
+
+		details.classList.add("closing");
+		setTimeout(() => {
+			details.classList.remove("closing");
+			details.open = false;
+		}, getTransitionTime(detailsDiv));
+	}
+}
+
+function getTransitionTime(element) {
+	let transitionTime = getComputedStyle(element)
+		.getPropertyValue("--transition-time");
+
+	return cssTimeToMilliseconds(transitionTime);
+}
+
+function cssTimeToMilliseconds(value) {
+	value = value.trim();
+
+	if(value.endsWith("ms")) {
+		return Number.parseFloat(value);
 	}
 
-	function transitionEnd(e) {
-		let detailsDiv = e.currentTarget;
-		let details = detailsDiv.closest("details");
-
-		detailsDiv.removeEventListener("transitionend", transitionEnd);
-		if(!details.classList.contains("closing")) {
-			return;
-		}
-
-		details.classList.remove("closing");
-		details.open = false;
+	if(value.endsWith("s")) {
+		return Number.parseFloat(value) * 1000;
 	}
+
+	return 0;
 }
 
 function desktopSidebar(details, skipResizeEvent = false) {
@@ -49,4 +62,15 @@ function desktopSidebar(details, skipResizeEvent = false) {
 	}
 
 	details.open = true;
+}
+
+function autoCloseOnNav(summary) {
+	let screenBreak = getComputedStyle(document.documentElement).getPropertyValue("--break");
+	if(screenBreak === "none" || screenBreak === "small") {
+		summary.parentElement.querySelectorAll("li a").forEach(link => {
+			link.addEventListener("click", e => {
+				clickSummary.apply(summary);
+			});
+		});
+	}
 }
