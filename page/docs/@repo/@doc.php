@@ -48,11 +48,11 @@ function go(
 	}
 
 // Normalise all relative links:
-	foreach($document->querySelectorAll("main article a") as $link) {
-		if($link->href[0] !== "/") {
-			continue;
-		}
-
-		$link->href = "/docs/$repoPage" . $link->href;
-	}
+//	foreach($document->querySelectorAll("main article a") as $link) {
+//		if(str_contains($link->href, "//") || $link->href[0] !== "/") {
+//			continue;
+//		}
+//
+//		$link->href = "/docs/$repoPage" . $link->href;
+//	}
 }

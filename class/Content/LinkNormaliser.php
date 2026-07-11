@@ -2,6 +2,7 @@
 namespace GT\Website\Content;
 
 use Gt\Dom\Element;
+use GT\Dom\NodeList;
 use Gt\Http\Uri;
 
 class LinkNormaliser {
@@ -38,6 +39,31 @@ class LinkNormaliser {
 					$link->setAttribute("rel", "noopener");
 				}
 			}
+		}
+
+		$this->normaliseCrossSite($host, $linkList);
+		$this->normaliseAbsolute($linkList);
+		$this->addFlux($linkList);
+	}
+
+	private function normaliseCrossSite(
+		string $host,
+		NodeList $linkList,
+	):void {}
+
+	private function normaliseAbsolute(
+		NodeList $linkList
+	):void {}
+
+	private function addFlux(
+		NodeList $linkList
+	):void {
+		foreach($linkList as $link) {
+			if(str_contains($link->href, "//")) {
+				continue;
+			}
+
+			$link->dataset->set("flux", "link");
 		}
 	}
 }
