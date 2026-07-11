@@ -16,9 +16,12 @@ docs-search {
 
 	body.scrolled & {
 		position: fixed;
-		top: -0.5rem;
-		margin-top: 0 !important;
-		--size-logo: 2rem;
+
+		@media(max-width: break.$small) {
+			top: -0.5rem;
+			margin-top: 0 !important;
+			--size-logo: 2rem;
+		}
 	}
 
 	@media(min-width: break.$medium) {

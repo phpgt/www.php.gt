@@ -14,9 +14,7 @@ body {
 	}
 
 	@media(min-width: break.$medium) {
-		max-width: 96rem;
-		margin-left: auto;
-		margin-right: auto;
+		margin: 0;
 		position: relative;
 		overflow-y: scroll;
 

@@ -3,7 +3,14 @@ let threshold = null;
 window.addEventListener("scroll", e => {
 	if(!threshold) {
 		let mediaBreak = getComputedStyle(document.documentElement).getPropertyValue("--break");
-		let fixedHeadingElement = document.querySelector("site-nav");
+		let fixedHeadingElement;
+
+		if(mediaBreak === "none" || mediaBreak === "small") {
+			fixedHeadingElement = document.querySelector("site-nav");
+		}
+		else {
+			fixedHeadingElement = document.querySelector("docs-search");
+		}
 
 		if(mediaBreak === "none") {
 			threshold = fixedHeadingElement.offsetTop;
