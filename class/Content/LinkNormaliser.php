@@ -57,7 +57,12 @@ class LinkNormaliser {
 		Uri $currentUri,
 	):void {
 		$path = $currentUri->getPath();
+		if(!str_starts_with($path, "/docs/")) {
+			return;
+		}
+
 		$pathDirName = pathinfo($path, PATHINFO_DIRNAME);
+
 		foreach($linkList as $link) {
 			if($link->href[0] !== "/") {
 				continue;
