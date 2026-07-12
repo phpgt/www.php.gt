@@ -12,10 +12,10 @@
 		plausible.init()
 	</script>
 
-	<script src="/script.js" defer></script>
-	<link href="/style.css" rel="stylesheet" />
+	<script src="/script.js?v={{version}}" defer></script>
+	<link href="/style.css?v={{version}}" rel="stylesheet" />
 </head>
-<body data-flux="update-attributes">
+<body data-flux="update-attributes" data-bind:data-version="version">
 
 <global-header />
 <main data-flux="update">

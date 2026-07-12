@@ -13,6 +13,9 @@ function go_before(
 	HTMLDocument $document,
 	Uri $uri,
 ):void {
+	$gitHash = trim(shell_exec('git rev-parse HEAD') ?? '');
+	$binder->bindKeyValue("version", $gitHash);
+
 	$repo = $dynamicPath->get("repo");
 
 	if($doc = urldecode($dynamicPath->get("doc"))) {
