@@ -25,6 +25,35 @@ class MarkdownTest extends TestCase {
 		self::assertStringContainsString('<a href="/Wiki-Link">Wiki Link</a>', $html);
 	}
 
+	public function testFixWikiLinksWithLabel():void {
+		$tmpPath = tempnam(sys_get_temp_dir(), "markdown-test");
+		file_put_contents($tmpPath, "This is a [[What is WebEngine?|What is WebEngine]] link");
+
+		$sut = new MarkdownFile($tmpPath);
+		$html = $sut->getHTML();
+
+		unlink($tmpPath);
+		self::assertStringContainsString(
+			'<a href="/What-is-WebEngine">What is WebEngine?</a>',
+			$html,
+		);
+		self::assertStringNotContainsString("|", $html);
+	}
+
+	public function testFixWikiLinksWithQuestionMarkTarget():void {
+		$tmpPath = tempnam(sys_get_temp_dir(), "markdown-test");
+		file_put_contents($tmpPath, "This is a [[What is WebEngine?]] link");
+
+		$sut = new MarkdownFile($tmpPath);
+		$html = $sut->getHTML();
+
+		unlink($tmpPath);
+		self::assertStringContainsString(
+			'<a href="/What-is-WebEngine%3F">What is WebEngine?</a>',
+			$html,
+		);
+	}
+
 	public function testMarkdownPageLoadsContentCaseInsensitively():void {
 		$contentDir = sys_get_temp_dir() . "/" . uniqid("markdown-page-", true);
 		mkdir("$contentDir/WebEngine", recursive: true);

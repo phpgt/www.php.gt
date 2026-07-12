@@ -5,6 +5,8 @@ use Gt\Dom\HTMLDocument;
 use Stringable;
 
 readonly class MarkdownFile implements Stringable {
+	private const CACHE_VERSION = 4;
+
 	public string $filePath;
 	public ?string $hash;
 
@@ -35,10 +37,10 @@ readonly class MarkdownFile implements Stringable {
 			return "";
 		}
 
-		$md5 = md5_file($this->filePath);
+		$markdownContent = file_get_contents($this->filePath);
+		$md5 = md5(self::CACHE_VERSION . "|" . $markdownContent);
 		$cacheFile = "cache/markdown/$md5.html";
 
-		$markdownContent = file_get_contents($this->filePath);
 		$markdownContent = $this->fixRelativeLinks($markdownContent);
 		$markdownContent = $this->fixWikiLinks($markdownContent);
 
@@ -87,15 +89,36 @@ readonly class MarkdownFile implements Stringable {
 	}
 
 	private function fixWikiLinks(string $markdown):string {
-
 		return preg_replace_callback(
 			'/\[\[([^\]]+)\]\]/',
-			fn(array $matches):string => sprintf(
-				"[%1\$s]($this->baseLink/%2\$s)",
-				$matches[1],
-				str_replace(['?', ' '], ['%3F', '-'], $matches[1]),
-			),
+			function(array $matches):string {
+				[$label, $target] = $this->parseWikiLink($matches[1]);
+
+				return sprintf(
+					"[%s](%s/%s)",
+					$label,
+					$this->baseLink,
+					$this->normalizeWikiLinkTarget($target),
+				);
+			},
 			$markdown
+		);
+	}
+
+	private function parseWikiLink(string $link):array {
+		if(!str_contains($link, "|")) {
+			return [$link, $link];
+		}
+
+		[$label, $target] = explode("|", $link, 2);
+		return [trim($label), trim($target)];
+	}
+
+	private function normalizeWikiLinkTarget(string $target):string {
+		return str_replace(
+			['?', ' '],
+			['%3F', '-'],
+			$target,
 		);
 	}
 }
