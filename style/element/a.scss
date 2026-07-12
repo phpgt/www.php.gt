@@ -2,4 +2,8 @@ a {
 	&[id] {
 		scroll-margin-top: calc(var(--size-logo) + 3rem);
 	}
+
+	&.broken-link {
+		background: red;
+	}
 }
