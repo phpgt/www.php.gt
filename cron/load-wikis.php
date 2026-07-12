@@ -112,10 +112,24 @@ function go(MarkdownPage $markdownPage):void {
 
 function loadRepoList():JsonArrayPrimitive {
 	$http = new Http();
-	$response = $http->awaitFetch("https://api.github.com/orgs/phpgt/repos");
-	/** @var JsonArrayPrimitive $json */
-	$json = $response->awaitJson();
-	return $json;
+	$repoList = [];
+	$page = 1;
+	$perPage = 100;
+	$returnJson = null;
+
+	do {
+		$response = $http->awaitFetch("https://api.github.com/orgs/phpgt/repos?per_page=$perPage&page=$page");
+		/** @var JsonArrayPrimitive $json */
+		$json = $response->awaitJson();
+		$pageRepoList = $json->getPrimitiveValue();
+		$returnJson ??= $json;
+
+		array_push($repoList, ...$pageRepoList);
+		$page++;
+	}
+	while(count($pageRepoList) === $perPage);
+
+	return $returnJson->withPrimitiveValue($repoList);
 }
 
 function getPageListFromSidebar(string $sidebarFile, string $documentationDir):array {
