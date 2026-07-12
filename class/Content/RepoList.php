@@ -47,7 +47,7 @@ class RepoList implements IteratorAggregate {
 			return strcmp($a, $b);
 		});
 
-		return $array;
+		return array_filter($array, fn($item) => $item[0] !== ".");
 	}
 
 }

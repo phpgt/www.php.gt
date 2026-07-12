@@ -24,6 +24,7 @@ class LinkNormaliser {
 		}
 
 		$host = $currentUri->getHost();
+		/** @var Element $link */
 		foreach($linkList as $link) {
 			$linkUri = new Uri($link->href);
 			$linkHost = $linkUri->getHost();
@@ -42,7 +43,7 @@ class LinkNormaliser {
 		}
 
 		$this->normaliseCrossSite($host, $linkList);
-		$this->normaliseAbsolute($linkList);
+		$this->normaliseAbsolute($linkList, $currentUri);
 		$this->addFlux($linkList);
 	}
 
@@ -52,8 +53,19 @@ class LinkNormaliser {
 	):void {}
 
 	private function normaliseAbsolute(
-		NodeList $linkList
-	):void {}
+		NodeList $linkList,
+		Uri $currentUri,
+	):void {
+		$path = $currentUri->getPath();
+		$pathDirName = pathinfo($path, PATHINFO_DIRNAME);
+		foreach($linkList as $link) {
+			if($link->href[0] !== "/") {
+				continue;
+			}
+
+			$link->href = $pathDirName . $link->href;
+		}
+	}
 
 	private function addFlux(
 		NodeList $linkList
