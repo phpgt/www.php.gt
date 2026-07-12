@@ -2,7 +2,6 @@
 
 body {
 	margin: 0;
-	overflow-x: hidden;
 	height: 100%;
 
 	&.scrolled {
@@ -14,7 +13,9 @@ body {
 	}
 
 	@media(min-width: break.$medium) {
-		margin: 0;
+		max-width: 96rem;
+		margin-left: auto;
+		margin-right: auto;
 		position: relative;
 		overflow-y: scroll;
 

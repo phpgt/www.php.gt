@@ -26,7 +26,7 @@ site-nav {
 	}
 
 	@media(min-width: break.$medium) {
-		position: fixed;
+		position: absolute;
 		right: auto;
 		width: 17rem;
 		z-index: 1;
@@ -35,11 +35,11 @@ site-nav {
 		&::before {
 			content: "";
 			display: block;
-			position: fixed;
+			position: absolute;
 			top: 0;
 			left: -50vw;
 			width: 50vw;
-			height: auto;
+			height: 100dvh;
 			background-color: var(--pal-sidebar);
 		}
 	}

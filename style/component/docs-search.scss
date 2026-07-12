@@ -15,9 +15,8 @@ docs-search {
 	transition: var(--transition-time) all var(--transition-function);
 
 	body.scrolled & {
-		position: fixed;
-
 		@media(max-width: break.$small) {
+			position: fixed;
 			top: -0.5rem;
 			margin-top: 0 !important;
 			--size-logo: 2rem;
