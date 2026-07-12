@@ -2,6 +2,6 @@
   "dependencies": {
     "esbuild": "^0.25.5",
     "sass": "^1.85.1",
-    "@phpgt/flux": "github:PhpGt/Flux#master"
+    "@phpgt/flux": "github:PhpGt/Flux#v1.1.0"
   }
 }

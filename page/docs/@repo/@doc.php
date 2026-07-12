@@ -1,6 +1,7 @@
 <?php
 use Gt\Dom\HTMLDocument;
 use Gt\Http\Response;
+use Gt\Http\ResponseStatusException\ClientError\HttpNotFound;
 use Gt\Routing\Path\DynamicPath;
 
 function go(
@@ -47,12 +48,7 @@ function go(
 		$firstHeading->innerText = "$repoPage documentation";
 	}
 
-// Normalise all relative links:
-//	foreach($document->querySelectorAll("main article a") as $link) {
-//		if(str_contains($link->href, "//") || $link->href[0] !== "/") {
-//			continue;
-//		}
-//
-//		$link->href = "/docs/$repoPage" . $link->href;
-//	}
+	if(!$docFileName) {
+		throw new HttpNotFound();
+	}
 }
