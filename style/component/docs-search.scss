@@ -12,7 +12,7 @@ docs-search {
 	padding: 1rem;
 	width: min(var(--size-logo), 3rem);
 	height: min(var(--size-logo), 3rem);
-	transition: var(--transition-time) all var(--transition-function);
+	transition: var(--transition-time) width var(--transition-function);
 
 	body.scrolled & {
 		@media(max-width: break.$small) {
@@ -51,12 +51,24 @@ docs-search {
 		left: 18rem;
 	}
 
-	&:has(input:focus), body.uri--search &,
-	&:not(:has(input:placeholder-shown)){
+	&:focus-within,
+	body.uri--search & {
+		docs-search-results {
+			display: block;
+		}
+
 		width: calc(100% - 2rem);
 
 		@media(min-width: break.$medium) {
 			width: 48rem;
+		}
+	}
+
+	&:not(&:focus-within) {
+		@media(max-width: break.$medium) {
+			input {
+				color: transparent;
+			}
 		}
 	}
 
@@ -130,15 +142,21 @@ docs-search {
 	}
 
 	docs-search-results {
+		display: none;
+
 		position: absolute;
-		top: 5rem;
-		left: -2rem;
-		width: calc(100% - 4rem);
-
-		background-color: var(--pal-bg);
-		border: 4px solid var(--pal-primary);
-
-		max-height: 50vh;
+		z-index: 20;
+		max-height: 75vh;
 		overflow-y: scroll;
+
+		top: calc(8rem + 4px);
+		left: 2rem;
+		right: 2rem;
+
+		@media(min-width: break.$medium) {
+			top: 5.5rem;
+			left: -2rem;
+			width: calc(100% - 4rem);
+		}
 	}
 }

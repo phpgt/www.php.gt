@@ -2,6 +2,7 @@
 namespace GT\Website\Search;
 
 use ArrayIterator;
+use Gt\Http\Uri;
 use GT\Website\Content\MarkdownFile;
 
 class Query extends ArrayIterator {
@@ -52,7 +53,8 @@ class Query extends ArrayIterator {
 
 			$pathInfo = pathinfo($pagePath);
 			$pagePath = $pathInfo["filename"] . "/" . $hashPart;
-			$url = "/docs/$repo/$pagePath";
+			$uri = new Uri("/docs/$repo/$pagePath");
+			$uri = $uri->withQueryValue("query", $query);
 
 			if(!isset($searchHitList[$repo])) {
 				$searchHitList[$repo] = [];
@@ -64,12 +66,13 @@ class Query extends ArrayIterator {
 			if($title === "Home") {
 				$title = "$repo docs homepage";
 			}
+			$title = strip_tags($title);
 			$markdown = new MarkdownFile("$contentDir/$path");
 
 			array_push(
 				$searchHitList[$repo], [
 					"title" => $title,
-					"url" => $url,
+					"url" => $uri,
 					"preview" => $markdown->getHtmlPreview(),
 				]
 			);

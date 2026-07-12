@@ -72,7 +72,7 @@ readonly class MarkdownFile implements Stringable {
 
 		$html = $this->getHTML();
 		$document = new HTMLDocument($html);
-		return $document->querySelector("p")->innerHTML;
+		return strip_tags($document->querySelector("p")->innerHTML);
 	}
 
 	private function fixRelativeLinks(string $markdown):string {
