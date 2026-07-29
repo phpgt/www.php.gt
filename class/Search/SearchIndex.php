@@ -5,6 +5,7 @@ use Gt\Dom\HTMLDocument;
 use GT\Website\Content\MarkdownFile;
 
 class SearchIndex {
+	public const int VERSION = 2;
 	const array SCORE_SELECTOR_MAP = [
 		"h1" => 10,
 		"h2,h3,h4,h5,h6" => 5,
@@ -36,18 +37,30 @@ class SearchIndex {
 	}
 
 	public function generate():void {
-		$index = [];
+		$index = [
+			"version" => self::VERSION,
+			"terms" => [],
+			"metaphones" => [],
+			"titles" => [],
+		];
 
 		foreach($this->repoDirList as $repoDir) {
 			foreach(glob("$repoDir/*.md") as $markdownFilePath) {
 				$markdownIndex = $this->generateScores(
 					$markdownFilePath,
 				);
-				$index = array_merge_recursive($index, $markdownIndex);
+				foreach(["terms", "metaphones", "titles"] as $section) {
+					$index[$section] = array_merge_recursive(
+						$index[$section],
+						$markdownIndex[$section],
+					);
+				}
 			}
 		}
 
-		ksort($index);
+		ksort($index["terms"]);
+		ksort($index["metaphones"]);
+		ksort($index["titles"]);
 		$this->index = $index;
 		file_put_contents($this->indexFilePath, serialize($this->index));
 	}
@@ -57,7 +70,15 @@ class SearchIndex {
 		$html = $markdown->getHTML();
 		$document = new HTMLDocument($html);
 
-		$scores = [];
+		$scores = [
+			"terms" => [],
+			"metaphones" => [],
+			"titles" => [
+				$markdownFilePath => $this->normaliseText(
+					pathinfo($markdownFilePath, PATHINFO_FILENAME),
+				),
+			],
+		];
 
 		foreach(self::SCORE_SELECTOR_MAP as $selector => $scoreIncrement) {
 			foreach($document->querySelectorAll($selector) as $element) {
@@ -71,7 +92,8 @@ class SearchIndex {
 					$count = 0;
 					while($currentElement && $count < 100) {
 						$currentElement = $currentElement->previousElementSibling;
-						if(str_starts_with($currentElement?->tagName, "h")) {
+						if($currentElement
+							&& str_starts_with($currentElement->tagName, "h")) {
 							$headingElement = $currentElement;
 							break;
 						}
@@ -82,20 +104,30 @@ class SearchIndex {
 					$anchorId = $anchor->id;
 				}
 
-				foreach($this->extractMetaphones($element->textContent) as $metaphone) {
-					$markdownId = $markdownFilePath;
-					if($anchorId) {
-						$markdownId .= "#$anchorId";
-					}
+				$markdownId = $markdownFilePath;
+				if($anchorId) {
+					$markdownId .= "#$anchorId";
+				}
 
-					if(!isset($scores[$metaphone])) {
-						$scores[$metaphone] = [];
-					}
-					if(!isset($scores[$metaphone][$markdownId])) {
-						$scores[$metaphone][$markdownId] = 0;
-					}
+				if(str_starts_with($element->tagName, "h")) {
+					$scores["titles"][$markdownId] = $this->normaliseText(
+						$element->textContent,
+					);
+				}
 
-					$scores[$metaphone][$markdownId] += $scoreIncrement;
+				foreach($this->extractTerms($element->textContent) as $term) {
+					$this->incrementScore(
+						$scores["terms"],
+						$term,
+						$markdownId,
+						$scoreIncrement,
+					);
+					$this->incrementScore(
+						$scores["metaphones"],
+						metaphone($term),
+						$markdownId,
+						$scoreIncrement,
+					);
 				}
 			}
 		}
@@ -103,22 +135,38 @@ class SearchIndex {
 		return $scores;
 	}
 
-	private function extractMetaphones(string $text):array {
-		$metaphoneList = [];
-		foreach(explode(" ", $text) as $word) {
-			if(in_array($word, self::SKIP_SCORING_WORD_LIST)) {
+	private function extractTerms(string $text):array {
+		$termList = [];
+		preg_match_all("/[\\p{L}\\p{N}]+/u", mb_strtolower($text), $matches);
+		foreach($matches[0] as $word) {
+			if(in_array($word, self::SKIP_SCORING_WORD_LIST, true)) {
 				continue;
 			}
 
-			$metaphone = metaphone($word);
-			if(!$metaphone) {
+			if(!metaphone($word)) {
 				continue;
 			}
 
-			array_push($metaphoneList, $metaphone);
+			array_push($termList, $word);
 		}
 
-		return $metaphoneList;
+		return $termList;
+	}
+
+	private function normaliseText(string $text):string {
+		preg_match_all("/[\\p{L}\\p{N}]+/u", mb_strtolower($text), $matches);
+		return implode(" ", $matches[0]);
+	}
+
+	private function incrementScore(
+		array &$index,
+		string $term,
+		string $markdownId,
+		int $increment,
+	):void {
+		$index[$term] ??= [];
+		$index[$term][$markdownId] ??= 0;
+		$index[$term][$markdownId] += $increment;
 	}
 
 }

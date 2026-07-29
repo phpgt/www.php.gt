@@ -6,31 +6,93 @@ use Gt\Http\Uri;
 use GT\Website\Content\MarkdownFile;
 
 class Query extends ArrayIterator {
+	private const int SCORE_EXACT_TERM = 20;
+	private const int SCORE_PREFIX_TERM = 8;
+	private const int SCORE_METAPHONE = 2;
+	private const int SCORE_TITLE_TERM = 1_000;
+	private const int SCORE_TITLE_PREFIX = 500;
+	private const int SCORE_TITLE_PHRASE = 5_000;
+	private const int SCORE_TITLE_EXACT = 10_000;
+	private const int SCORE_ALL_TERMS = 2_000;
+
 	public function __construct(
 		string $query,
 		string $contentDir = "data/content",
 		string $indexFile = "index.dat",
 	) {
 		$matches = [];
+		$matchedTerms = [];
 
 		$indexPath = "$contentDir/$indexFile";
 		$index = unserialize(file_get_contents($indexPath));
+		if(($index["version"] ?? null) !== SearchIndex::VERSION) {
+			throw new \RuntimeException(
+				"Search index is out of date; run gt cron --now build-search-index.",
+			);
+		}
 
-		foreach(explode(" ", $query) as $word) {
-			$metaphone = metaphone($word);
+		$queryTerms = $this->extractTerms($query);
+		$normalisedQuery = implode(" ", $queryTerms);
 
-			if(!isset($index[$metaphone])) {
-				continue;
+		foreach($queryTerms as $queryTerm) {
+			$this->addScores(
+				$matches,
+				$matchedTerms,
+				$index["terms"][$queryTerm] ?? [],
+				$queryTerm,
+				self::SCORE_EXACT_TERM,
+			);
+
+			if(mb_strlen($queryTerm) >= 3) {
+				foreach($index["terms"] as $term => $scores) {
+					if($term === $queryTerm || !str_starts_with($term, $queryTerm)) {
+						continue;
+					}
+					$this->addScores(
+						$matches,
+						$matchedTerms,
+						$scores,
+						$queryTerm,
+						self::SCORE_PREFIX_TERM,
+					);
+				}
 			}
 
-			foreach($index[$metaphone] as $path => $score) {
-				if(!isset($matches[$path])) {
-					$matches[$path] = 0;
-				}
+			$this->addScores(
+				$matches,
+				$matchedTerms,
+				$index["metaphones"][metaphone($queryTerm)] ?? [],
+				$queryTerm,
+				self::SCORE_METAPHONE,
+			);
+		}
 
-				$matches[$path] += $score;
+		foreach($matches as $path => &$score) {
+			if(count($matchedTerms[$path]) === count($queryTerms)) {
+				$score += self::SCORE_ALL_TERMS;
+			}
+
+			$title = $index["titles"][$path] ?? "";
+			if($title === $normalisedQuery) {
+				$score += self::SCORE_TITLE_EXACT;
+			}
+			elseif(str_contains($title, $normalisedQuery)) {
+				$score += self::SCORE_TITLE_PHRASE;
+			}
+
+			foreach($queryTerms as $queryTerm) {
+				foreach(explode(" ", $title) as $titleTerm) {
+					if($titleTerm === $queryTerm) {
+						$score += self::SCORE_TITLE_TERM;
+					}
+					elseif(mb_strlen($queryTerm) >= 3
+						&& str_starts_with($titleTerm, $queryTerm)) {
+						$score += self::SCORE_TITLE_PREFIX;
+					}
+				}
 			}
 		}
+		unset($score);
 
 		arsort($matches);
 		$searchHitList = [];
@@ -79,5 +141,24 @@ class Query extends ArrayIterator {
 		}
 
 		parent::__construct($searchHitList);
+	}
+
+	private function extractTerms(string $text):array {
+		preg_match_all("/[\\p{L}\\p{N}]+/u", mb_strtolower($text), $matches);
+		return array_values(array_unique($matches[0]));
+	}
+
+	private function addScores(
+		array &$matches,
+		array &$matchedTerms,
+		array $scores,
+		string $queryTerm,
+		int $multiplier,
+	):void {
+		foreach($scores as $path => $score) {
+			$matches[$path] ??= 0;
+			$matches[$path] += $score * $multiplier;
+			$matchedTerms[$path][$queryTerm] = true;
+		}
 	}
 }

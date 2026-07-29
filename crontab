@@ -1,4 +1,4 @@
-0 * * * * build-index
+0 * * * * build-search-index
 30 0 * * * build-sitemap
 15 */6 * * * load-news-releases
 5 */6 * * * load-blueprints
