@@ -18,7 +18,6 @@ function checkContent() {
 function easterEgg() {
 	if(input.value.length === 0) {
 		easterEggCount = 0;
-		return;
 	}
 	
 	easterEggCount++;
