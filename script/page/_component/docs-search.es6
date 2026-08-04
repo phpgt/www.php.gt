@@ -18,17 +18,11 @@ function checkContent() {
 
 function changeContent() {
 	if(input.value.length > 0) {
-		if(input.value.length > input.dataset["lastSearch"].length) {
-			input.dataset["lastSearch"] = input.value;
-		}
+		easterEggCount = 0;
 	}
 }
 
 function easterEgg() {
-	if(input.value.length === 0 && input.dataset["lastSearch"]) {
-		easterEggCount = 0;
-	}
-	
 	easterEggCount++;
 
 	if(easterEggCount > 40) {
