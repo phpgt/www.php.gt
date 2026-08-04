@@ -19,6 +19,9 @@ function checkContent() {
 function changeContent() {
 	if(input.value.length > 0) {
 		easterEggCount = 0;
+		if(input.dataset.originalPlaceholder) {
+			input.placeholder = input.dataset.originalPlaceholder;
+		}
 	}
 }
 
