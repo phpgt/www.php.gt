@@ -5,6 +5,7 @@ document.querySelectorAll("docs-search").forEach(element => {
 	input = element.querySelector("input");
 	input.addEventListener("focus", checkContent);
 	input.addEventListener("focus", easterEgg);
+	input.addEventListener("input", changeContent);
 
 	document.addEventListener("keydown", slashListener);
 });
@@ -15,8 +16,16 @@ function checkContent() {
 	}
 }
 
+function changeContent() {
+	if(input.value.length > 0) {
+		if(input.value.length > input.dataset["lastSearch"].length) {
+			input.dataset["lastSearch"] = input.value;
+		}
+	}
+}
+
 function easterEgg() {
-	if(input.value.length === 0) {
+	if(input.value.length === 0 && input.dataset["lastSearch"]) {
 		easterEggCount = 0;
 	}
 	
