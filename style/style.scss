@@ -34,9 +34,9 @@ html {
 	scroll-behavior: smooth;
 }
 
-body {
+html > body {
 	min-block-size: 100%;
-	max-inline-size: var(--theme-page-width);
+	inline-size: min(100%, var(--theme-page-width));
 	margin-inline: auto;
 	position: relative;
 	background: var(--site-color-page);
@@ -53,8 +53,12 @@ main {
 }
 
 @media (min-width: flair.$break-shell) {
-	body {
+	html {
 		overflow-y: scroll;
+	}
+
+	body {
+		overflow-y: visible;
 	}
 
 	body.scrolled {

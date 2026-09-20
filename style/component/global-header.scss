@@ -51,7 +51,7 @@ global-header {
 		--site-logo-size: 4rem;
 		position: fixed;
 		inset-block-start: 0;
-		inset-inline-start: max(0px, calc((100vw - var(--theme-page-width)) / 2));
+		inset-inline-start: max(0px, calc((100% - var(--theme-page-width)) / 2));
 		z-index: 10;
 		inline-size: 17rem;
 		block-size: 100svh;
