@@ -112,19 +112,17 @@ body.uri--index main > article {
 
 	#example-output {
 		@extend %o-card;
-		--theme-stack-gap: 0px;
-		--theme-field-gap: 0px;
-		--theme-control-padding-block: 1px;
-		--theme-control-padding-inline: 2px;
-		--theme-button-padding-block: 1px;
-		--theme-button-padding-inline: 6px;
-		--theme-button-min-height: 0px;
+		--theme-stack-gap: var(--theme-space-6);
+		--theme-field-gap: var(--theme-space-2);
+		--theme-surface-padding: calc(2.5rem + var(--theme-space-6))
+			var(--theme-space-6) var(--theme-space-6);
+		--theme-surface-shadow: 0 var(--theme-space-2) var(--theme-space-8)
+			color-mix(in srgb, var(--site-color-primary), transparent 82%);
 		--theme-button-weight: 400;
 		--theme-border-width: 2px;
 		position: relative;
-		max-inline-size: calc(22rem + 8px);
+		max-inline-size: 24rem;
 		margin-inline: auto;
-		padding: 2rem 0 0;
 		border: 4px solid var(--site-color-code-outline);
 		border-radius: 1rem;
 		font-size: inherit;
@@ -134,14 +132,15 @@ body.uri--index main > article {
 			position: absolute;
 			inset-block-start: 0;
 			inset-inline: 0;
-			padding: var(--theme-space-2);
+			padding: var(--theme-space-3) var(--theme-space-6);
 			border-radius: 0.5rem 0.5rem 0 0;
 			background: var(--site-color-code-outline);
 			color: var(--site-color-page);
+			font-weight: 700;
 		}
 
 		h1 {
-			margin: var(--theme-space-4);
+			margin: 0;
 			font-size: 2rem;
 
 			span {
@@ -149,22 +148,29 @@ body.uri--index main > article {
 			}
 		}
 
+		form {
+			@extend %p-stack;
+			--theme-stack-gap: var(--theme-space-4);
+		}
+
 		label {
 			@extend %o-form-field;
-			margin: 0 var(--theme-space-4) var(--theme-space-4);
+			margin: 0;
 
 			> span {
 				font-weight: 400;
 			}
 
 			input {
-				font-size: 1.5rem;
+				font-size: 1.25rem;
 			}
 		}
 
 		button {
-			margin: var(--theme-space-4);
-			font-size: 1.5rem;
+			@extend %o-button-primary;
+			align-self: flex-start;
+			margin: 0;
+			font-size: 1.125rem;
 		}
 	}
 
