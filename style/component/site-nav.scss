@@ -104,6 +104,7 @@ site-nav {
 	details > div,
 	.pageLinks {
 		> ul {
+			margin-block-end: 2.25rem;
 			padding-block-start: var(--theme-space-2);
 		}
 
@@ -130,11 +131,6 @@ site-nav {
 
 	.pageLinks {
 		@extend %p-side-navigation;
-	}
-
-	details > div > ul + ul {
-		// Matches the breathing room created by the old invisible group rule.
-		margin-block-start: 2.25rem;
 	}
 
 	.repo-switcher {

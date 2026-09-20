@@ -32,6 +32,11 @@ html {
 	color: var(--site-color-text);
 	font-size: 18px;
 	scroll-behavior: smooth;
+
+	::selection {
+		background: var(--site-color-primary);
+		color: var(--site-color-page);
+	}
 }
 
 html > body {
