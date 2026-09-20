@@ -1,58 +1,70 @@
-@use "../variable/break";
+@use "../../node_modules/flair/style/flair";
 
 global-header {
-	@media(min-width: break.$medium) {
-		position: fixed;
-		z-index: 1;
+	--site-logo-size: 2rem;
+	display: block;
+
+	body.uri--index & {
+		--site-logo-size: 4rem;
 	}
 
-	>header {
-		display: contents;
+	> header {
+		position: relative;
+	}
 
-		>h1 {
-			position: relative;
-			z-index: 2;
-			margin: 0;
+	> header > h1 {
+		position: relative;
+		z-index: 3;
+		margin: 0;
+		font: inherit;
 
-			@media(min-width: break.$medium) {
-				max-width: 16rem;
+		> a {
+			display: flex;
+			align-items: center;
+			gap: var(--theme-space-4);
+			inline-size: 100%;
+			min-block-size: calc(var(--site-logo-size) + 2rem);
+			padding: var(--theme-space-4);
+			color: var(--site-color-primary);
+			font-family: "Ubuntu Condensed", sans-serif;
+			font-size: calc(var(--site-logo-size) / 2);
+			font-weight: 700;
+			line-height: 1;
+			text-decoration: none;
+
+			&:hover {
+				color: var(--site-color-primary);
+				opacity: 0.9;
 			}
 
-			>a {
-				display: flex;
-				gap: 1rem;
-				padding: 1rem;
-				align-items: center;
-				font-family: "Ubuntu Condensed", sans-serif;
-				text-decoration: none;
-				font-weight: bold;
-				font-size: calc(var(--size-logo) / 2);
-				color: var(--pal-primary) !important;
-
-				&:hover {
-					opacity: 0.9;
-				}
-
-				&::before {
-					content: "";
-					display: block;
-					width: var(--size-logo);
-					aspect-ratio: 1;
-					background-image: url("/asset/logo.svg");
-					background-repeat: no-repeat;
-					background-position: center;
-					background-size: 100%;
-				}
+			&::before {
+				content: "";
+				flex: 0 0 var(--site-logo-size);
+				inline-size: var(--site-logo-size);
+				aspect-ratio: 1;
+				background: url("/asset/logo.svg") center / contain no-repeat;
 			}
 		}
 	}
 
-	body.uri--index & {
-		docs-search {
-			margin-top: 0.5rem;
+	@media (min-width: flair.$break-shell) {
+		--site-logo-size: 4rem;
+		position: fixed;
+		inset-block-start: 0;
+		inset-inline-start: max(0px, calc((100vw - var(--theme-page-width)) / 2));
+		z-index: 10;
+		inline-size: 17rem;
+		block-size: 100svh;
 
-			@media(min-width: break.$medium) {
-				margin-top: 0;
+		> header {
+			display: contents;
+		}
+
+		> header > h1 {
+			max-inline-size: 16rem;
+
+			> a {
+				inline-size: fit-content;
 			}
 		}
 	}

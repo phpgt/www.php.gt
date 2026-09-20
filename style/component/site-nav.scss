@@ -1,302 +1,204 @@
-@use "../variable/break";
+@use "../../node_modules/flair/style/flair";
 
 site-nav {
-	--transition-time: 0.25s;
-	--transition-function: ease-in-out;
-
+	@extend %d-sidebar-contrast;
+	--site-nav-duration: 0.25s;
+	--theme-nav-padding-block: 0.5rem;
+	--theme-nav-padding-inline: 1rem;
+	--theme-side-nav-link-margin: 0 1rem 0 0;
+	--theme-side-nav-marker-offset: 0;
 	display: block;
-	width: 100%;
 	position: relative;
-	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 10;
-	background-color: var(--pal-sidebar);
+	z-index: 1;
+	inline-size: 100%;
+	background: var(--site-color-sidebar);
+	font-size: 0.9rem;
 
 	body.scrolled & {
 		position: fixed;
-
-		@media(min-width: break.$medium) {
-			position: absolute;
-		}
-	}
-
-	* {
-		font-size: 0.9rem;
-	}
-
-	@media(min-width: break.$medium) {
-		position: absolute;
-		right: auto;
-		width: 17rem;
-		z-index: 1;
-		height: calc(100dvh + 1rem);
-
-		&::before {
-			content: "";
-			display: block;
-			position: absolute;
-			top: 0;
-			left: -50vw;
-			width: 50vw;
-			height: 100dvh;
-			background-color: var(--pal-sidebar);
-		}
+		inset-block-start: 0;
+		inset-inline: 0;
 	}
 
 	details {
 		position: relative;
+	}
 
-		summary {
-			display: flex;
-			padding: 1rem;
-			list-style: none;
-			cursor: pointer;
-			color: var(--pal-text);
-			background-color: var(--pal-page);
-			border-bottom: 1px solid var(--pal-sidebar);
+	summary {
+		@extend %o-nav-link;
+		display: flex;
+		align-items: center;
+		padding: var(--theme-space-4);
+		border-block-end: 1px solid var(--site-color-sidebar);
+		background: var(--site-color-page);
+		color: var(--site-color-text);
+		cursor: pointer;
+		list-style: none;
 
-			@media(min-width: break.$medium) {
-				display: none;
-			}
+		&::-webkit-details-marker {
+			display: none;
+		}
 
-			&:hover {
+		&::before {
+			content: "";
+			inline-size: 1rem;
+			aspect-ratio: 1;
+			margin-inline-end: var(--theme-space-2);
+			background: url("/asset/icon/menu.svg") center / contain no-repeat;
+		}
+
+		&::after {
+			content: "";
+			position: fixed;
+			inset: 0;
+			z-index: -1;
+			background: var(--site-color-page);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity var(--site-nav-duration) linear;
+		}
+
+		&:hover {
+			background: var(--site-color-page);
+			color: var(--site-color-link-hover);
+			text-decoration: underline;
+		}
+	}
+
+	details > div {
+		@extend %p-side-navigation;
+		position: absolute;
+		inset-block-start: 100%;
+		inset-inline: 0;
+		z-index: 1;
+		box-sizing: border-box;
+		block-size: calc(100svh - 3rem);
+		padding-block-end: 8rem;
+		overflow-y: auto;
+		clip-path: inset(0 0 100% 0);
+		background: var(--site-color-sidebar);
+		scrollbar-color: color-mix(in srgb, var(--site-color-text), transparent 75%) transparent;
+		scrollbar-width: thin;
+		transition: clip-path var(--site-nav-duration) ease-in-out;
+	}
+
+	details[open] {
+		> summary > span::before {
+			content: "Close ";
+		}
+
+		> summary::after {
+			opacity: 0.75;
+			pointer-events: auto;
+		}
+
+		> div {
+			clip-path: inset(0);
+		}
+	}
+
+	details.closing > div {
+		clip-path: inset(0 0 100% 0);
+	}
+
+	details > div,
+	.pageLinks {
+		> ul {
+			padding-block-start: var(--theme-space-2);
+		}
+
+		> ul > li:not(:first-of-type) {
+			padding-inline-start: var(--theme-space-4);
+		}
+
+		> ul > li > a {
+			// Retain a comfortable mobile target without allowing the site's
+			// 18px root size to enlarge Flair's rem-based fallback to 49.5px.
+			min-block-size: 44px;
+		}
+
+		a {
+			color: var(--site-color-text);
+
+			&:hover,
+			&:focus-visible {
+				color: var(--site-color-primary);
 				text-decoration: underline;
-				color: var(--pal-link--hover);
-			}
-
-			&::-webkit-details-marker {
-				display: none;
-			}
-
-			&::before {
-				content: "";
-				display: block;
-				width: 1rem;
-				margin-right: 0.5rem;
-				aspect-ratio: 1;
-				background-image: url("/asset/icon/menu.svg");
-				background-repeat: no-repeat;
-				background-position: 50%;
-			}
-
-			&::after {
-				content: "";
-				display: block;
-				background: var(--pal-page);
-				position: fixed;
-				z-index: -1;
-				top: 0;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				pointer-events: none;
-				opacity: 0;
-				transition: opacity var(--transition-time) linear;
-
-				@media(min-width: break.$medium) {
-					display: none;
-				}
-			}
-		}
-
-		>div {
-			position: absolute;
-			z-index: 1;
-			box-sizing: border-box;
-
-			left: 0;
-			right: 0;
-			height: calc(100svh - 3rem);
-			padding-bottom: 8rem;
-			overflow-y: auto;
-			clip-path: inset(0 0 100% 0);
-			transition: clip-path var(--transition-time) var(--transition-function);
-			background-color: var(--pal-sidebar);
-			scrollbar-color: rgba(black, 0.25) transparent;
-			scrollbar-width: thin;
-
-			@media(min-width: break.$medium) {
-				transition: none;
-				margin-top: calc(var(--size-logo) + 2rem);
-				clip-path: none !important;
-				height: calc(100dvh - (var(--size-logo) + 2rem));
-			}
-		}
-
-		&[open] {
-			summary {
-				span {
-					&::before {
-						content: "Close ";
-					}
-				}
-
-				&::after {
-					opacity: 0.75;
-					pointer-events: all;
-				}
-			}
-
-			div {
-				clip-path: inset(0 0 0 0);
-			}
-		}
-		&.closing {
-			div {
-				clip-path: inset(0 0 100% 0);
 			}
 		}
 	}
 
-	nav {
+	.pageLinks {
+		@extend %p-side-navigation;
+	}
+
+	details > div > ul + ul {
+		// Matches the breathing room created by the old invisible group rule.
+		margin-block-start: 2.25rem;
+	}
+
+	.repo-switcher {
+		display: flex;
+		align-items: center;
+		column-gap: var(--theme-space-1);
+
+		> a {
+			flex: 0 0 auto;
+			margin: 0;
+			padding-inline-end: var(--theme-space-2);
+		}
+
+		> form {
+			display: inline-flex;
+			align-items: center;
+			min-inline-size: 0;
+
+			&::before {
+				content: "-";
+				padding-inline-end: var(--theme-space-2);
+			}
+		}
+
+		label {
+			margin: 0;
+		}
+
+		select {
+			inline-size: auto;
+			max-inline-size: 9rem;
+			min-block-size: 0;
+			padding: 0;
+			border: 0;
+			border-radius: 0;
+			background: transparent;
+			color: var(--site-color-text);
+			font-size: 0.9rem;
+			font-weight: 700;
+			cursor: pointer;
+
+			&:hover {
+				color: var(--site-color-link-hover);
+			}
+		}
+	}
+
+	.pageLinks {
+		padding-inline-start: var(--theme-space-4);
+
 		.heading-permalink {
 			display: none;
 		}
 
-		a {
-			color: var(--pal-text);
-			text-decoration: none;
-
-			&:hover {
-				text-decoration: underline;
-				color: var(--pal-primary);
-			}
-		}
-
-		div {
-
-		}
-
-		ul {
+		> h1 {
 			margin: 0;
-			padding: 0;
-			padding-top: 0.5rem;
-			list-style-type: none;
+			padding: 0.5rem 1rem;
+			font-size: 0.9rem;
+			font-style: italic;
+			font-weight: 400;
+		}
 
-			&::after {
-				content: "";
-				display: block;
-				width: 100%;
-				height: 0.25rem;
-				margin: 1rem 0;
-				background-color: var(--pal-sidebar);
-			}
-
-			>li,h1 {
-				font-weight: normal;
-
-				&:first-of-type {
-					//font-weight: bold;
-				}
-				&:not(h1,:first-of-type) {
-					padding-left: 1rem;
-				}
-				&.repo-switcher {
-					a {
-						display: inline-block;
-						margin-right: 0;
-						padding-right: 0.5rem;
-					}
-					form {
-						display: inline-flex;
-						align-items: center;
-
-						&::before {
-							content: " - ";
-							padding-right: 0.5rem;
-						}
-
-						label {
-							padding: 0;
-						}
-					}
-				}
-
-				a,label {
-					display: block;
-					padding: 0.5rem 1rem;
-					margin-right: 1rem;
-					text-decoration: none;
-					color: var(--pal-text);
-					cursor: pointer;
-				}
-
-				&.selected {
-					position: relative;
-
-					a {
-						position: relative;
-						color: var(--pal-primary);
-
-						&::before {
-							content: "";
-							position: absolute;
-							left: 0;
-							top: calc(50% - 0.25rem);
-							width: 0.5rem;
-							height: 0.5rem;
-							border-radius: 100%;
-							background-color: var(--pal-primary);
-						}
-					}
-				}
-
-				select {
-					border: none;
-					background-color: transparent;
-					color: var(--pal-text);
-					font-weight: bold;
-					font-size: 0.9rem;
-					cursor: pointer;
-
-					&:hover {
-						color: var(--pal-link--hover);
-					}
-				}
-
-				label {
-					display: flex;
-					gap: 0.5rem;
-					align-items: center;
-
-					span {
-					}
-				}
-
-				h3 {
-					font-weight: normal;
-					margin: 0;
-					padding: 0.5rem 1rem;
-					font-style: italic;
-					cursor: default;
-				}
-
-			}
-
-			h1 {
-				margin-bottom: 0;
-				padding-left: 1rem;
-
-				&:has(a:not(.heading-permalink)) {
-					padding-left: 0;
-				}
-			}
-
-			div.pageLinks {
-				padding-left: 1rem;
-
-				ul {
-					@media(min-width: break.$medium) {
-						height: 100%;
-					}
-
-					li {
-						font-weight: normal;
-						padding-left: 1rem;
-					}
-				}
-			}
+		> ul > li {
+			padding-inline-start: var(--theme-space-4);
 		}
 	}
 
@@ -305,17 +207,45 @@ site-nav {
 
 		&::after {
 			content: attr(data-type);
-			font-size: 0.5rem;
-			font-weight: bold;
 			position: absolute;
-			left: -1rem;
-			top: 0.4rem;
+			inset-block-start: 0.4rem;
+			inset-inline-start: -1rem;
 			margin: 0.25rem;
 			padding: 0.1rem;
-			background-color: var(--pal-primary);
-			color: var(--pal-bg);
-			filter: invert(1);
+			background: var(--site-color-primary);
+			color: var(--site-color-page);
+			font-size: 0.5rem;
+			font-weight: 700;
 		}
 	}
 
+	@media (min-width: flair.$break-shell) {
+		@include flair.sidebar-bleed;
+		position: absolute;
+		inset: 0 auto auto 0;
+		inline-size: 17rem;
+		block-size: calc(100dvh + 1rem);
+
+		body.scrolled & {
+			position: absolute;
+			inset-inline: 0 auto;
+		}
+
+		summary {
+			display: none;
+		}
+
+		details > div {
+			display: block !important;
+			inset-block-start: 6rem;
+			block-size: calc(100dvh - 6rem);
+			clip-path: none !important;
+			transition: none;
+		}
+
+		details > div > ul > li > a,
+		.pageLinks > ul > li > a {
+			min-block-size: 0;
+		}
+	}
 }

@@ -1,15 +1,14 @@
 document.querySelectorAll("site-nav").forEach(element => {
 	let details = element.querySelector("details");
 	let summary = details.querySelector("summary");
+	let desktopMedia = matchMedia("(min-width: 60rem)");
 
 	summary.addEventListener("click", clickSummary);
-	desktopSidebar(details);
-	autoCloseOnNav(summary);
+	desktopSidebar(details, desktopMedia);
+	autoCloseOnNav(summary, desktopMedia);
 });
 
 function clickSummary(e) {
-	let screenBreak = getComputedStyle(document.documentElement).getPropertyValue("--break");
-
 	let summary = this;
 	let details = summary.closest("details");
 	details.classList.add("clicked");
@@ -28,7 +27,7 @@ function clickSummary(e) {
 
 function getTransitionTime(element) {
 	let transitionTime = getComputedStyle(element)
-		.getPropertyValue("--transition-time");
+		.getPropertyValue("--site-nav-duration");
 
 	return cssTimeToMilliseconds(transitionTime);
 }
@@ -47,30 +46,18 @@ function cssTimeToMilliseconds(value) {
 	return 0;
 }
 
-function desktopSidebar(details, skipResizeEvent = false) {
-	if(!skipResizeEvent) {
-		window.addEventListener("resize", function() {
-			desktopSidebar(details, true);
-		});
-	}
-
-	let screenBreak = getComputedStyle(document.documentElement).getPropertyValue("--break");
-
-	if(screenBreak === "none" || screenBreak === "small") {
-		details.open = false;
-		return;
-	}
-
-	details.open = true;
+function desktopSidebar(details, desktopMedia) {
+	let update = () => details.open = desktopMedia.matches;
+	desktopMedia.addEventListener("change", update);
+	update();
 }
 
-function autoCloseOnNav(summary) {
-	let screenBreak = getComputedStyle(document.documentElement).getPropertyValue("--break");
-	if(screenBreak === "none" || screenBreak === "small") {
-		summary.parentElement.querySelectorAll("li a").forEach(link => {
-			link.addEventListener("click", e => {
+function autoCloseOnNav(summary, desktopMedia) {
+	summary.parentElement.querySelectorAll("li a").forEach(link => {
+		link.addEventListener("click", () => {
+			if(!desktopMedia.matches) {
 				clickSummary.apply(summary);
-			});
+			}
 		});
-	}
+	});
 }

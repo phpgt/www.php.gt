@@ -2,114 +2,59 @@
 @use "font/ubuntu-mono";
 @use "font/ubuntu-condensed";
 
-@use "variable/break";
-@use "variable/palette";
-@use "variable/size";
-
-@use "element/a";
-@use "element/article";
-@use "element/body";
-@use "element/code";
-@use "element/html";
-@use "element/main";
-@use "element/pre";
-@use "element/section";
-
+@use "../node_modules/flair/style/flair" with (
+	$break-compact: 32rem,
+	$break-nav: 60rem,
+	$break-shell: 60rem,
+	$break-wide: 105rem
+);
+@use "theme/phpgt";
 @use "component/global-header";
 @use "component/docs-search";
 @use "component/docs-search-results";
 @use "component/site-nav";
 
-@use "page/index";
-@use "page/releases";
-@use "page/blueprints";
-@use "page/learn";
-@use "page/docs";
-
 html {
-	color: var(--pal-text);
+	@include flair.base;
+	@include flair.controls;
+	@include flair.typography;
+	@include phpgt.phpgt;
+	min-block-size: 100%;
+	background: var(--site-color-page);
+	color: var(--site-color-text);
 	font-size: 18px;
+	scroll-behavior: smooth;
 }
 
-*:not(pre, code, pre span) {
-	font-family: "Ubuntu", sans-serif;
+body {
+	min-block-size: 100%;
+	max-inline-size: var(--theme-page-width);
+	margin-inline: auto;
+	position: relative;
+	background: var(--site-color-page);
+	color: var(--site-color-text);
+	font-family: var(--theme-font-body);
 }
 
-a {
-	color: var(--pal-link);
-
-	&:hover {
-		color: var(--pal-link--hover);
-	}
+body.scrolled {
+	padding-block-start: var(--site-fixed-heading-size, 0px);
 }
 
-body>main>footer {
-	padding: 2rem;
-	background-color: var(--pal-sidebar);
+main {
+	min-inline-size: 0;
+}
 
-	@media(min-width: break.$medium) {
-		position: relative;
-		padding: 4rem;
-		container-type: inline-size;
-
-		&::before {
-			content: "";
-			position: absolute;
-			top: -1rem;
-			left: 0;
-			width: 1rem;
-			height: 1rem;
-			background-color: var(--pal-sidebar);
-			mask-image: radial-gradient(circle at top right,
-					transparent 0,
-					transparent 1rem,
-					black 1rem
-			);
-			mask-size: 100% 100%;
-			mask-repeat: no-repeat;
-		}
-
-		&::after {
-			--size: calc(50vw - 50cqw - (var(--size-content-width) / 4) + 1rem);
-			content: "";
-			position: absolute;
-			right: calc(var(--size) * -1);
-			top: 0;
-			height: 100%;
-			width: var(--size);
-			background-color: var(--pal-sidebar);
-		}
+@media (min-width: flair.$break-shell) {
+	body {
+		overflow-y: scroll;
 	}
 
-	nav {
-		ul {
-			list-style-type: none;
-			text-align: right;
-			padding: 0;
+	body.scrolled {
+		padding-block-start: 0;
+	}
 
-			li {
-				a {
-					display: inline-block;
-					padding: 0.5rem;
-
-					&[href*="//"] {
-						&::after {
-							content: "";
-							display: block;
-							float: right;
-							width: 1rem;
-							margin-left: 0.5rem;
-							margin-right: -1.5rem;
-							aspect-ratio: 1;
-							background-color: var(--pal-text);
-							mask-image: url("/asset/icon/arrow-top-right-on-square.svg");
-							mask-size: cover;
-							mask-repeat: no-repeat;
-							mask-position: 50%;
-						}
-					}
-				}
-			}
-		}
+	main {
+		margin-inline-start: 17rem;
+		padding-block-start: 6rem;
 	}
 }

@@ -1,162 +1,169 @@
-@use "../variable/break";
+@use "../../node_modules/flair/style/flair";
 
 docs-search {
-	--transition-time: 0.2s;
-	--transition-function: cubic-bezier(.47,1.64,.41,.8);
-
+	--site-search-duration: 0.2s;
+	--site-search-easing: cubic-bezier(0.47, 1.64, 0.41, 0.8);
 	display: flex;
 	position: absolute;
-	top: 0;
-	right: 0;
+	inset-block-start: 0;
+	inset-inline-end: 0;
 	z-index: 20;
-	padding: 1rem;
-	width: min(var(--size-logo), 3rem);
-	height: min(var(--size-logo), 3rem);
-	transition: var(--transition-time) width var(--transition-function);
+	box-sizing: border-box;
+	inline-size: calc(min(var(--site-logo-size), 3rem) + 2rem);
+	block-size: calc(min(var(--site-logo-size), 3rem) + 2rem);
+	padding: var(--theme-space-4);
+	transition: inline-size var(--site-search-duration) var(--site-search-easing);
+
+	body.uri--index & {
+		inset-block-start: 0.5rem;
+	}
 
 	body.scrolled & {
-		@media(max-width: break.$small) {
-			position: fixed;
-			top: -0.5rem;
-			margin-top: 0 !important;
-			--size-logo: 2rem;
-		}
-	}
-
-	@media(min-width: break.$medium) {
-		width: 16rem;
-
-		&::before {
-			content: "";
-			position: absolute;
-			z-index: -1;
-			display: block;
-			top: -1rem;
-			left: -1rem;
-			right: -80rem;
-			height: calc(100% + 1.5rem);
-			background-color: var(--pal-page);
-			border-bottom: 0 solid transparent;
-			transition: border 0.25s ease-in-out;
-		}
-
-		body.scrolled &::before {
-			border-bottom-color: var(--pal-sidebar);
-			border-bottom-width: 4px;
-		}
-	}
-
-	@media(min-width: break.$medium) {
-		right: auto;
-		left: 18rem;
+		--site-logo-size: 2rem;
+		position: fixed;
+		inset-block-start: -0.5rem;
 	}
 
 	&:focus-within,
 	body.uri--search & {
+		inset-inline-start: 0;
+		inline-size: 100%;
+
 		docs-search-results {
 			display: block;
 		}
-
-		width: calc(100% - 2rem);
-
-		@media(min-width: break.$medium) {
-			width: 48rem;
-		}
 	}
 
-	&:not(&:focus-within) {
-		@media(max-width: break.$medium) {
-			input {
-				color: transparent;
-			}
-		}
-	}
-
-	form {
+	> form {
 		flex-grow: 1;
+		min-inline-size: 0;
+		inline-size: 100%;
+		margin: 0;
 	}
 
 	label {
 		display: block;
-		box-sizing: border-box;
-		height: 100%;
+		block-size: 100%;
+	}
 
-		span {
-			display: none;
+	label > span {
+		@extend %d-visually-hidden;
+	}
+
+	input[type="search"] {
+		@extend %o-control;
+		inline-size: 100%;
+		block-size: 100%;
+		min-block-size: 0;
+		padding: 0;
+		border: 0;
+		border-radius: 999px;
+		outline: 0 solid var(--site-color-page);
+		background-color: var(--site-color-button);
+		background-image: url("/asset/icon/search.svg");
+		background-repeat: no-repeat;
+		background-position: min(calc(var(--site-logo-size) / 4), 0.75rem) 50%;
+		background-size: auto 50%;
+		box-shadow: 0 0 0 0 var(--site-color-page);
+		color: transparent;
+		cursor: pointer;
+		font-size: 0.75rem;
+		transition:
+			background-color var(--site-search-duration) var(--site-search-easing),
+			border-radius var(--site-search-duration) var(--site-search-easing),
+			box-shadow var(--site-search-duration) var(--site-search-easing),
+			outline var(--site-search-duration) var(--site-search-easing);
+
+		&::placeholder {
+			color: transparent;
 		}
 
-		input {
-			width: 100%;
-			height: 100%;
-			border-radius: 100%;
-			background-color: var(--pal-button);
-			border: none;
-			background-image: url("/asset/icon/search.svg");
-			background-size: auto 50%;
-			background-repeat: no-repeat;
-			background-position-x: min(calc(var(--size-logo) / 4), 0.75rem);
-			background-position-y: 50%;
-			box-shadow: 0 0 0 0 var(--pal-page);
-			outline: 0 solid var(--pal-page);
-			cursor: pointer;
-			transition: box-shadow var(--transition-time) var(--transition-function),
-				border-radius var(--transition-time) var(--transition-function),
-				outline var(--transition-time) var(--transition-function);
+		&:hover:not(:focus) {
+			background-color: var(--site-color-button-hover);
+			outline: 1px solid var(--site-color-primary);
+		}
 
-			@media(min-width: break.$medium) {
-				border-radius: 1rem;
-				padding-left: 3rem;
-			}
+		&:focus,
+		body.uri--search & {
+			padding-inline-start: 3rem;
+			border-radius: 2rem;
+			outline: 0.25rem solid var(--site-color-primary);
+			box-shadow: 0 0 0 1rem var(--site-color-page);
+			color: var(--site-color-text);
+			cursor: text;
 
 			&::placeholder {
-				color: transparent;
-
-				@media(min-width: break.$medium) {
-					color: initial;
-					opacity: 0.5;
-				}
-			}
-
-			&:hover:not(:focus) {
-				background-color: var(--pal-button--hover);
-				outline: 1px solid var(--pal-primary);
-			}
-
-			&:focus, body.uri--search & {
-				cursor: text;
-				border-radius: 2rem;
-				box-shadow: 0 0 0 1rem white;
-				outline: 0.25rem solid var(--pal-primary);
-				padding-left: 3rem;
-
-				@media(min-width: break.$medium) {
-					border-radius: 1rem;
-				}
-
-				&::placeholder {
-					color: initial;
-					opacity: 0.5;
-				}
+				color: var(--site-color-text);
+				opacity: 0.5;
 			}
 		}
 	}
 
 	docs-search-results {
 		display: none;
-
 		position: absolute;
+		inset-block-start: calc(8rem + 4px);
+		inset-inline: 2rem;
 		z-index: 20;
-		max-height: 75vh;
-		overflow-y: scroll;
+		max-block-size: 75vh;
+		overflow-y: auto;
+	}
 
-		top: calc(8rem + 4px);
-		left: 2rem;
-		right: 2rem;
+	@media (min-width: flair.$break-shell) {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline: 18rem auto;
+		inline-size: 18rem;
+		block-size: 5rem;
 
-		@media(min-width: break.$medium) {
-			top: 5.5rem;
-			left: -2rem;
-			width: calc(100% - 4rem);
+		body.uri--index &,
+		body.scrolled & {
+			--site-logo-size: 4rem;
+			position: absolute;
+			inset-block-start: 0;
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset-block: -1rem -0.5rem;
+			inset-inline: -1rem -80rem;
+			z-index: -1;
+			border-block-end: 0 solid transparent;
+			background: var(--site-color-page);
+			transition: border-width 0.25s ease-in-out;
+		}
+
+		body.scrolled &::before {
+			border-block-end: 4px solid var(--site-color-sidebar);
+		}
+
+		&:focus-within,
+		body.uri--search & {
+			inset-inline: 18rem auto;
+			inline-size: 50rem;
+		}
+
+		input[type="search"] {
+			padding-inline-start: 3rem;
+			border-radius: 1rem;
+			color: var(--site-color-text);
+
+			&::placeholder {
+				color: var(--site-color-text);
+				opacity: 0.5;
+			}
+
+			&:focus,
+			body.uri--search & {
+				border-radius: 1rem;
+			}
+		}
+
+		docs-search-results {
+			inset-block-start: 5.5rem;
+			inset-inline: -2rem auto;
+			inline-size: calc(100% - 4rem);
 		}
 	}
 }
