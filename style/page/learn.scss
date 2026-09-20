@@ -1,0 +1,26 @@
+@use "../../node_modules/flair/style/flair";
+
+body.uri--learn main > section > form,
+body.uri--learn main > section > article > form {
+	@extend %d-surface;
+	padding: var(--theme-space-4);
+	border: 4px solid var(--site-color-code-outline);
+	border-radius: 0;
+	background: var(--site-color-sidebar);
+
+	> label:not(:has(input[type="checkbox"] )) {
+		@extend %o-form-field;
+		margin: var(--theme-space-8);
+	}
+
+	> label:has(input[type="checkbox"]) {
+		@extend %o-choice-field;
+		margin: var(--theme-space-8);
+	}
+
+	> .actions {
+		@extend %p-form-actions;
+		justify-content: flex-start;
+		margin: var(--theme-space-8);
+	}
+}

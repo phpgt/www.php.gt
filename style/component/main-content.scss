@@ -1,0 +1,181 @@
+@use "../../node_modules/flair/style/flair";
+
+main {
+	min-inline-size: 0;
+
+	> :where(article, section) {
+		@extend %p-prose;
+		box-sizing: border-box;
+		max-inline-size: calc(48rem + 2rem);
+		padding-inline: var(--theme-space-4);
+		font-size: 1rem;
+		line-height: normal;
+	}
+
+	:where(article, section) :where(article, section) {
+		@extend %p-prose;
+		max-inline-size: 48rem;
+		padding: 0;
+		font-size: 1rem;
+		line-height: normal;
+	}
+
+	:where(article, section):last-of-type {
+		min-block-size: 64rem;
+	}
+
+	:where(article, section):not(:first-of-type) {
+		margin-block-start: 16rem;
+	}
+
+	article,
+	section {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			position: relative;
+			margin-block-start: 4rem;
+		}
+
+		h1 {
+			margin-block-end: 0.67em;
+			font-size: 2em;
+		}
+
+		h2 {
+			margin-block-end: 0.83em;
+			font-size: 1.5em;
+		}
+
+		h3 {
+			margin-block-end: 1em;
+			font-size: 1.17em;
+		}
+
+		h4,
+		h5,
+		h6 {
+			margin-block-end: 1.33em;
+			font-size: 1em;
+		}
+
+		> header {
+			h1 {
+				font-size: 2em;
+			}
+
+			p {
+				color: var(--theme-color-muted);
+				font-size: 0.75em;
+			}
+		}
+
+		p,
+		ul,
+		ol {
+			margin-block: 1em;
+			line-height: 2;
+		}
+
+		blockquote {
+			margin: 0;
+			padding-inline-start: var(--theme-space-4);
+			border-inline-start: 4px solid var(--site-color-primary);
+		}
+
+		> :is(h1, h2, h3, h4, h5, h6):first-child {
+			margin-block-start: 4rem;
+		}
+
+		> :is(p, ul, ol):first-child {
+			margin-block-start: 1em;
+		}
+	}
+
+	.heading-permalink {
+		position: absolute;
+		inset-block-start: -3rem;
+		inset-inline-start: -1rem;
+		padding: var(--theme-space-4);
+		font-size: 0.5em;
+		text-decoration: none;
+		opacity: 0;
+		transition: opacity 0.25s ease-in-out;
+	}
+
+	:where(h1, h2, h3, h4, h5, h6):is(:hover, :focus, :active, :has(:focus))
+		.heading-permalink {
+		opacity: 1;
+	}
+
+	.link-external {
+		@extend %p-icon-end;
+		--theme-icon-end: url("/asset/icon/arrow-top-right-on-square.svg");
+		--theme-icon-size: 1em;
+		--theme-icon-gap: 0.1em;
+	}
+
+	a[id] {
+		scroll-margin-block-start: 7rem;
+	}
+
+	a.broken-link {
+		background: var(--theme-color-danger);
+		color: var(--theme-color-surface);
+	}
+
+	img,
+	video,
+	svg {
+		max-inline-size: 100%;
+		block-size: auto;
+	}
+
+	table {
+		@extend %o-table;
+	}
+
+	@media (min-width: flair.$break-compact) {
+		article,
+		section {
+			> header h1 {
+				font-size: 3em;
+			}
+
+			p,
+			ul,
+			ol {
+				font-size: 1.1em;
+			}
+		}
+	}
+
+	@media (min-width: flair.$break-shell) {
+		> :where(article, section) {
+			max-inline-size: calc(54rem + 4rem);
+			padding: var(--theme-space-2) var(--theme-space-8);
+			font-size: 1.1rem;
+		}
+
+		:where(article, section) :where(article, section) {
+			max-inline-size: 54rem;
+			font-size: 1.1rem;
+		}
+
+		.heading-permalink {
+			inset-block: auto 0.5em;
+			inset-inline-start: -1.5rem;
+			padding: 0;
+		}
+	}
+
+	@media (min-width: flair.$break-wide) {
+		> :where(article, section),
+		:where(article, section) :where(article, section) {
+			font-size: 1.25rem;
+		}
+	}
+}

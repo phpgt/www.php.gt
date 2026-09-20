@@ -21,6 +21,12 @@
 		color-mix(in srgb, #4f5b93 15%, #fff),
 		color-mix(in srgb, #4f5b93 42%, #17191f)
 	);
+	--site-color-code-outline: light-dark(
+		color-mix(in srgb, var(--site-color-sidebar), var(--site-color-primary) 10%),
+		color-mix(in srgb, var(--site-color-sidebar), var(--site-color-primary) 35%)
+	);
+	--site-color-positive: light-dark(#bbf6b7, #183d25);
+	--site-color-blueprint-grid: light-dark(#f3f4f8, #20242d);
 
 	--theme-color-text: var(--site-color-text);
 	--theme-color-surface: var(--site-color-page);
@@ -35,8 +41,10 @@
 	--theme-font-heading: "Ubuntu", sans-serif;
 	--theme-font-mono: "Ubuntu Mono", monospace;
 	--theme-font-weight: 400;
+	--theme-line-height: normal;
 	--theme-heading-weight: 700;
-	--theme-text-leading: 2;
+	--theme-text-leading: normal;
+	--theme-heading-leading: normal;
 	--theme-radius: 1rem;
 	--theme-focus-color: var(--site-color-primary);
 	--theme-focus-width: 0.25rem;
@@ -47,6 +55,17 @@
 	--theme-control-border-hover: var(--site-color-primary);
 	--theme-control-font: var(--theme-font-body);
 	--theme-control-min-height: 0px;
+	--theme-code-background: var(--site-color-sidebar);
+	--theme-code-text: var(--site-color-text);
+	--theme-code-radius: 0px;
+	--theme-syntax-keyword: light-dark(#793862, #efa4d3);
+	--theme-syntax-string: light-dark(#26722d, #9cdea1);
+	--theme-syntax-comment: var(--theme-color-muted);
+	--theme-syntax-number: light-dark(#7b2cbf, #c79bf0);
+	--theme-syntax-key: light-dark(#8b5a00, #efca7b);
+	--theme-syntax-tag: light-dark(#793862, #efa4d3);
+	--theme-syntax-attribute: light-dark(#7b2cbf, #c79bf0);
+	--theme-notice-background: var(--site-color-positive);
 	--theme-nav-gap: 0px;
 	--theme-nav-radius: 0px;
 	--theme-nav-text: var(--site-color-text);

@@ -1,0 +1,6 @@
+@use "../../node_modules/flair/style/flair";
+
+body.uri--releases .pagination {
+	@extend %p-cluster;
+	gap: var(--theme-space-4);
+}

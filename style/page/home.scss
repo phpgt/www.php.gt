@@ -1,0 +1,249 @@
+@use "sass:math";
+@use "../../node_modules/flair/style/flair";
+
+@property --site-border-effect-angle {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 0deg;
+}
+
+body.uri--index main > article {
+	position: relative;
+	margin-block-start: 4rem;
+
+	.intro blockquote {
+		position: relative;
+		display: inline-block;
+		box-sizing: content-box;
+		margin-block: var(--theme-space-8) -4rem;
+		padding-inline: var(--theme-space-4);
+		border: 4px solid var(--site-color-button);
+		background: var(--site-color-page);
+		color: var(--site-color-text);
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: -4px;
+			border: 4px solid transparent;
+			border-image: conic-gradient(
+				from var(--site-border-effect-angle),
+				#f45b69,
+				#ffd166,
+				#06d6a0,
+				#118ab2,
+				#7b2cbf,
+				#f45b69
+			) 1;
+			pointer-events: none;
+			animation: site-border-effect 3s both ease-in-out;
+		}
+
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		li {
+			position: relative;
+			display: flex;
+			align-items: center;
+			gap: var(--theme-space-4);
+			margin: var(--theme-space-4) 0;
+			padding-inline-start: 2.5rem;
+			line-height: 2;
+
+			&::before {
+				content: "";
+				flex: 0 0 2rem;
+				inline-size: 2rem;
+				aspect-ratio: 1;
+				margin-block-start: -0.25rem;
+				margin-inline-start: -2.5rem;
+				background: var(--site-color-primary);
+				mask: url("/asset/icon/arrow-right.svg") center / contain no-repeat;
+			}
+
+			@for $index from 1 through 5 {
+				&:nth-of-type(#{$index}) {
+					animation: site-slide-in 0.5s #{math.div($index - 1, 3)}s
+						cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+
+					&::before {
+						filter: hue-rotate($index * 60deg) saturate(2);
+					}
+				}
+			}
+		}
+	}
+
+	> h1:first-of-type {
+		margin-block-start: 8rem;
+		font-size: 10vw;
+
+		.heading-permalink {
+			display: none;
+		}
+
+		> span:nth-of-type(-n + 3) {
+			display: block;
+		}
+
+		> span:nth-of-type(2)::before,
+		> span:nth-of-type(3)::after {
+			content: "";
+			display: inline-block;
+			inline-size: 3em;
+			block-size: 1rem;
+			margin-inline-end: var(--theme-space-2);
+			background: var(--site-color-link);
+			animation: site-stretch-block 1s ease-in-out both;
+		}
+
+		> span:nth-of-type(3)::after {
+			inline-size: 4em;
+		}
+	}
+
+	.example {
+		position: relative;
+	}
+
+	#example-output {
+		@extend %o-card;
+		--theme-stack-gap: 0px;
+		--theme-field-gap: 0px;
+		--theme-control-padding-block: 1px;
+		--theme-control-padding-inline: 2px;
+		--theme-button-padding-block: 1px;
+		--theme-button-padding-inline: 6px;
+		--theme-button-min-height: 0px;
+		--theme-button-weight: 400;
+		--theme-border-width: 2px;
+		position: relative;
+		max-inline-size: calc(22rem + 8px);
+		margin-inline: auto;
+		padding: 2rem 0 0;
+		border: 4px solid var(--site-color-code-outline);
+		border-radius: 1rem;
+		font-size: inherit;
+
+		&::before {
+			content: "Example output";
+			position: absolute;
+			inset-block-start: 0;
+			inset-inline: 0;
+			padding: var(--theme-space-2);
+			border-radius: 0.5rem 0.5rem 0 0;
+			background: var(--site-color-code-outline);
+			color: var(--site-color-page);
+		}
+
+		h1 {
+			margin: var(--theme-space-4);
+			font-size: 2rem;
+
+			span {
+				display: inline-block;
+			}
+		}
+
+		label {
+			@extend %o-form-field;
+			margin: 0 var(--theme-space-4) var(--theme-space-4);
+
+			> span {
+				font-weight: 400;
+			}
+
+			input {
+				font-size: 1.5rem;
+			}
+		}
+
+		button {
+			margin: var(--theme-space-4);
+			font-size: 1.5rem;
+		}
+	}
+
+	@media (min-width: flair.$break-shell) {
+		.intro {
+			display: flow-root;
+			inline-size: calc(100vw - 22rem);
+			max-inline-size: 72rem;
+			margin-block-start: -4rem;
+
+			> p {
+				float: inline-start;
+				max-inline-size: 32rem;
+				margin-block-start: var(--theme-space-8);
+				margin-inline-end: var(--theme-space-8);
+			}
+
+			blockquote {
+				float: inline-start;
+				margin-block-end: 0;
+			}
+		}
+
+		> h1:first-of-type {
+			margin-block-start: 4rem;
+			font-size: 5vw;
+		}
+
+		.intro blockquote li::before {
+			margin-block-start: -0.1rem;
+		}
+	}
+
+	@media (min-width: flair.$break-compact) {
+		.intro blockquote ul {
+			padding: var(--theme-space-4);
+		}
+	}
+
+	@media (min-width: flair.$break-wide) {
+		> h1:first-of-type {
+			font-size: 5rem;
+		}
+
+		#example-output {
+			position: absolute;
+			inset-block-end: 12rem;
+			inset-inline-end: -24rem;
+		}
+
+		.intro blockquote li::before {
+			margin-block-start: 0;
+		}
+	}
+}
+
+@keyframes site-border-effect {
+	0% {
+		--site-border-effect-angle: 0deg;
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		--site-border-effect-angle: 360deg;
+		opacity: 0;
+	}
+}
+
+@keyframes site-slide-in {
+	from {
+		opacity: 0;
+		translate: -1rem 0;
+	}
+}
+
+@keyframes site-stretch-block {
+	from {
+		block-size: 0;
+	}
+}

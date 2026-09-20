@@ -13,6 +13,14 @@
 @use "component/docs-search";
 @use "component/docs-search-results";
 @use "component/site-nav";
+@use "component/main-content";
+@use "component/content-code";
+@use "component/global-footer";
+@use "page/home";
+@use "page/blueprints";
+@use "page/learn";
+@use "page/releases";
+@use "page/docs";
 
 html {
 	@include flair.base;
@@ -55,6 +63,6 @@ main {
 
 	main {
 		margin-inline-start: 17rem;
-		padding-block-start: 6rem;
+		padding-block-start: 5.5rem;
 	}
 }

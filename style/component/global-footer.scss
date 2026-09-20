@@ -1,0 +1,57 @@
+@use "../../node_modules/flair/style/flair";
+
+main > footer._global-footer {
+	@extend %d-sidebar-contrast;
+	position: relative;
+	margin-block-start: 0;
+	padding: var(--theme-space-8);
+	background: var(--site-color-sidebar);
+
+	nav ul {
+		margin-block: 1em;
+		padding: 0;
+		list-style: none;
+		text-align: end;
+	}
+
+	nav li {
+		margin: 0;
+	}
+
+	nav a {
+		display: inline-flex;
+		align-items: center;
+		padding: var(--theme-space-2);
+	}
+
+	nav a[href*="//"] {
+		@extend %p-icon-end;
+		--theme-icon-end: url("/asset/icon/arrow-top-right-on-square.svg");
+		--theme-icon-size: 1rem;
+	}
+
+	@media (min-width: flair.$break-shell) {
+		margin-block-start: 12rem;
+		padding: 4rem;
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset-block-start: -1rem;
+			inset-inline-start: 0;
+			inline-size: 1rem;
+			block-size: 1rem;
+			background: var(--site-color-sidebar);
+			mask: radial-gradient(circle at top right, transparent 0 1rem, #000 1rem);
+		}
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset-block: 0;
+			inset-inline-start: 100%;
+			inline-size: max(0px, calc((100vw - var(--theme-page-width)) / 2));
+			background: var(--site-color-sidebar);
+		}
+	}
+}
