@@ -1,7 +1,7 @@
 <?php
 namespace GT\Website\Content;
 
-use Gt\Dom\HTMLDocument;
+use GT\Dom\HTMLDocument;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;

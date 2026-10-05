@@ -1,6 +1,6 @@
 <?php
-use Gt\DomTemplate\Binder;
-use Gt\Input\Input;
+use GT\DomTemplate\Binder;
+use GT\Input\Input;
 
 function go(Input $input, Binder $binder):void {
 	if($query = $input->getString("query")) {

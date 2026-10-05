@@ -1,13 +1,13 @@
 <?php
-use Gt\Fetch\Http;
-use Gt\Json\JsonKvpObject;
-use Gt\Json\JsonPrimitive\JsonArrayPrimitive;
+use GT\Fetch\Http;
+use GT\Json\JsonKvpObject;
+use GT\Json\JsonPrimitive\JsonArrayPrimitive;
 use GT\Website\Content\MarkdownPage;
 
 function go(MarkdownPage $markdownPage):void {
 	$repoNameList = [];
 
-	$cache = new Gt\FileCache\Cache($markdownPage->dir);
+	$cache = new GT\FileCache\Cache($markdownPage->dir);
 	$repositoryList = $cache->getInstance(
 		"repo-list",
 		JsonArrayPrimitive::class, loadRepoList(...)

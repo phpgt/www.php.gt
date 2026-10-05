@@ -1,7 +1,7 @@
 <?php
 namespace GT\Website\Content;
 
-use Gt\Dom\HTMLDocument;
+use GT\Dom\HTMLDocument;
 use Stringable;
 
 readonly class MarkdownFile implements Stringable {

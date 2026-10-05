@@ -1,5 +1,5 @@
 <?php
-use Gt\Http\Response;
+use GT\Http\Response;
 use GT\Routing\Path\DynamicPath;
 
 function go(DynamicPath $dynamicPath, Response $response):void {

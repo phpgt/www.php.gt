@@ -1,5 +1,5 @@
 <?php
-use Gt\Config\Config;
+use GT\Config\Config;
 use GT\Website\Blueprint\BlueprintLoader;
 
 function go(Config $config):void {

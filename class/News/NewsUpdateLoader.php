@@ -2,8 +2,8 @@
 namespace GT\Website\News;
 
 use DateTime;
-use Gt\Fetch\Http;
-use Gt\FileCache\Cache;
+use GT\Fetch\Http;
+use GT\FileCache\Cache;
 use RuntimeException;
 
 class NewsUpdateLoader {

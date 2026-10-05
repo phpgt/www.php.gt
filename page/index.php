@@ -1,6 +1,6 @@
 <?php
-use Gt\Dom\Text;
-use Gt\Dom\HTMLDocument;
+use GT\Dom\Text;
+use GT\Dom\HTMLDocument;
 use GT\DomTemplate\Binder;
 use GT\Input\Input;
 

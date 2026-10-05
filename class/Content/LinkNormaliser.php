@@ -1,9 +1,9 @@
 <?php
 namespace GT\Website\Content;
 
-use Gt\Dom\Element;
+use GT\Dom\Element;
 use GT\Dom\NodeList;
-use Gt\Http\Uri;
+use GT\Http\Uri;
 
 class LinkNormaliser {
 	const string CLASS_EXTERNAL_LINK = "link-external";

@@ -1,5 +1,5 @@
 <?php
-use Gt\DomTemplate\Binder;
+use GT\DomTemplate\Binder;
 
 function go(
 	Binder $binder,

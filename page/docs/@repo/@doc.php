@@ -1,8 +1,8 @@
 <?php
-use Gt\Dom\HTMLDocument;
-use Gt\Http\Response;
-use Gt\Http\ResponseStatusException\ClientError\HttpNotFound;
-use Gt\Routing\Path\DynamicPath;
+use GT\Dom\HTMLDocument;
+use GT\Http\Response;
+use GT\Http\ResponseStatusException\ClientError\HttpNotFound;
+use GT\Routing\Path\DynamicPath;
 
 function go(
 	DynamicPath $dynamicPath,

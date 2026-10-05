@@ -2,8 +2,8 @@
 namespace GT\Website\Content;
 
 use ArrayIterator;
-use Gt\Json\JsonKvpObject;
-use Gt\Json\JsonPrimitive\JsonArrayPrimitive;
+use GT\Json\JsonKvpObject;
+use GT\Json\JsonPrimitive\JsonArrayPrimitive;
 use IteratorAggregate;
 use Traversable;
 

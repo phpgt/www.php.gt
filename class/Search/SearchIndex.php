@@ -1,7 +1,7 @@
 <?php
 namespace GT\Website\Search;
 
-use Gt\Dom\HTMLDocument;
+use GT\Dom\HTMLDocument;
 use GT\Website\Content\MarkdownFile;
 
 class SearchIndex {

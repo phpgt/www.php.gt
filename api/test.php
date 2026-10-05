@@ -1,8 +1,8 @@
 <?php
-use Gt\DomTemplate\Binder;
-use Gt\Http\Response;
-use Gt\Http\StatusCode;
-use Gt\Input\Input;
+use GT\DomTemplate\Binder;
+use GT\Http\Response;
+use GT\Http\StatusCode;
+use GT\Input\Input;
 use GT\WebEngine\DataDocument\DataDocument;
 
 function go(

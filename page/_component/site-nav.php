@@ -1,12 +1,12 @@
 <?php
-use Gt\Dom\Element;
+use GT\Dom\Element;
 use GT\Dom\Text;
-use Gt\DomTemplate\Binder;
-use Gt\Http\Response;
-use Gt\Http\Uri;
-use Gt\Input\Input;
-use Gt\Routing\Path\DynamicPath;
-use Gt\Session\Session;
+use GT\DomTemplate\Binder;
+use GT\Http\Response;
+use GT\Http\Uri;
+use GT\Input\Input;
+use GT\Routing\Path\DynamicPath;
+use GT\Session\Session;
 use GT\Website\Content\MarkdownFile;
 use GT\Website\Content\RepoList;
 

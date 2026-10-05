@@ -1,9 +1,9 @@
 <?php
 
 use GT\DomTemplate\Binder;
-use Gt\Http\Response;
-use Gt\Http\ResponseStatusException\ServerError\HttpInternalServerError;
-use Gt\Http\ServerInfo;
+use GT\Http\Response;
+use GT\Http\ResponseStatusException\ServerError\HttpInternalServerError;
+use GT\Http\ServerInfo;
 use GT\Input\Input;
 
 function go(Input $input, Binder $binder):void {

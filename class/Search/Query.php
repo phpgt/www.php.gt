@@ -2,7 +2,7 @@
 namespace GT\Website\Search;
 
 use ArrayIterator;
-use Gt\Http\Uri;
+use GT\Http\Uri;
 use GT\Website\Content\MarkdownFile;
 
 class Query extends ArrayIterator {

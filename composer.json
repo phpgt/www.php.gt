@@ -4,8 +4,8 @@
 
 	"require": {
 		"php": ">=8.5",
-		"phpgt/webengine": "dev-master",
-		"phpgt/logger": "^1.1",
+		"phpgt/webengine": "^5.1",
+		"phpgt/logger": "^1.2",
 		"league/commonmark": "^2.8.2",
 		"scrivo/highlight.php": "^9.18"
 	},

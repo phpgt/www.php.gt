@@ -1,9 +1,9 @@
 <?php
-use Gt\Config\Config;
-use Gt\Config\ConfigFactory;
-use Gt\Config\ConfigSection;
-use Gt\Fetch\Http;
-use Gt\FileCache\Cache;
+use GT\Config\Config;
+use GT\Config\ConfigFactory;
+use GT\Config\ConfigSection;
+use GT\Fetch\Http;
+use GT\FileCache\Cache;
 use GT\Website\News\NewsUpdateItem;
 use GT\Website\News\NewsUpdateLoader;
 

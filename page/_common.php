@@ -1,8 +1,8 @@
 <?php
-use Gt\Dom\HTMLDocument;
-use Gt\DomTemplate\Binder;
-use Gt\Http\Uri;
-use Gt\Routing\Path\DynamicPath;
+use GT\Dom\HTMLDocument;
+use GT\DomTemplate\Binder;
+use GT\Http\Uri;
+use GT\Routing\Path\DynamicPath;
 use GT\Website\Content\LinkNormaliser;
 use GT\Website\Content\MarkdownPage;
 

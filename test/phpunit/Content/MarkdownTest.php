@@ -3,7 +3,7 @@ namespace GT\Website\Test\Content;
 
 use GT\Website\Content\MarkdownFile;
 use GT\Website\Content\MarkdownPage;
-use Gt\Dom\HTMLDocument;
+use GT\Dom\HTMLDocument;
 use PHPUnit\Framework\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;

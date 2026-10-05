@@ -1,9 +1,9 @@
 <?php
 namespace GT\Website\Test\Content;
 
-use Gt\Dom\Element;
-use Gt\Dom\HTMLDocument;
-use Gt\Http\Uri;
+use GT\Dom\Element;
+use GT\Dom\HTMLDocument;
+use GT\Http\Uri;
 use GT\Website\Content\LinkNormaliser;
 use PHPUnit\Framework\TestCase;
 

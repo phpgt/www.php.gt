@@ -3,7 +3,7 @@ namespace GT\Website\News;
 
 use DateTime;
 use GT\Website\Content\MarkdownToHTML;
-use Gt\DomTemplate\BindGetter;
+use GT\DomTemplate\BindGetter;
 
 class Announcement implements NewsUpdateItem {
 	private const array AUTHOR_USERNAME = [

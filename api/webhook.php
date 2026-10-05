@@ -1,7 +1,7 @@
 <?php
-use Gt\Config\Config;
-use Gt\Http\Request;
-use Gt\Input\Input;
+use GT\Config\Config;
+use GT\Http\Request;
+use GT\Input\Input;
 
 function go(
 	Config $config,

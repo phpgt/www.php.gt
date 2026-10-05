@@ -1,8 +1,8 @@
 <?php
 namespace GT\Website\Content;
 
-use Gt\Dom\Element;
-use Gt\Dom\HTMLDocument;
+use GT\Dom\Element;
+use GT\Dom\HTMLDocument;
 
 readonly class MarkdownPage {
 	public function __construct(public string $dir) {}
