@@ -11,7 +11,7 @@ main {
 		@extend %o-code-block;
 		@extend %d-syntax;
 		padding: var(--theme-space-4);
-		border: 4px solid var(--site-color-code-outline);
+		border: 4px solid var(--theme-code-outline);
 		border-radius: 0;
 		font-size: inherit;
 		line-height: normal;

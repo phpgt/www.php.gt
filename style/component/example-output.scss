@@ -1,0 +1,35 @@
+@use "../../node_modules/flair/style/flair";
+
+example-output {
+	@extend %o-card;
+	--theme-stack-gap: 0px;
+	padding: 0;
+	max-inline-size: 26rem;
+	margin-inline: auto;
+	border: 1px solid var(--theme-color-border);
+	border-radius: .75rem;
+	box-shadow: none;
+
+	> header {
+		padding: var(--theme-space-3) var(--theme-space-6);
+		border-block-end: 1px solid var(--theme-color-border);
+		border-radius: .75rem .75rem 0 0;
+		background: var(--theme-code-background);
+		color: var(--theme-color-text);
+		font-size: .75rem;
+		font-weight: 700;
+		letter-spacing: .04em;
+	}
+
+	.example-body {
+		@extend %p-stack;
+		--theme-stack-gap: var(--theme-space-6);
+		padding: var(--theme-space-6);
+	}
+
+	h2 { margin: 0; font-size: 1.5rem; line-height: 1.25; }
+	form { @extend %p-stack; --theme-stack-gap: var(--theme-space-4); }
+	label { @extend %o-form-field; margin: 0; }
+	input { font-size: 1rem; }
+	button { @extend %o-button-primary; align-self: flex-start; margin: 0; font-size: 1rem; }
+}

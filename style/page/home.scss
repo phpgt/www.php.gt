@@ -17,9 +17,9 @@ body.uri--index main > article {
 		box-sizing: content-box;
 		margin-block: var(--theme-space-8) -4rem;
 		padding-inline: var(--theme-space-4);
-		border: 4px solid var(--site-color-button);
-		background: var(--site-color-page);
-		color: var(--site-color-text);
+		border: 4px solid var(--theme-button-background);
+		background: var(--theme-color-page);
+		color: var(--theme-color-text);
 
 		&::before {
 			content: "";
@@ -61,7 +61,7 @@ body.uri--index main > article {
 				aspect-ratio: 1;
 				margin-block-start: -0.25rem;
 				margin-inline-start: -2.5rem;
-				background: var(--site-color-primary);
+				background: var(--theme-color-primary);
 				mask: url("/asset/icon/arrow-right.svg") center / contain no-repeat;
 			}
 
@@ -97,7 +97,7 @@ body.uri--index main > article {
 			inline-size: 3em;
 			block-size: 1rem;
 			margin-inline-end: var(--theme-space-2);
-			background: var(--site-color-link);
+			background: var(--theme-color-tint);
 			animation: site-stretch-block 1s ease-in-out both;
 		}
 
@@ -108,70 +108,6 @@ body.uri--index main > article {
 
 	.example {
 		position: relative;
-	}
-
-	#example-output {
-		@extend %o-card;
-		--theme-stack-gap: var(--theme-space-6);
-		--theme-field-gap: var(--theme-space-2);
-		--theme-surface-padding: calc(2.5rem + var(--theme-space-6))
-			var(--theme-space-6) var(--theme-space-6);
-		--theme-surface-shadow: 0 var(--theme-space-2) var(--theme-space-8)
-			color-mix(in srgb, var(--site-color-primary), transparent 82%);
-		--theme-button-weight: 400;
-		--theme-border-width: 2px;
-		position: relative;
-		max-inline-size: 24rem;
-		margin-inline: auto;
-		border: 4px solid var(--site-color-code-outline);
-		border-radius: 1rem;
-		font-size: inherit;
-
-		&::before {
-			content: "Example output";
-			position: absolute;
-			inset-block-start: 0;
-			inset-inline: 0;
-			padding: var(--theme-space-3) var(--theme-space-6);
-			border-radius: 0.5rem 0.5rem 0 0;
-			background: var(--site-color-code-outline);
-			color: var(--site-color-page);
-			font-weight: 700;
-		}
-
-		h1 {
-			margin: 0;
-			font-size: 2rem;
-
-			span {
-				display: inline-block;
-			}
-		}
-
-		form {
-			@extend %p-stack;
-			--theme-stack-gap: var(--theme-space-4);
-		}
-
-		label {
-			@extend %o-form-field;
-			margin: 0;
-
-			> span {
-				font-weight: 400;
-			}
-
-			input {
-				font-size: 1.25rem;
-			}
-		}
-
-		button {
-			@extend %o-button-primary;
-			align-self: flex-start;
-			margin: 0;
-			font-size: 1.125rem;
-		}
 	}
 
 	@media (min-width: flair.$break-shell) {
@@ -215,11 +151,6 @@ body.uri--index main > article {
 			font-size: 5rem;
 		}
 
-		#example-output {
-			position: absolute;
-			inset-block-end: 12rem;
-			inset-inline-end: -24rem;
-		}
 
 		.intro blockquote li::before {
 			margin-block-start: 0;

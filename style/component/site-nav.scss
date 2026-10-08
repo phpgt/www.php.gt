@@ -11,7 +11,7 @@ site-nav {
 	position: relative;
 	z-index: 1;
 	inline-size: 100%;
-	background: var(--site-color-sidebar);
+	background: var(--theme-sidebar-contrast-background);
 	font-size: 0.9rem;
 
 	body.scrolled & {
@@ -29,9 +29,9 @@ site-nav {
 		display: flex;
 		align-items: center;
 		padding: var(--theme-space-4);
-		border-block-end: 1px solid var(--site-color-sidebar);
-		background: var(--site-color-page);
-		color: var(--site-color-text);
+		border-block-end: 1px solid var(--theme-sidebar-contrast-background);
+		background: var(--theme-color-page);
+		color: var(--theme-color-text);
 		cursor: pointer;
 		list-style: none;
 
@@ -52,15 +52,15 @@ site-nav {
 			position: fixed;
 			inset: 0;
 			z-index: -1;
-			background: var(--site-color-page);
+			background: var(--theme-color-page);
 			opacity: 0;
 			pointer-events: none;
 			transition: opacity var(--site-nav-duration) linear;
 		}
 
 		&:hover {
-			background: var(--site-color-page);
-			color: var(--site-color-link-hover);
+			background: var(--theme-color-page);
+			color: var(--theme-link-hover-color);
 			text-decoration: underline;
 		}
 	}
@@ -76,8 +76,8 @@ site-nav {
 		padding-block-end: 8rem;
 		overflow-y: auto;
 		clip-path: inset(0 0 100% 0);
-		background: var(--site-color-sidebar);
-		scrollbar-color: color-mix(in srgb, var(--site-color-text), transparent 75%) transparent;
+		background: var(--theme-sidebar-contrast-background);
+		scrollbar-color: color-mix(in srgb, var(--theme-color-text), transparent 75%) transparent;
 		scrollbar-width: thin;
 		transition: clip-path var(--site-nav-duration) ease-in-out;
 	}
@@ -119,11 +119,11 @@ site-nav {
 		}
 
 		a {
-			color: var(--site-color-text);
+			color: var(--theme-color-text);
 
 			&:hover,
 			&:focus-visible {
-				color: var(--site-color-primary);
+				color: var(--theme-color-primary);
 				text-decoration: underline;
 			}
 		}
@@ -167,13 +167,13 @@ site-nav {
 			border: 0;
 			border-radius: 0;
 			background: transparent;
-			color: var(--site-color-text);
+			color: var(--theme-color-text);
 			font-size: 0.9rem;
 			font-weight: 700;
 			cursor: pointer;
 
 			&:hover {
-				color: var(--site-color-link-hover);
+				color: var(--theme-link-hover-color);
 			}
 		}
 	}
@@ -208,8 +208,8 @@ site-nav {
 			inset-inline-start: -1rem;
 			margin: 0.25rem;
 			padding: 0.1rem;
-			background: var(--site-color-primary);
-			color: var(--site-color-page);
+			background: var(--theme-color-primary);
+			color: var(--theme-color-page);
 			font-size: 0.5rem;
 			font-weight: 700;
 		}

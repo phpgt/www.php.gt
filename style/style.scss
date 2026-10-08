@@ -8,13 +8,14 @@
 	$break-shell: 60rem,
 	$break-wide: 105rem
 );
-@use "theme/phpgt";
+@use "../node_modules/flair/style/theme/gt";
 @use "component/global-header";
 @use "component/docs-search";
 @use "component/docs-search-results";
 @use "component/site-nav";
 @use "component/main-content";
 @use "component/content-code";
+@use "component/example-output";
 @use "component/global-footer";
 @use "page/home";
 @use "page/blueprints";
@@ -26,16 +27,16 @@ html {
 	@include flair.base;
 	@include flair.controls;
 	@include flair.typography;
-	@include phpgt.phpgt;
+	@include gt.gt;
 	min-block-size: 100%;
-	background: var(--site-color-page);
-	color: var(--site-color-text);
+	background: var(--theme-color-page);
+	color: var(--theme-color-text);
 	font-size: 18px;
 	scroll-behavior: smooth;
 
 	::selection {
-		background: var(--site-color-primary);
-		color: var(--site-color-page);
+		background: var(--theme-color-primary);
+		color: var(--theme-color-page);
 	}
 }
 
@@ -44,8 +45,8 @@ html > body {
 	inline-size: min(100%, var(--theme-page-width));
 	margin-inline: auto;
 	position: relative;
-	background: var(--site-color-page);
-	color: var(--site-color-text);
+	background: var(--theme-color-page);
+	color: var(--theme-color-text);
 	font-family: var(--theme-font-body);
 }
 

@@ -42,8 +42,23 @@ docs-search {
 	}
 
 	label {
+		position: relative;
 		display: block;
 		block-size: 100%;
+	}
+
+	label::before {
+		content: "";
+		position: absolute;
+		inset-inline-start: min(calc(var(--site-logo-size) / 4), .75rem);
+		inset-block-start: 50%;
+		translate: 0 -50%;
+		z-index: 1;
+		inline-size: min(50%, 1.5rem);
+		block-size: min(50%, 1.5rem);
+		background: var(--theme-color-text);
+		mask: url("/asset/icon/search.svg") center / contain no-repeat;
+		pointer-events: none;
 	}
 
 	label > span {
@@ -58,13 +73,9 @@ docs-search {
 		padding: 0;
 		border: 0;
 		border-radius: 999px;
-		outline: 0 solid var(--site-color-page);
-		background-color: var(--site-color-button);
-		background-image: url("/asset/icon/search.svg");
-		background-repeat: no-repeat;
-		background-position: min(calc(var(--site-logo-size) / 4), 0.75rem) 50%;
-		background-size: auto 50%;
-		box-shadow: 0 0 0 0 var(--site-color-page);
+		outline: 0 solid var(--theme-color-page);
+		background-color: var(--theme-button-background);
+		box-shadow: 0 0 0 0 var(--theme-color-page);
 		color: transparent;
 		cursor: pointer;
 		font-size: 0.75rem;
@@ -79,21 +90,21 @@ docs-search {
 		}
 
 		&:hover:not(:focus) {
-			background-color: var(--site-color-button-hover);
-			outline: 1px solid var(--site-color-primary);
+			background-color: var(--theme-button-background-hover);
+			outline: 1px solid var(--theme-color-primary);
 		}
 
 		&:focus,
 		body.uri--search & {
 			padding-inline-start: 3rem;
 			border-radius: 2rem;
-			outline: 0.25rem solid var(--site-color-primary);
-			box-shadow: 0 0 0 1rem var(--site-color-page);
-			color: var(--site-color-text);
+			outline: 0.25rem solid var(--theme-color-primary);
+			box-shadow: 0 0 0 1rem var(--theme-color-page);
+			color: var(--theme-color-text);
 			cursor: text;
 
 			&::placeholder {
-				color: var(--site-color-text);
+				color: var(--theme-color-text);
 				opacity: 0.5;
 			}
 		}
@@ -130,12 +141,12 @@ docs-search {
 			inset-inline: -1rem -80rem;
 			z-index: -1;
 			border-block-end: 0 solid transparent;
-			background: var(--site-color-page);
+			background: var(--theme-color-page);
 			transition: border-width 0.25s ease-in-out;
 		}
 
 		body.scrolled &::before {
-			border-block-end: 4px solid var(--site-color-sidebar);
+			border-block-end: 4px solid var(--theme-sidebar-contrast-background);
 		}
 
 		&:focus-within,
@@ -147,10 +158,10 @@ docs-search {
 		input[type="search"] {
 			padding-inline-start: 3rem;
 			border-radius: 1rem;
-			color: var(--site-color-text);
+			color: var(--theme-color-text);
 
 			&::placeholder {
-				color: var(--site-color-text);
+				color: var(--theme-color-text);
 				opacity: 0.5;
 			}
 

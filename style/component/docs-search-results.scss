@@ -4,10 +4,10 @@ docs-search-results {
 	display: block;
 	inline-size: calc(100% - 4rem);
 	margin: -4rem auto 0;
-	border: 1px solid var(--site-color-primary);
+	border: 1px solid var(--theme-color-primary);
 	border-block-start: 0;
 	border-radius: 0 0 1rem 1rem;
-	background: color-mix(in srgb, var(--site-color-sidebar), var(--site-color-page) 80%);
+	background: color-mix(in srgb, var(--theme-sidebar-contrast-background), var(--theme-color-page) 80%);
 
 	> ul,
 	> ul > li > ul {

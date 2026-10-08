@@ -25,7 +25,7 @@ global-header {
 			inline-size: 100%;
 			min-block-size: calc(var(--site-logo-size) + 2rem);
 			padding: var(--theme-space-4);
-			color: var(--site-color-primary);
+			color: var(--theme-color-primary);
 			font-family: "Ubuntu Condensed", sans-serif;
 			font-size: calc(var(--site-logo-size) / 2);
 			font-weight: 700;
@@ -33,7 +33,7 @@ global-header {
 			text-decoration: none;
 
 			&:hover {
-				color: var(--site-color-primary);
+				color: var(--theme-color-primary);
 				opacity: 0.9;
 			}
 

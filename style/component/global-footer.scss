@@ -5,7 +5,7 @@ main > footer._global-footer {
 	position: relative;
 	margin-block-start: 0;
 	padding: var(--theme-space-8);
-	background: var(--site-color-sidebar);
+	background: var(--theme-sidebar-contrast-background);
 
 	nav ul {
 		margin-block: 1em;
@@ -41,7 +41,7 @@ main > footer._global-footer {
 			inset-inline-start: 0;
 			inline-size: 1rem;
 			block-size: 1rem;
-			background: var(--site-color-sidebar);
+			background: var(--theme-sidebar-contrast-background);
 			mask: radial-gradient(circle at top right, transparent 0 1rem, #000 1rem);
 		}
 
@@ -51,7 +51,7 @@ main > footer._global-footer {
 			inset-block: 0;
 			inset-inline-start: 100%;
 			inline-size: max(0px, calc((100vw - var(--theme-page-width)) / 2));
-			background: var(--site-color-sidebar);
+			background: var(--theme-sidebar-contrast-background);
 		}
 	}
 }

@@ -4,9 +4,9 @@ body.uri--learn main > section > form,
 body.uri--learn main > section > article > form {
 	@extend %d-surface;
 	padding: var(--theme-space-4);
-	border: 4px solid var(--site-color-code-outline);
+	border: 4px solid var(--theme-code-outline);
 	border-radius: 0;
-	background: var(--site-color-sidebar);
+	background: var(--theme-sidebar-contrast-background);
 
 	> label:not(:has(input[type="checkbox"] )) {
 		@extend %o-form-field;

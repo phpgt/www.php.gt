@@ -1,7 +1,7 @@
 @use "../../node_modules/flair/style/flair";
 
 body.uri--blueprints main > section > ul {
-	@extend %p-grid;
+	@extend %l-grid;
 	--theme-grid-columns: 2;
 	--theme-grid-min: 16rem;
 	margin: 0;
@@ -12,9 +12,9 @@ body.uri--blueprints main > section > ul {
 		@extend %o-card;
 		min-block-size: 16rem;
 		padding: 0;
-		border-color: var(--site-color-primary);
+		border-color: var(--theme-color-primary);
 		border-radius: 0.5rem;
-		background-color: var(--site-color-blueprint-grid);
+		background-color: var(--theme-gallery-background);
 		background-image:
 			linear-gradient(0deg, rgb(0 0 0 / 3%) 1px, transparent 1px),
 			linear-gradient(90deg, rgb(0 0 0 / 3%) 1px, transparent 1px);
@@ -26,7 +26,7 @@ body.uri--blueprints main > section > ul {
 			flex-direction: column;
 			justify-content: space-between;
 			padding: var(--theme-space-4);
-			color: var(--site-color-text);
+			color: var(--theme-color-text);
 			text-decoration: none;
 
 			&:hover h1 {
