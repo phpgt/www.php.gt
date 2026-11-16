@@ -1937,16 +1937,16 @@
         },
         {
             "name": "phpgt/logger",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpgt/Logger.git",
-                "reference": "5b9441b0bbafe46e3442ea3d1bbbdf432986a2a8"
+                "reference": "90829255f074aa0ddb66fcccddf8e395fd3934b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpgt/Logger/zipball/5b9441b0bbafe46e3442ea3d1bbbdf432986a2a8",
-                "reference": "5b9441b0bbafe46e3442ea3d1bbbdf432986a2a8",
+                "url": "https://api.github.com/repos/phpgt/Logger/zipball/90829255f074aa0ddb66fcccddf8e395fd3934b1",
+                "reference": "90829255f074aa0ddb66fcccddf8e395fd3934b1",
                 "shasum": ""
             },
             "require": {
@@ -1976,7 +1976,7 @@
             "description": "PSR-3 logger and implementation.",
             "support": {
                 "issues": "https://github.com/phpgt/Logger/issues",
-                "source": "https://github.com/phpgt/Logger/tree/v1.2.0"
+                "source": "https://github.com/phpgt/Logger/tree/v1.2.1"
             },
             "funding": [
                 {
@@ -1984,7 +1984,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-08T13:03:43+00:00"
+            "time": "2026-11-11T10:45:28+00:00"
         },
         {
             "name": "phpgt/promise",
