@@ -1,115 +1,24 @@
-@use "font/ubuntu";
-@use "font/ubuntu-mono";
-@use "font/ubuntu-condensed";
+@use "../node_modules/flair/style/lib/flair";
+@use "../node_modules/flair/style/lib/theme/base";
 
-@use "variable/break";
-@use "variable/palette";
-@use "variable/size";
-
-@use "element/a";
-@use "element/article";
-@use "element/body";
-@use "element/code";
-@use "element/html";
-@use "element/main";
-@use "element/pre";
-@use "element/section";
-
-@use "component/global-header";
-@use "component/docs-search";
-@use "component/docs-search-results";
-@use "component/site-nav";
-
-@use "page/index";
-@use "page/releases";
-@use "page/blueprints";
-@use "page/learn";
-@use "page/docs";
-
-html {
-	color: var(--pal-text);
-	font-size: 18px;
+:root {
+	@include base.base;
+	background: var(--theme-color-page);
 }
 
-*:not(pre, code, pre span) {
-	font-family: "Ubuntu", sans-serif;
+@include flair.init;
+@include flair.typography;
+@include flair.controls;
+
+body {
+	@extend %d-typography;
 }
 
-a {
-	color: var(--pal-link);
-
-	&:hover {
-		color: var(--pal-link--hover);
-	}
+code {
+	@extend %o-code;
 }
 
-body>main>footer {
-	padding: 2rem;
-	background-color: var(--pal-sidebar);
-
-	@media(min-width: break.$medium) {
-		position: relative;
-		padding: 4rem;
-		container-type: inline-size;
-
-		&::before {
-			content: "";
-			position: absolute;
-			top: -1rem;
-			left: 0;
-			width: 1rem;
-			height: 1rem;
-			background-color: var(--pal-sidebar);
-			mask-image: radial-gradient(circle at top right,
-					transparent 0,
-					transparent 1rem,
-					black 1rem
-			);
-			mask-size: 100% 100%;
-			mask-repeat: no-repeat;
-		}
-
-		&::after {
-			--size: calc(50vw - 50cqw - (var(--size-content-width) / 4) + 1rem);
-			content: "";
-			position: absolute;
-			right: calc(var(--size) * -1);
-			top: 0;
-			height: 100%;
-			width: var(--size);
-			background-color: var(--pal-sidebar);
-		}
-	}
-
-	nav {
-		ul {
-			list-style-type: none;
-			text-align: right;
-			padding: 0;
-
-			li {
-				a {
-					display: inline-block;
-					padding: 0.5rem;
-
-					&[href*="//"] {
-						&::after {
-							content: "";
-							display: block;
-							float: right;
-							width: 1rem;
-							margin-left: 0.5rem;
-							margin-right: -1.5rem;
-							aspect-ratio: 1;
-							background-color: var(--pal-text);
-							mask-image: url("/asset/icon/arrow-top-right-on-square.svg");
-							mask-size: cover;
-							mask-repeat: no-repeat;
-							mask-position: 50%;
-						}
-					}
-				}
-			}
-		}
-	}
+pre {
+	@extend %o-code-block;
+	@extend %d-syntax;
 }

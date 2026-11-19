@@ -83,11 +83,11 @@ function go(
 
 	/** @var Element $anchor */
 	foreach($element->querySelectorAll("a") as $anchor) {
-		$li = $anchor->closest("li,h1");
-
 		if(rtrim($anchor->href, "/") === rtrim($path, "/")) {
-			$element->querySelectorAll(".selected")->forEach(fn(Element $selectedElement) => $selectedElement->classList->remove("selected"));
-			$li->classList->add("selected");
+			$element->querySelectorAll("[aria-current]")->forEach(
+				fn(Element $currentAnchor) => $currentAnchor->removeAttribute("aria-current")
+			);
+			$anchor->setAttribute("aria-current", "page");
 		}
 	}
 }
