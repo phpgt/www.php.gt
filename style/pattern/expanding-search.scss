@@ -1,0 +1,139 @@
+@use "../../node_modules/flair/style/lib/flair";
+
+// Selector adapters keep application routes and custom elements out of this flourish.
+@mixin expanding-search($active, $scrolled, $results, $compact: flair.$break-compact, $shell: flair.$break-shell, $icon: "/asset/icon/search.svg") {
+	--search-duration: .2s;
+	display: flex;
+	position: absolute;
+	inset: 0 0 auto auto;
+	z-index: 20;
+	padding: 1rem;
+	inline-size: calc(min(var(--search-toggle-size, 2rem), 3rem) + 2rem);
+	block-size: calc(min(var(--search-toggle-size, 2rem), 3rem) + 2rem);
+	transition: inline-size var(--search-duration) cubic-bezier(.47, 1.64, .41, .8);
+	form {
+		flex: 1;
+		min-inline-size: 0;
+	}
+	label {
+		display: block;
+		position: relative;
+		block-size: 100%;
+
+		> span {
+			@extend %d-visually-hidden;
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset-inline-start: min(calc(var(--search-toggle-size, 2rem) / 4), .75rem);
+			inset-block-start: 50%;
+			translate: 0 -50%;
+			inline-size: min(50%, 1.5rem);
+			block-size: 50%;
+			background: var(--theme-color-text);
+			mask: url($icon) center / contain no-repeat;
+			pointer-events: none;
+		}
+	}
+	input {
+		inline-size: 100%;
+		block-size: 100%;
+		min-block-size: 0;
+		padding: 1px 2px;
+		border: 0;
+		border-radius: 50%;
+		font-size: 13.333333px;
+		font-weight: 400;
+		background: var(--theme-color-surface-disabled);
+		color: transparent;
+		outline: 0 solid var(--theme-color-page);
+		cursor: pointer;
+
+		&::placeholder {
+			color: transparent;
+		}
+	}
+	&:focus-within, #{$active} {
+		inline-size: 100%;
+
+		input {
+			padding-inline-start: 3rem;
+			border-radius: 2rem;
+			outline: .25rem solid var(--theme-color-primary);
+			box-shadow: 0 0 0 1rem var(--theme-color-page);
+			color: var(--theme-color-text);
+			cursor: text;
+
+			&::placeholder {
+				color: var(--theme-color-muted);
+				opacity: .5;
+			}
+		}
+
+		#{$results} {
+			display: block;
+		}
+	}
+	#{$results} {
+		display: none;
+		position: absolute;
+		inset: calc(8rem + 4px) 2rem auto;
+		max-block-size: calc(75vh + 1px);
+		overflow-y: auto;
+		z-index: 20;
+	}
+	@media (max-width: $compact) {
+		#{$scrolled} {
+			position: fixed;
+			inset-block-start: -.5rem;
+			margin: 0;
+			--search-toggle-size: 2rem;
+		}
+	}
+	@media (min-width: $shell) {
+		inset-inline: 18rem auto;
+		inline-size: 18rem;
+
+		input {
+			border-radius: 1rem;
+			padding-inline-start: 3rem;
+			color: var(--theme-color-text);
+		}
+
+		input::placeholder {
+			color: var(--theme-color-muted);
+			opacity: .5;
+		}
+
+		&:focus-within, #{$active} {
+			inline-size: 50rem;
+
+			input {
+				border-radius: 1rem;
+			}
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: -1rem -80rem auto -1rem;
+			block-size: calc(100% + 1.5rem);
+			z-index: -1;
+			background: var(--theme-color-page);
+		}
+
+		#{$scrolled}::before {
+			border-block-end: 4px solid var(--theme-color-surface-disabled);
+		}
+		#{$results} {
+			inset: 5.5rem auto auto -2rem;
+			inline-size: calc(100% - 4rem + 2px);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		--search-duration: 0s;
+	}
+}

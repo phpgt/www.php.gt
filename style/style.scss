@@ -1,24 +1,62 @@
-@use "../node_modules/flair/style/lib/flair";
+@use "../node_modules/flair/style/lib/flair" with (
+	$break-compact: 32rem,
+	$break-nav: 60rem,
+	$break-shell: 60rem,
+	$break-wide: 105rem
+);
 @use "../node_modules/flair/style/lib/theme/base";
+@use "font/ubuntu";
+@use "font/ubuntu-mono";
+@use "font/ubuntu-condensed";
+@use "layout/site";
+@use "pattern/document";
+@use "pattern/footer";
+@use "component/global-header";
+@use "component/site-nav";
+@use "component/docs-search";
+@use "component/docs-search-results";
+@use "page/home";
+@use "page/learn";
+@use "page/blueprints";
+@use "page/docs";
 
 :root {
 	@include base.base;
+	@include site.metrics;
 	background: var(--theme-color-page);
 }
 
 @include flair.init;
 @include flair.typography;
 @include flair.controls;
-
 body {
 	@extend %d-typography;
 }
 
+article, section {
+	@extend %p-document;
+}
+
+main > footer {
+	@extend %p-site-footer;
+}
+
 code {
 	@extend %o-code;
+	padding: 0;
+	font-size: inherit;
+	overflow-wrap: normal;
 }
 
 pre {
 	@extend %o-code-block;
 	@extend %d-syntax;
+	margin-block: 1em;
+	--theme-code-padding: 1rem;
+	--theme-code-size: 1em;
+	--theme-code-leading: normal;
+	border-width: 4px;
+	white-space: pre;
+	overflow-wrap: normal;
+	overflow-x: auto;
 }

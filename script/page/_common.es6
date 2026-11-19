@@ -1,25 +1,27 @@
 let threshold = null;
 
+window.addEventListener("resize", () => threshold = null);
+
 window.addEventListener("scroll", e => {
 	if(!threshold) {
-		let mediaBreak = getComputedStyle(document.documentElement).getPropertyValue("--break");
+		let desktop = matchMedia("(min-width: 60rem)").matches;
 		let fixedHeadingElement;
 
-		if(mediaBreak === "none" || mediaBreak === "small") {
+		if(!desktop) {
 			fixedHeadingElement = document.querySelector("site-nav");
 		}
 		else {
 			fixedHeadingElement = document.querySelector("docs-search");
 		}
 
-		if(mediaBreak === "none") {
+		if(!matchMedia("(min-width: 32rem)").matches) {
 			threshold = fixedHeadingElement.offsetTop;
 		}
 		else {
 			threshold = fixedHeadingElement.offsetHeight;
 		}
 
-		document.body.style.setProperty('--size-fixed-heading', `${fixedHeadingElement.offsetHeight}px`);
+		document.body.style.setProperty('--site-fixed-heading', `${fixedHeadingElement.offsetHeight}px`);
 	}
 
 	if(threshold && scrollY > threshold) {

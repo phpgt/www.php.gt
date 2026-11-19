@@ -1,0 +1,45 @@
+@use "../../node_modules/flair/style/lib/flair";
+
+global-header {
+	> header {
+		display: contents;
+	}
+
+	> header > h1 {
+		position: relative;
+		z-index: 2;
+		margin: 0;
+
+		a {
+			@extend %p-cluster;
+			--theme-cluster-gap: 1rem;
+			padding: 1rem;
+			font: 700 calc(var(--site-logo-size) / 2) "Ubuntu Condensed", sans-serif;
+			text-decoration: none;
+			color: var(--theme-color-text);
+
+			&::before {
+				content: "";
+				inline-size: var(--site-logo-size);
+				block-size: var(--site-logo-size);
+				background: url("/asset/logo.svg") center / contain no-repeat;
+				filter: grayscale(1);
+			}
+		}
+	}
+
+	body.uri--index & docs-search {
+		margin-block-start: .5rem;
+	}
+
+	@media (min-width: flair.$break-shell) {
+		position: fixed;
+		z-index: 1;
+		> header > h1 {
+			max-inline-size: 18rem;
+		}
+		body.uri--index & docs-search {
+			margin-block-start: 0;
+		}
+	}
+}

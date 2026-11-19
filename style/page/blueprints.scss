@@ -1,0 +1,43 @@
+@use "../../node_modules/flair/style/lib/flair";
+
+body.uri--blueprints > main > section ul {
+	@extend %p-cluster;
+	--theme-cluster-gap: 1rem;
+	align-items: stretch;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	> li {
+		@extend %d-surface;
+		--theme-surface-radius: .5rem;
+		--theme-surface-background: var(--theme-color-surface-disabled);
+		display: flex;
+		min-block-size: calc(16rem + 2px);
+		inline-size: calc(50% - 1rem + 2px);
+		margin: 0;
+
+		> a {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 1rem;
+			text-decoration: none;
+			color: inherit;
+
+			&:hover h1 {
+				text-decoration: underline;
+			}
+		}
+
+		h1 {
+			margin-block-start: 0;
+			font-size: 1.5rem;
+		}
+
+		p {
+			margin: 0;
+			font-size: 1.25rem;
+		}
+	}
+}

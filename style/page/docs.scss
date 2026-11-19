@@ -1,0 +1,23 @@
+@use "../../node_modules/flair/style/lib/flair";
+
+body.dir--docs #rewrite {
+	@extend %o-notice;
+	border: 0;
+	position: fixed;
+	inset: auto 0 0 auto;
+	margin: 1rem;
+	padding: 1rem;
+
+	> :first-child {
+		margin-block-start: 1em;
+	}
+
+	> :last-child {
+		margin-block-end: 1em;
+	}
+}
+
+body.uri--releases .pagination {
+	@extend %p-cluster;
+	--theme-cluster-gap: 1rem;
+}

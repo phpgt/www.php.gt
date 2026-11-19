@@ -1,0 +1,49 @@
+@use "../../node_modules/flair/style/lib/flair";
+
+body.uri--learn > main > section form {
+	@extend %d-surface;
+	--theme-surface-border-width: 4px;
+	--theme-surface-background: var(--theme-color-surface-disabled);
+	--theme-control-min-height: 0px;
+	--theme-font-size: 1rem;
+	--theme-button-weight: 400;
+	--theme-choice-size: 13px;
+	padding: 1rem;
+
+	label, .actions {
+		display: flow-root;
+		margin: 2rem;
+	}
+
+	label > span {
+		display: block;
+	}
+
+	input:not([type="hidden"], [type="checkbox"]), button {
+		min-block-size: 0;
+		border-width: 2px;
+		padding: .5rem;
+		font-size: var(--theme-font-size);
+		line-height: normal;
+	}
+
+	input:not([type="hidden"], [type="checkbox"]) {
+		inline-size: auto;
+		// The native text field's size attribute measures the content, before padding.
+		box-sizing: content-box;
+		max-inline-size: none;
+	}
+
+	button {
+		display: inline-block;
+	}
+
+	input[type="checkbox"] {
+		float: left;
+		margin: 3px .5rem 3px 4px;
+	}
+
+	@media (min-width: flair.$break-shell) {
+		--theme-font-size: 1.25rem;
+	}
+}

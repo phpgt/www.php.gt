@@ -1,0 +1,198 @@
+@use "../../node_modules/flair/style/lib/flair";
+@use "../pattern/navigation-drawer";
+
+site-nav {
+	@include flair.sidebar-bleed;
+	--theme-sidebar-background: var(--theme-color-surface-disabled);
+	--drawer-header-size: calc(var(--site-logo-size) + 2rem);
+	--theme-nav-gap: 0px;
+	--theme-nav-padding-block: .5rem;
+	--theme-nav-padding-inline: 1rem;
+	--theme-nav-radius: 0px;
+	--theme-nav-hover-background: transparent;
+	--theme-nav-current-background: transparent;
+	--theme-nav-current-hover-background: transparent;
+	--theme-nav-current-shadow: none;
+	--theme-nav-current-weight: 400;
+	--theme-side-nav-link-margin: 0 1rem 0 0;
+	--theme-side-nav-marker-width: .5rem;
+	--theme-side-nav-marker-height: .5rem;
+	--theme-side-nav-marker-radius: 50%;
+	display: block;
+	position: relative;
+	inset-inline: 0;
+	z-index: 10;
+	inline-size: 100%;
+	background: var(--theme-sidebar-background);
+
+	* {
+		font-size: .9rem;
+	}
+
+	body.scrolled & {
+		position: fixed;
+		inset-block-start: 0;
+	}
+
+	details {
+		@include navigation-drawer.navigation-drawer;
+	}
+
+	nav {
+		> details > div, .pageLinks {
+			@extend %p-side-navigation;
+
+			> ul {
+				padding-block-start: .5rem;
+
+				> li > a {
+					min-block-size: 0;
+				}
+			}
+		}
+
+		ul {
+			display: block;
+			margin: 0;
+			padding: .5rem 0 0;
+			list-style: none;
+
+			&::after {
+				content: "";
+				display: block;
+				block-size: .25rem;
+				margin-block: 1rem;
+			}
+
+			> li {
+				margin: 0;
+			}
+
+			> li:not(:first-of-type) {
+				padding-inline-start: 1rem;
+			}
+
+			li > a, li > label {
+				min-block-size: 0;
+				padding: var(--theme-nav-padding-block, var(--theme-space-3)) var(--theme-nav-padding-inline, var(--theme-space-4));
+				margin-inline-end: 1rem;
+			}
+
+			> li + li {
+				margin-block-start: 0;
+			}
+		}
+
+		> details > div > ul {
+			padding-block-start: .5rem;
+		}
+
+		> details > div > ul > li > a {
+			min-block-size: 0;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		h1 {
+			margin: .67em 0 0;
+			padding-inline-start: 1rem;
+			font-weight: 400;
+		}
+
+		h3 {
+			margin: 0;
+			padding: .5rem 1rem;
+			font-style: italic;
+			font-weight: 400;
+		}
+
+		.heading-permalink {
+			display: none;
+		}
+
+		.pageLinks {
+			padding-inline-start: 1rem;
+		}
+
+		.pageLinks > ul {
+			display: block;
+		}
+
+		.pageLinks ul > li {
+			padding-inline-start: 1rem;
+		}
+
+		.repo-switcher {
+			> a {
+				display: inline-block;
+				margin: 0;
+				padding-inline-end: .5rem;
+			}
+
+			form {
+				display: inline-flex;
+				align-items: center;
+			}
+
+			form::before {
+				content: " - ";
+				padding-inline-end: .5rem;
+			}
+
+			label {
+				display: flex;
+				padding: 0;
+				margin-inline-end: 1rem;
+				align-items: center;
+				gap: .5rem;
+			}
+
+			select {
+				inline-size: auto;
+				min-block-size: 0;
+				padding: 0;
+				border: 0;
+				background: transparent;
+				font-weight: 700;
+			}
+		}
+	}
+
+	[data-type] {
+		position: relative;
+
+		&::after {
+			content: attr(data-type);
+			position: absolute;
+			inset: .4rem auto auto -1rem;
+			padding: .1rem;
+			margin: .25rem;
+			font-size: .5rem;
+			font-weight: 700;
+			background: var(--theme-color-text);
+			color: var(--theme-color-page);
+		}
+	}
+
+	@media (min-width: flair.$break-shell) {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-end: auto;
+		inline-size: var(--theme-sidebar-width);
+		block-size: calc(100dvh + 1rem);
+		z-index: 1;
+		body.scrolled & {
+			position: absolute;
+		}
+		.pageLinks ul {
+			block-size: 100%;
+		}
+	}
+}

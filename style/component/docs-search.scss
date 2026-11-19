@@ -1,0 +1,10 @@
+@use "../pattern/expanding-search";
+
+docs-search {
+	--search-toggle-size: var(--site-logo-size);
+	@include expanding-search.expanding-search(
+		$active: "body.uri--search &",
+		$scrolled: "body.scrolled global-header &",
+		$results: "docs-search-results"
+	);
+}

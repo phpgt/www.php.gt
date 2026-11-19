@@ -1,0 +1,47 @@
+@use "../../node_modules/flair/style/lib/flair";
+
+%p-site-footer {
+	padding: 2rem;
+	background: var(--theme-color-surface-disabled);
+
+	ul {
+		@extend %p-list;
+		--theme-list-padding: 0px;
+		margin-block: 1em;
+		text-align: end;
+
+		li + li {
+			border: 0;
+			margin: 0;
+		}
+
+		a {
+			display: inline-block;
+			padding: .5rem;
+		}
+	}
+
+	@media (min-width: flair.$break-shell) {
+		position: relative;
+		margin-block-start: 12rem;
+		padding: 4rem;
+		&::after {
+			content: "";
+			position: absolute;
+			inset-block: 0;
+			inset-inline-start: 100%;
+			inline-size: max(0px, calc((100vw - 96rem) / 2));
+			background: inherit;
+		}
+	}
+
+	a[href*="//"]::after {
+		content: "";
+		float: right;
+		inline-size: 1rem;
+		block-size: 1rem;
+		margin-inline: .5rem -1.5rem;
+		background: currentColor;
+		mask: url("/asset/icon/arrow-top-right-on-square.svg") center / contain no-repeat;
+	}
+}
