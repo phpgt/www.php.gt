@@ -2,22 +2,13 @@
 @use "../pattern/navigation-drawer";
 
 site-nav {
+	@extend %d-sidebar-contrast;
 	@include flair.sidebar-bleed;
-	--theme-sidebar-background: var(--theme-color-surface-disabled);
 	--drawer-header-size: calc(var(--site-logo-size) + 2rem);
 	--theme-nav-gap: 0px;
 	--theme-nav-padding-block: .5rem;
 	--theme-nav-padding-inline: 1rem;
-	--theme-nav-radius: 0px;
-	--theme-nav-hover-background: transparent;
-	--theme-nav-current-background: transparent;
-	--theme-nav-current-hover-background: transparent;
-	--theme-nav-current-shadow: none;
-	--theme-nav-current-weight: 400;
 	--theme-side-nav-link-margin: 0 1rem 0 0;
-	--theme-side-nav-marker-width: .5rem;
-	--theme-side-nav-marker-height: .5rem;
-	--theme-side-nav-marker-radius: 50%;
 	display: block;
 	position: relative;
 	inset-inline: 0;
@@ -92,12 +83,13 @@ site-nav {
 		}
 
 		a {
-			color: inherit;
+			color: var(--theme-nav-text, var(--theme-color-text));
 			text-decoration: none;
 		}
 
 		a:hover {
 			text-decoration: underline;
+			color: var(--theme-nav-hover-text, var(--theme-nav-text, var(--theme-color-text)));
 		}
 
 		h1 {

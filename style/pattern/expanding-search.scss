@@ -54,6 +54,11 @@
 		&::placeholder {
 			color: transparent;
 		}
+
+		&:hover:not(:focus) {
+			background-color: var(--theme-button-background-hover, var(--theme-control-background-active));
+			outline: 1px solid var(--theme-color-primary);
+		}
 	}
 	&:focus-within, #{$active} {
 		inline-size: 100%;
@@ -68,7 +73,7 @@
 
 			&::placeholder {
 				color: var(--theme-color-muted);
-				opacity: .5;
+				opacity: var(--theme-control-placeholder-opacity, .5);
 			}
 		}
 
@@ -104,7 +109,7 @@
 
 		input::placeholder {
 			color: var(--theme-color-muted);
-			opacity: .5;
+			opacity: var(--theme-control-placeholder-opacity, .5);
 		}
 
 		&:focus-within, #{$active} {

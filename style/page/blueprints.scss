@@ -11,7 +11,8 @@ body.uri--blueprints > main > section ul {
 	> li {
 		@extend %d-surface;
 		--theme-surface-radius: .5rem;
-		--theme-surface-background: var(--theme-color-surface-disabled);
+		--theme-surface-background: var(--theme-gallery-background, var(--theme-color-surface-disabled));
+		border-color: var(--theme-gallery-border, var(--theme-color-border));
 		display: flex;
 		min-block-size: calc(16rem + 2px);
 		inline-size: calc(50% - 1rem + 2px);

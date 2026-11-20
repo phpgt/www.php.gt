@@ -1,19 +1,31 @@
 @use "../../node_modules/flair/style/lib/flair";
+@use "../decoration/rotating-border";
 
 body.uri--index main article {
 	position: relative;
 	margin-block-start: 4rem;
 
 	.intro {
+		@extend %p-cluster;
+		--theme-cluster-gap: 0 2rem;
+		display: block;
+		align-items: flex-start;
+
 		blockquote {
 			@extend %d-surface;
+			@extend %d-rotating-border;
 			--theme-surface-border-width: 4px;
 			position: relative;
 			display: inline-block;
+			inline-size: max-content;
+			max-inline-size: 100%;
 			margin-block: 2rem -4rem;
 			padding: 0 1rem;
 
 			ul {
+				@extend %p-checklist;
+				--theme-checklist-marker-size: 2rem;
+				display: block;
 				margin: 0;
 				padding: 0;
 				@media (min-width: flair.$break-compact) {
@@ -21,21 +33,20 @@ body.uri--index main article {
 				}
 			}
 
-			li {
-				@extend %p-cluster;
-				--theme-cluster-gap: 1rem;
-				flex-wrap: nowrap;
+			ul > li {
+				gap: 1rem;
+				align-items: center;
+				overflow-wrap: normal;
 				position: relative;
 				margin-block: 1rem;
-				padding-inline-start: 2.5rem;
 				list-style: none;
 
 				&::before {
 					content: "";
-					flex: 0 0 2rem;
+					inline-size: 2rem;
 					block-size: 2rem;
-					margin: -.25rem 0 0 -2.5rem;
-					background: currentColor;
+					margin-block-start: -.25rem;
+					background: var(--theme-color-primary);
 					mask: url("/asset/icon/arrow-right.svg") center / contain no-repeat;
 					@media (min-width: flair.$break-shell) {
 						margin-block-start: -.1rem;
@@ -44,22 +55,28 @@ body.uri--index main article {
 						margin-block-start: 0;
 					}
 				}
+
+				@for $i from 1 through 5 {
+					&:nth-of-type(#{$i})::before {
+						filter: hue-rotate(calc(var(--theme-feature-marker-hue-step, 0deg) * #{$i})) saturate(var(--theme-feature-marker-saturation, 1));
+					}
+				}
 			}
 		}
 
 		@media (min-width: flair.$break-shell) {
-			display: flow-root;
+			display: flex;
 			inline-size: calc(100vw - 22rem);
 			max-inline-size: 72rem;
 			margin-block-start: -4rem;
 			p {
-				float: left;
+				flex: 0 1 32rem;
 				max-inline-size: 32rem;
 				margin-block-start: 2rem;
-				margin-inline-end: 2rem;
+				margin-inline-end: 0;
 			}
 			blockquote {
-				float: left;
+				flex: 0 0 auto;
 				margin-block-end: 0;
 			}
 		}
@@ -76,6 +93,7 @@ body.uri--index main article {
 		position: relative;
 		inline-size: 100%;
 		max-inline-size: calc(22rem + 8px);
+		border-color: var(--theme-code-outline, var(--theme-color-border));
 		margin-inline: auto;
 		padding-block-start: 2rem;
 
@@ -85,8 +103,8 @@ body.uri--index main article {
 			inset: 0 0 auto;
 			padding: .5rem;
 			border-radius: .5rem .5rem 0 0;
-			background: var(--theme-color-border);
-			color: var(--theme-color-page);
+			background: var(--theme-code-background, var(--theme-color-surface-disabled));
+			color: var(--theme-code-text, var(--theme-color-text));
 		}
 
 		h1 {
@@ -104,7 +122,6 @@ body.uri--index main article {
 			margin: 1rem;
 			font: inherit;
 			--theme-label-font-size: 1em;
-			--theme-label-weight: 400;
 
 			span {
 				display: block;
@@ -115,7 +132,6 @@ body.uri--index main article {
 			min-block-size: 0;
 			border-width: 2px;
 			font-size: 1.5rem;
-			font-weight: 400;
 			line-height: normal;
 		}
 
@@ -154,7 +170,7 @@ body.uri--index main article {
 				inline-size: 3em;
 				block-size: 1rem;
 				margin-inline-end: .5rem;
-				background: var(--theme-color-text);
+				background: var(--theme-color-tint);
 			}
 
 			&:nth-of-type(3)::after {

@@ -7,10 +7,10 @@ docs-search-results {
 	position: relative;
 	inline-size: calc(100% - 4rem + 2px);
 	margin: -4rem auto 0;
-	border: 1px solid var(--theme-color-text);
+	border: 1px solid var(--theme-color-primary);
 	border-block-start: 0;
 	border-radius: 0 0 1rem 1rem;
-	background: var(--theme-color-surface-disabled);
+	background: var(--theme-results-background, var(--theme-color-surface-disabled));
 
 	ul {
 		@extend %p-search-results;

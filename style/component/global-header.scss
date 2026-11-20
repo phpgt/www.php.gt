@@ -14,16 +14,16 @@ global-header {
 			@extend %p-cluster;
 			--theme-cluster-gap: 1rem;
 			padding: 1rem;
-			font: 700 calc(var(--site-logo-size) / 2) "Ubuntu Condensed", sans-serif;
+			font: var(--theme-heading-weight) calc(var(--site-logo-size) / 2) var(--theme-font-brand, var(--theme-font-heading));
 			text-decoration: none;
-			color: var(--theme-color-text);
+			color: var(--theme-color-primary);
 
 			&::before {
 				content: "";
 				inline-size: var(--site-logo-size);
 				block-size: var(--site-logo-size);
 				background: url("/asset/logo.svg") center / contain no-repeat;
-				filter: grayscale(1);
+				filter: var(--theme-brand-filter, grayscale(1));
 			}
 		}
 	}

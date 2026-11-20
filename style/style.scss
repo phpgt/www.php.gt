@@ -5,6 +5,7 @@
 	$break-wide: 105rem
 );
 @use "../node_modules/flair/style/lib/theme/base";
+@use "../node_modules/flair/style/lib/theme/gt";
 @use "font/ubuntu";
 @use "font/ubuntu-mono";
 @use "font/ubuntu-condensed";
@@ -20,9 +21,18 @@
 @use "page/blueprints";
 @use "page/docs";
 
+@property --rotating-border-angle {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 0deg;
+}
+
 :root {
 	@include base.base;
 	@include site.metrics;
+	&[data-flair-theme="gt"] {
+		@include gt.gt;
+	}
 	background: var(--theme-color-page);
 }
 

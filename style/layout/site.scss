@@ -1,18 +1,7 @@
 @use "../../node_modules/flair/style/lib/flair";
 
-// Layout metrics only; the palette remains Flair's unmodified base.
+// Layout metrics only; colours and typography belong to the selected theme.
 @mixin metrics {
-	--theme-font-body: "Ubuntu", sans-serif;
-	--theme-font-heading: var(--theme-font-body);
-	--theme-font-mono: "Ubuntu Mono", monospace;
-	--theme-heading-weight: 700;
-	--theme-heading-leading: normal;
-	--theme-text-leading: normal;
-	--theme-line-height: normal;
-	--theme-heading-1: 2em;
-	--theme-heading-2: 1.5em;
-	--theme-heading-3: 1.17em;
-	--theme-heading-4: 1em;
 	--theme-page-width: 96rem;
 	--theme-page-gutter: 0px;
 	--theme-page-padding-block: 0px;
@@ -27,7 +16,7 @@
 
 html {
 	height: 100%;
-	font-size: 18px;
+	font-size: var(--theme-root-font-size, 1rem);
 }
 
 body {

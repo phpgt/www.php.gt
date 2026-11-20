@@ -6,9 +6,9 @@ body.uri--learn > main > section form {
 	--theme-surface-background: var(--theme-color-surface-disabled);
 	--theme-control-min-height: 0px;
 	--theme-font-size: 1rem;
-	--theme-button-weight: 400;
 	--theme-choice-size: 13px;
 	padding: 1rem;
+	border-color: var(--theme-code-outline, var(--theme-color-border));
 
 	label, .actions {
 		display: flow-root;
