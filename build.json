@@ -5,7 +5,7 @@
 		},
 		"execute": {
 			"command": "./node_modules/.bin/esbuild",
-			"arguments": ["script/script.es6", "--bundle", "--sourcemap", "--outfile=www/script.js", "--loader:.es6=js", "--target=chrome105,firefox105,edge105,safari15"]
+			"arguments": ["script/script.es6", "--bundle", "--sourcemap", "--outfile=www/script.js", "--loader:.es6=js", "--loader:.svg=dataurl", "--target=chrome105,firefox105,edge105,safari15"]
 		}
 	},
 

@@ -61,14 +61,43 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 	else window.addEventListener("load", schedule, {once: true});
 }
 
-function showOffline(offline) {
-	const notice = document.getElementById("offline-notice");
-	if(notice) notice.hidden = !offline;
+let offline = !navigator.onLine;
+
+function showOffline(value) {
+	offline = value;
+	document.documentElement.toggleAttribute("data-offline", offline);
+	for(const input of document.querySelectorAll("docs-search input")) {
+		if(offline && !input.hasAttribute("data-online-placeholder")) {
+			input.dataset.onlinePlaceholder = input.placeholder;
+			input.dataset.onlineValue = input.value;
+			input.placeholder = "You are offline";
+			input.value = "";
+			input.readOnly = true;
+		}
+		else if(!offline && input.hasAttribute("data-online-placeholder")) {
+			input.placeholder = input.dataset.onlinePlaceholder;
+			input.value = input.dataset.onlineValue;
+			input.readOnly = false;
+			delete input.dataset.onlinePlaceholder;
+			delete input.dataset.onlineValue;
+		}
+		input.closest("label").querySelector("span").textContent = offline ? "You are offline" : "Search this site";
+	}
 }
 
 showOffline(!navigator.onLine);
 window.addEventListener("offline", () => showOffline(true));
 window.addEventListener("online", () => showOffline(false));
+document.addEventListener("flux:after-render", () => showOffline(offline));
+// Keep the offline control focusable, without submitting an unavailable search.
+for(const type of ["input", "submit"]) {
+	document.addEventListener(type, event => {
+		if(offline && event.target.closest("docs-search")) {
+			event.preventDefault();
+			event.stopImmediatePropagation();
+		}
+	}, true);
+}
 navigator.serviceWorker?.addEventListener("message", event => {
 	if(event.data?.type === "connection-status") {
 		showOffline(!navigator.onLine || event.data.offline);

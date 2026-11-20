@@ -1,4 +1,5 @@
 @use "../pattern/expanding-search";
+@use "../../node_modules/@phpgt/flair/style/lib/flair";
 
 docs-search {
 	--search-toggle-size: var(--site-logo-size);
@@ -7,4 +8,39 @@ docs-search {
 		$scrolled: "body.scrolled global-header &",
 		$results: "docs-search-results"
 	);
+
+	html[data-offline] & {
+		label::before {
+			mask-image: var(--search-offline-icon, url("/asset/icon/wifi-off.svg"));
+			background: var(--theme-color-danger);
+		}
+		input:hover:not(:focus) {
+			outline-color: var(--theme-color-danger);
+		}
+		@media (min-width: flair.$break-shell) {
+			input::placeholder {
+				color: var(--theme-color-danger);
+				opacity: 1;
+			}
+		}
+		&:focus-within {
+			label::before {
+				background: #fff;
+			}
+			input {
+				background: light-dark(var(--theme-color-danger), color-mix(in srgb, var(--theme-color-danger), #800000 60%));
+				outline-color: var(--theme-color-danger);
+				color: #fff;
+				cursor: default;
+				&::placeholder {
+					color: #fff;
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+html[data-offline] docs-search-results {
+	display: none;
 }

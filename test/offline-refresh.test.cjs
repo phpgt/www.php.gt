@@ -68,7 +68,7 @@ test('waits for fonts after load, then delays five seconds and deduplicates link
 			? [{href: origin + '/help/'}, {href: origin + '/help/'}, {href: 'https://example.com/'}]
 			: [{src: origin + '/script.js'}],
 	};
-	vm.runInNewContext(readFileSync('script/script.es6', 'utf8').slice(readFileSync('script/script.es6', 'utf8').indexOf('if("serviceWorker"')), {
+	vm.runInNewContext(readFileSync('script/script.es6', 'utf8').slice(readFileSync('script/script.es6', 'utf8').indexOf('if("serviceWorker"')).split('\nlet offline =')[0], {
 		window: {isSecureContext: true, addEventListener: (type, handler) => handlers[type] = handler},
 		navigator: {onLine: true, serviceWorker: {register: async () => registration, ready: Promise.resolve()}},
 		document, location: new URL(origin), URL, Date, Set, console, clearTimeout,

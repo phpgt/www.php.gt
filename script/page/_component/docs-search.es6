@@ -1,3 +1,8 @@
+import offlineIcon from "../../../asset/icon/wifi-off.svg";
+
+// Keep the offline icon available even before the worker's background sweep.
+document.documentElement.style.setProperty("--search-offline-icon", `url(${JSON.stringify(offlineIcon)})`);
+
 let input;
 let easterEggCount = 0;
 
@@ -11,6 +16,7 @@ document.querySelectorAll("docs-search").forEach(element => {
 });
 
 function checkContent() {
+	if(document.documentElement.hasAttribute("data-offline")) return;
 	if(input.value.length >= 2) {
 		input.form.dispatchEvent(new Event("input"));
 	}
@@ -26,6 +32,7 @@ function changeContent() {
 }
 
 function easterEgg() {
+	if(document.documentElement.hasAttribute("data-offline")) return;
 	easterEggCount++;
 
 	if(easterEggCount > 40) {
