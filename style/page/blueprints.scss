@@ -1,4 +1,4 @@
-@use "../../node_modules/flair/style/lib/flair";
+@use "../../node_modules/@phpgt/flair/style/lib/flair";
 
 body.uri--blueprints > main > section ul {
 	@extend %p-cluster;

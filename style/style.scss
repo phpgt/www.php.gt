@@ -1,11 +1,11 @@
-@use "../node_modules/flair/style/lib/flair" with (
+@use "../node_modules/@phpgt/flair/style/lib/flair" with (
 	$break-compact: 32rem,
 	$break-nav: 60rem,
 	$break-shell: 60rem,
 	$break-wide: 105rem
 );
-@use "../node_modules/flair/style/lib/theme/base";
-@use "../node_modules/flair/style/lib/theme/gt";
+@use "../node_modules/@phpgt/flair/style/lib/theme/base";
+@use "../node_modules/@phpgt/flair/style/lib/theme/gt";
 @use "font/ubuntu";
 @use "font/ubuntu-mono";
 @use "font/ubuntu-condensed";

@@ -1,4 +1,4 @@
-@use "../../node_modules/flair/style/lib/flair";
+@use "../../node_modules/@phpgt/flair/style/lib/flair";
 
 // Selector adapters keep application routes and custom elements out of this flourish.
 @mixin expanding-search($active, $scrolled, $results, $compact: flair.$break-compact, $shell: flair.$break-shell, $icon: "/asset/icon/search.svg") {
