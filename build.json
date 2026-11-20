@@ -9,6 +9,16 @@
 		}
 	},
 
+	"script/service-worker.js": {
+		"require": {
+			"node_modules/.bin/esbuild": "*"
+		},
+		"execute": {
+			"command": "./node_modules/.bin/esbuild",
+			"arguments": ["script/service-worker.js", "--outfile=www/service-worker.js", "--target=chrome105,firefox105,edge105,safari15"]
+		}
+	},
+
 	"script/**/*.js": {
 		"require": {
 			"vendor/bin/sync": "*"
