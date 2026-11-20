@@ -83,71 +83,100 @@ body.uri--index main article {
 	}
 
 	.example {
-		position: relative;
+		@extend %l-sidebar;
+		--theme-layout-gap: var(--theme-space-6);
+		--theme-content-min: 36rem;
+		--theme-sidebar-width: 26rem;
+
+		@media (min-width: flair.$break-shell) {
+			inline-size: min(74rem, calc(100vw - 20rem));
+		}
+	}
+
+	.example-code {
+		@extend %p-stack;
+		--theme-stack-gap: var(--theme-space-4);
+
+		pre {
+			--theme-code-padding: var(--theme-space-5);
+			--theme-code-radius: .75rem;
+			border-width: 1px;
+		}
 	}
 
 	#example-output {
-		@extend %d-surface;
-		--theme-surface-border-width: 4px;
-		--theme-surface-radius: 1rem;
-		position: relative;
+		@extend %o-card;
+		--theme-font-size: 1rem;
+		--theme-stack-gap: 0px;
+		--theme-surface-padding: 0px;
+		--theme-surface-border-width: 2px;
+		--theme-control-min-height: 3rem;
+		--theme-control-padding-block: var(--theme-space-3);
+		--theme-control-padding-inline: var(--theme-space-4);
 		inline-size: 100%;
-		max-inline-size: calc(22rem + 8px);
-		border-color: var(--theme-code-outline, var(--theme-color-border));
+		max-inline-size: 26rem;
 		margin-inline: auto;
-		padding-block-start: 2rem;
+		overflow: hidden;
+		border-color: var(--theme-code-outline, var(--theme-color-border));
 
-		&::before {
-			content: "Example output";
-			position: absolute;
-			inset: 0 0 auto;
-			padding: .5rem;
-			border-radius: .5rem .5rem 0 0;
+		> header {
+			@extend %p-cluster;
+			--theme-cluster-gap: var(--theme-space-3);
+			padding: var(--theme-space-4) var(--theme-space-6);
+			border-block-end: 1px solid var(--theme-code-outline, var(--theme-color-border));
 			background: var(--theme-code-background, var(--theme-color-surface-disabled));
-			color: var(--theme-code-text, var(--theme-color-text));
+			color: var(--theme-color-primary);
+			font-size: .8rem;
+			font-weight: var(--theme-heading-weight);
+
+			&::before {
+				content: "";
+				inline-size: 1.5rem;
+				block-size: 1.5rem;
+				background: var(--example-hex-color, var(--theme-color-primary));
+				mask: url("/asset/hex.svg") center / contain no-repeat;
+				transition: background-color .18s ease-out;
+
+				@media (prefers-reduced-motion: reduce) {
+					transition: none;
+				}
+			}
 		}
 
-		h1 {
-			margin: 1rem;
+		.example-content {
+			@extend %p-stack;
+			--theme-stack-gap: var(--theme-space-6);
+			padding: var(--theme-space-6);
+		}
+
+		.example-greeting {
+			@extend %p-stack;
+			--theme-stack-gap: var(--theme-space-2);
+		}
+
+		h2 {
+			margin: 0;
 			font-size: 2rem;
+			line-height: 1.2;
 
-			span {
-				display: inline-block;
-			}
+			span { color: var(--theme-color-primary); }
 		}
 
-		label {
-			@extend %o-form-field;
-			display: block;
-			margin: 1rem;
-			font: inherit;
-			--theme-label-font-size: 1em;
-
-			span {
-				display: block;
-			}
+		p {
+			margin: 0;
+			font-size: .875rem;
+			line-height: 1.6;
+			color: var(--theme-color-muted);
 		}
 
-		input, button {
-			min-block-size: 0;
-			border-width: 2px;
-			font-size: 1.5rem;
-			line-height: normal;
-		}
-
-		input {
-			padding: 1px 2px;
+		form {
+			@extend %p-form-fields;
+			--theme-form-gap: var(--theme-space-5);
 		}
 
 		button {
-			display: inline-block;
-			margin: 1rem;
-			padding: 1px 6px;
-		}
-
-		@media (min-width: flair.$break-wide) {
-			position: absolute;
-			inset: auto -24rem 12rem auto;
+			@extend %o-button-primary;
+			inline-size: 100%;
 		}
 	}
 

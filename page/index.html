@@ -3,15 +3,20 @@
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto, atque delectus distinctio doloremque fuga id in, itaque magni nihil pariatur quasi quidem quos ratione reiciendis sapiente soluta temporibus, veritatis voluptate!</p>
 </article>
 
-<div id="example-output">
-	<h1>Hello, <span data-bind:text="name">you</span>!</h1>
+<aside id="example-output" aria-labelledby="example-label">
+	<header><span id="example-label">Example output</span></header>
+	<div class="example-content">
+		<div class="example-greeting">
+			<h2 aria-live="polite">Hello, <span data-bind:text="name">you</span>!</h2>
+			<p>Enter your name and let PHP say hello.</p>
+		</div>
 
-	<form method="post" data-flux>
-		<label>
-			<span>Your name, please!</span>
-			<input name="name" required placeholder="e.g. Ada Lovelace" autocomplete="off" />
-		</label>
-
-		<button name="do" value="greet">Greet</button>
-	</form>
-</div>
+		<form method="post" data-flux>
+			<label for="example-name">
+				<span>Your name</span>
+				<input id="example-name" name="name" required placeholder="e.g. {{famousName}}" autocomplete="off" />
+			</label>
+			<button name="do" value="greet">Say hello</button>
+		</form>
+	</div>
+</aside>
