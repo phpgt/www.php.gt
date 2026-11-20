@@ -1,59 +1,45 @@
-@use "../variable/break";
+@use "../../node_modules/@phpgt/flair/style/lib/flair";
 
 global-header {
-	@media(min-width: break.$medium) {
-		position: fixed;
-		z-index: 1;
+	> header {
+		display: contents;
 	}
 
-	>header {
-		display: contents;
+	> header > h1 {
+		position: relative;
+		z-index: 2;
+		margin: 0;
 
-		>h1 {
-			position: relative;
-			z-index: 2;
-			margin: 0;
+		a {
+			@extend %p-cluster;
+			--theme-cluster-gap: 1rem;
+			padding: 1rem;
+			font: var(--theme-heading-weight) calc(var(--site-logo-size) / 2) var(--theme-font-brand, var(--theme-font-heading));
+			text-decoration: none;
+			color: var(--theme-color-primary);
 
-			@media(min-width: break.$medium) {
-				max-width: 16rem;
-			}
-
-			>a {
-				display: flex;
-				gap: 1rem;
-				padding: 1rem;
-				align-items: center;
-				font-family: "Ubuntu Condensed", sans-serif;
-				text-decoration: none;
-				font-weight: bold;
-				font-size: calc(var(--size-logo) / 2);
-				color: var(--pal-primary) !important;
-
-				&:hover {
-					opacity: 0.9;
-				}
-
-				&::before {
-					content: "";
-					display: block;
-					width: var(--size-logo);
-					aspect-ratio: 1;
-					background-image: url("/asset/logo.svg");
-					background-repeat: no-repeat;
-					background-position: center;
-					background-size: 100%;
-				}
+			&::before {
+				content: "";
+				inline-size: var(--site-logo-size);
+				block-size: var(--site-logo-size);
+				background: url("/asset/logo.svg") center / contain no-repeat;
+				filter: var(--theme-brand-filter, grayscale(1));
 			}
 		}
 	}
 
-	body.uri--index & {
-		docs-search {
-			margin-top: 0.5rem;
+	body.uri--index & docs-search {
+		margin-block-start: .5rem;
+	}
 
-			@media(min-width: break.$medium) {
-				margin-top: 0;
-			}
+	@media (min-width: flair.$break-shell) {
+		position: fixed;
+		z-index: 1;
+		> header > h1 {
+			max-inline-size: 18rem;
+		}
+		body.uri--index & docs-search {
+			margin-block-start: 0;
 		}
 	}
 }

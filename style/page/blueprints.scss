@@ -1,52 +1,44 @@
-body.uri--blueprints>main>section {
-	ul {
+@use "../../node_modules/@phpgt/flair/style/lib/flair";
+
+body.uri--blueprints > main > section ul {
+	@extend %p-cluster;
+	--theme-cluster-gap: 1rem;
+	align-items: stretch;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	> li {
+		@extend %d-surface;
+		--theme-surface-radius: .5rem;
+		--theme-surface-background: var(--theme-gallery-background, var(--theme-color-surface-disabled));
+		border-color: var(--theme-gallery-border, var(--theme-color-border));
 		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
+		min-block-size: calc(16rem + 2px);
+		inline-size: calc(50% - 1rem + 2px);
 		margin: 0;
-		padding: 0;
-		list-style-type: none;
 
-		>li {
+		> a {
 			display: flex;
-			min-height: 16rem;
-			width: calc(50% - 1rem);
-			background-color: #f3f4f8;
-			background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-			background-size: 20px 20px;
-			border: 1px solid #4b69b3;
-			border-radius: 0.5rem;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 1rem;
+			text-decoration: none;
+			color: inherit;
 
-			a {
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				padding: 1rem;
-				text-decoration: none;
-				color: initial;
-
-				&:hover {
-					h1 {
-						text-decoration: underline;
-					}
-				}
+			&:hover h1 {
+				text-decoration: underline;
 			}
+		}
 
-			h1 {
-				//flex-grow: 1;
-				margin-top: initial;
-				font-size: 1.5rem;
+		h1 {
+			margin-block-start: 0;
+			font-size: 1.5rem;
+		}
 
-				span {
-
-				}
-			}
-
-			p {
-				font-size: 1.25rem;
-				margin: 0;
-			}
+		p {
+			margin: 0;
+			font-size: 1.25rem;
 		}
 	}
 }

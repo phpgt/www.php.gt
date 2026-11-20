@@ -1,115 +1,72 @@
+@use "../node_modules/@phpgt/flair/style/lib/flair" with (
+	$break-compact: 32rem,
+	$break-nav: 60rem,
+	$break-shell: 60rem,
+	$break-wide: 105rem
+);
+@use "../node_modules/@phpgt/flair/style/lib/theme/base";
+@use "../node_modules/@phpgt/flair/style/lib/theme/gt";
 @use "font/ubuntu";
 @use "font/ubuntu-mono";
 @use "font/ubuntu-condensed";
-
-@use "variable/break";
-@use "variable/palette";
-@use "variable/size";
-
-@use "element/a";
-@use "element/article";
-@use "element/body";
-@use "element/code";
-@use "element/html";
-@use "element/main";
-@use "element/pre";
-@use "element/section";
-
+@use "layout/site";
+@use "pattern/document";
+@use "pattern/footer";
 @use "component/global-header";
+@use "component/site-nav";
 @use "component/docs-search";
 @use "component/docs-search-results";
-@use "component/site-nav";
-
-@use "page/index";
-@use "page/releases";
-@use "page/blueprints";
+@use "page/home";
 @use "page/learn";
+@use "page/blueprints";
 @use "page/docs";
 
-html {
-	color: var(--pal-text);
-	font-size: 18px;
+@property --rotating-border-angle {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 0deg;
 }
 
-*:not(pre, code, pre span) {
-	font-family: "Ubuntu", sans-serif;
+:root {
+	@include base.base;
+	@include site.metrics;
+	&[data-flair-theme="gt"] {
+		@include gt.gt;
+	}
+	background: var(--theme-color-page);
 }
 
-a {
-	color: var(--pal-link);
-
-	&:hover {
-		color: var(--pal-link--hover);
-	}
+@include flair.init;
+@include flair.typography;
+@include flair.controls;
+body {
+	@extend %d-typography;
 }
 
-body>main>footer {
-	padding: 2rem;
-	background-color: var(--pal-sidebar);
+article, section {
+	@extend %p-document;
+}
 
-	@media(min-width: break.$medium) {
-		position: relative;
-		padding: 4rem;
-		container-type: inline-size;
+main > footer {
+	@extend %p-site-footer;
+}
 
-		&::before {
-			content: "";
-			position: absolute;
-			top: -1rem;
-			left: 0;
-			width: 1rem;
-			height: 1rem;
-			background-color: var(--pal-sidebar);
-			mask-image: radial-gradient(circle at top right,
-					transparent 0,
-					transparent 1rem,
-					black 1rem
-			);
-			mask-size: 100% 100%;
-			mask-repeat: no-repeat;
-		}
+code {
+	@extend %o-code;
+	padding: 0;
+	font-size: inherit;
+	overflow-wrap: normal;
+}
 
-		&::after {
-			--size: calc(50vw - 50cqw - (var(--size-content-width) / 4) + 1rem);
-			content: "";
-			position: absolute;
-			right: calc(var(--size) * -1);
-			top: 0;
-			height: 100%;
-			width: var(--size);
-			background-color: var(--pal-sidebar);
-		}
-	}
-
-	nav {
-		ul {
-			list-style-type: none;
-			text-align: right;
-			padding: 0;
-
-			li {
-				a {
-					display: inline-block;
-					padding: 0.5rem;
-
-					&[href*="//"] {
-						&::after {
-							content: "";
-							display: block;
-							float: right;
-							width: 1rem;
-							margin-left: 0.5rem;
-							margin-right: -1.5rem;
-							aspect-ratio: 1;
-							background-color: var(--pal-text);
-							mask-image: url("/asset/icon/arrow-top-right-on-square.svg");
-							mask-size: cover;
-							mask-repeat: no-repeat;
-							mask-position: 50%;
-						}
-					}
-				}
-			}
-		}
-	}
+pre {
+	@extend %o-code-block;
+	@extend %d-syntax;
+	margin-block: 1em;
+	--theme-code-padding: 1rem;
+	--theme-code-size: 1em;
+	--theme-code-leading: normal;
+	border-width: 4px;
+	white-space: pre;
+	overflow-wrap: normal;
+	overflow-x: auto;
 }

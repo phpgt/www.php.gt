@@ -1,0 +1,57 @@
+@use "../../node_modules/@phpgt/flair/style/lib/flair";
+
+// Layout metrics only; colours and typography belong to the selected theme.
+@mixin metrics {
+	--theme-page-width: 96rem;
+	--theme-page-gutter: 0px;
+	--theme-page-padding-block: 0px;
+	--theme-sidebar-width: 17rem;
+	--site-logo-size: 2rem;
+	--site-content-width: 48rem;
+	@media (min-width: flair.$break-shell) {
+		--site-logo-size: 4rem;
+		--site-content-width: 54rem;
+	}
+}
+
+html {
+	height: 100%;
+	font-size: var(--theme-root-font-size, 1rem);
+}
+
+body {
+	@extend %l-page-frame;
+	height: 100%;
+
+	&.uri--index {
+		--site-logo-size: 4rem;
+	}
+
+	&.scrolled {
+		padding-block-start: var(--site-fixed-heading, 0px);
+	}
+
+	@media (min-width: flair.$break-shell) {
+		position: relative;
+		overflow-y: scroll;
+		&.scrolled {
+			padding-block-start: 0;
+		}
+	}
+}
+
+main {
+	min-inline-size: 0;
+	@media (min-width: flair.$break-shell) {
+		margin-inline-start: var(--theme-sidebar-width);
+		padding-block-start: calc(var(--site-logo-size) + 1.5rem);
+	}
+}
+
+:where(input, button, select, textarea) {
+	font-family: var(--theme-font-body);
+}
+
+a[id] {
+	scroll-margin-top: calc(var(--site-logo-size) + 3rem);
+}

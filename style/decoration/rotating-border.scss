@@ -1,0 +1,29 @@
+// A non-interactive overlay leaves the surface's dimensions and content intact.
+%d-rotating-border {
+	&::before {
+		content: "";
+		position: absolute;
+		inset: calc(-1 * var(--theme-surface-border-width, var(--theme-border-width)));
+		padding: var(--theme-surface-border-width, var(--theme-border-width));
+		border-radius: inherit;
+		background: conic-gradient(
+			from var(--rotating-border-angle),
+			var(--theme-intro-border-colours, var(--theme-color-border), var(--theme-color-border))
+		);
+		mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+		mask-composite: exclude;
+		pointer-events: none;
+		opacity: 0;
+		animation: rotating-border var(--theme-intro-border-duration, 3s) ease-in-out both;
+
+		@media (prefers-reduced-motion: reduce) {
+			animation: none;
+		}
+	}
+
+	@keyframes rotating-border {
+		0% { --rotating-border-angle: 0deg; opacity: 0; }
+		50% { opacity: 1; }
+		100% { --rotating-border-angle: 360deg; opacity: 0; }
+	}
+}

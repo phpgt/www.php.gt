@@ -1,0 +1,84 @@
+@use "../../node_modules/@phpgt/flair/style/lib/flair";
+
+// Bind this mixin to details with a summary and a direct content div.
+// Pair with script/pattern/navigation-drawer.es6.
+@mixin navigation-drawer($from: flair.$break-shell, $icon: "/asset/icon/menu.svg") {
+	--drawer-duration: .25s;
+	position: relative;
+	> summary {
+		@extend %d-focus;
+		display: flex;
+		padding: 1rem;
+		border-block-end: 1px solid var(--theme-color-surface-disabled);
+		background: var(--theme-color-page);
+		list-style: none;
+		cursor: pointer;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		&::before {
+			content: "";
+			inline-size: 1rem;
+			block-size: 1rem;
+			margin-inline-end: .5rem;
+			background: currentColor;
+			mask: url($icon) center / contain no-repeat;
+		}
+
+		&::after {
+			content: "";
+			position: fixed;
+			inset: 0;
+			z-index: -1;
+			background: var(--theme-color-page);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity var(--drawer-duration) linear;
+		}
+	}
+	> div {
+		position: absolute;
+		inset-inline: 0;
+		z-index: 1;
+		block-size: calc(100svh - 3rem);
+		padding-block-end: 8rem;
+		overflow-y: auto;
+		background: var(--theme-color-surface-disabled);
+		clip-path: inset(0 0 100%);
+		transition: clip-path var(--drawer-duration) ease-in-out;
+		scrollbar-width: thin;
+	}
+	&[open] {
+		> summary span::before {
+			content: "Close ";
+		}
+
+		> summary::after {
+			opacity: .75;
+			pointer-events: auto;
+		}
+
+		> div {
+			clip-path: inset(0);
+		}
+	}
+	&.closing > div {
+		clip-path: inset(0 0 100%);
+	}
+	@media (min-width: $from) {
+		> summary {
+			display: none;
+		}
+		> div {
+			margin-block-start: var(--drawer-header-size, 6rem);
+			block-size: calc(100dvh - var(--drawer-header-size, 6rem));
+			clip-path: none !important;
+			transition: none;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		--drawer-duration: 0s;
+	}
+}

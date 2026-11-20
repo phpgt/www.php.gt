@@ -1,0 +1,218 @@
+@use "../../node_modules/@phpgt/flair/style/lib/flair";
+@use "../decoration/rotating-border";
+
+body.uri--index main article {
+	position: relative;
+	margin-block-start: 4rem;
+
+	.intro {
+		@extend %p-cluster;
+		--theme-cluster-gap: 0 2rem;
+		display: block;
+		align-items: flex-start;
+
+		blockquote {
+			@extend %d-surface;
+			@extend %d-rotating-border;
+			--theme-surface-border-width: 4px;
+			position: relative;
+			display: inline-block;
+			inline-size: max-content;
+			max-inline-size: 100%;
+			margin-block: 2rem -4rem;
+			padding: 0 1rem;
+
+			ul {
+				@extend %p-checklist;
+				--theme-checklist-marker-size: 2rem;
+				display: block;
+				margin: 0;
+				padding: 0;
+				@media (min-width: flair.$break-compact) {
+					padding: 1rem;
+				}
+			}
+
+			ul > li {
+				gap: 1rem;
+				align-items: center;
+				overflow-wrap: normal;
+				position: relative;
+				margin-block: 1rem;
+				list-style: none;
+
+				&::before {
+					content: "";
+					inline-size: 2rem;
+					block-size: 2rem;
+					margin-block-start: -.25rem;
+					background: var(--theme-color-primary);
+					mask: url("/asset/icon/arrow-right.svg") center / contain no-repeat;
+					@media (min-width: flair.$break-shell) {
+						margin-block-start: -.1rem;
+					}
+					@media (min-width: flair.$break-wide) {
+						margin-block-start: 0;
+					}
+				}
+
+				@for $i from 1 through 5 {
+					&:nth-of-type(#{$i})::before {
+						filter: hue-rotate(calc(var(--theme-feature-marker-hue-step, 0deg) * #{$i})) saturate(var(--theme-feature-marker-saturation, 1));
+					}
+				}
+			}
+		}
+
+		@media (min-width: flair.$break-shell) {
+			display: flex;
+			inline-size: calc(100vw - 22rem);
+			max-inline-size: 72rem;
+			margin-block-start: -4rem;
+			p {
+				flex: 0 1 32rem;
+				max-inline-size: 32rem;
+				margin-block-start: 2rem;
+				margin-inline-end: 0;
+			}
+			blockquote {
+				flex: 0 0 auto;
+				margin-block-end: 0;
+			}
+		}
+	}
+
+	.example {
+		@extend %l-sidebar;
+		--theme-layout-gap: var(--theme-space-6);
+		--theme-content-min: 36rem;
+		--theme-sidebar-width: 26rem;
+
+		@media (min-width: flair.$break-shell) {
+			inline-size: min(74rem, calc(100vw - 20rem));
+		}
+	}
+
+	.example-code {
+		@extend %p-stack;
+		--theme-stack-gap: var(--theme-space-4);
+
+		pre {
+			--theme-code-padding: var(--theme-space-5);
+			--theme-code-radius: .75rem;
+			border-width: 1px;
+		}
+	}
+
+	#example-output {
+		@extend %o-card;
+		--theme-font-size: 1rem;
+		--theme-stack-gap: 0px;
+		--theme-surface-padding: 0px;
+		--theme-surface-border-width: 2px;
+		--theme-control-min-height: 3rem;
+		--theme-control-padding-block: var(--theme-space-3);
+		--theme-control-padding-inline: var(--theme-space-4);
+		inline-size: 100%;
+		max-inline-size: 26rem;
+		margin-inline: auto;
+		overflow: hidden;
+		border-color: var(--theme-code-outline, var(--theme-color-border));
+
+		> header {
+			@extend %p-cluster;
+			--theme-cluster-gap: var(--theme-space-3);
+			padding: var(--theme-space-4) var(--theme-space-6);
+			border-block-end: 1px solid var(--theme-code-outline, var(--theme-color-border));
+			background: var(--theme-code-background, var(--theme-color-surface-disabled));
+			color: var(--theme-color-primary);
+			font-size: .8rem;
+			font-weight: var(--theme-heading-weight);
+
+			&::before {
+				content: "";
+				inline-size: 1.5rem;
+				block-size: 1.5rem;
+				background: var(--example-hex-color, var(--theme-color-primary));
+				mask: url("/asset/hex.svg") center / contain no-repeat;
+				transition: background-color .18s ease-out;
+
+				@media (prefers-reduced-motion: reduce) {
+					transition: none;
+				}
+			}
+		}
+
+		.example-content {
+			@extend %p-stack;
+			--theme-stack-gap: var(--theme-space-6);
+			padding: var(--theme-space-6);
+		}
+
+		.example-greeting {
+			@extend %p-stack;
+			--theme-stack-gap: var(--theme-space-2);
+		}
+
+		h2 {
+			margin: 0;
+			font-size: 2rem;
+			line-height: 1.2;
+
+			span { color: var(--theme-color-primary); }
+		}
+
+		p {
+			margin: 0;
+			font-size: .875rem;
+			line-height: 1.6;
+			color: var(--theme-color-muted);
+		}
+
+		form {
+			@extend %p-form-fields;
+			--theme-form-gap: var(--theme-space-5);
+		}
+
+		button {
+			@extend %o-button-primary;
+			inline-size: 100%;
+		}
+	}
+
+	h1:first-of-type {
+		margin-block-start: 8rem;
+		font-size: 10vw;
+
+		a {
+			display: none;
+		}
+
+		span {
+			&:nth-of-type(-n + 3) {
+				display: block;
+			}
+
+			&:nth-of-type(2)::before, &:nth-of-type(3)::after {
+				content: "";
+				display: inline-block;
+				inline-size: 3em;
+				block-size: 1rem;
+				margin-inline-end: .5rem;
+				background: var(--theme-color-tint);
+			}
+
+			&:nth-of-type(3)::after {
+				inline-size: 4em;
+			}
+		}
+
+		@media (min-width: flair.$break-shell) {
+			margin-block-start: 4rem;
+			font-size: 5vw;
+		}
+		@media (min-width: flair.$break-wide) {
+			font-size: 5rem;
+		}
+	}
+}
