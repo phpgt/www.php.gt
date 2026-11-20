@@ -1,7 +1,6 @@
 const CACHE_PREFIX = "phpgt-offline-";
 // Retire incomplete refresh metadata from earlier implementations.
-const CACHE_NAME = CACHE_PREFIX + "v3-" + (new URL(self.location).searchParams.get("v") || "development");
-const PUBLIC_PAGES = new Set(["/", "/news/", "/releases/", "/blueprints/", "/contributing/", "/help/", "/learn/", "/legal/"]);
+const CACHE_NAME = CACHE_PREFIX + "v5-" + (new URL(self.location).searchParams.get("v") || "development");
 let refreshController;
 let refreshCheck = Promise.resolve();
 const REFRESH_INTERVAL = 60 * 60 * 1000;
@@ -29,7 +28,8 @@ function cacheURL(value, base = self.location.origin) {
 		return url;
 	}
 	const path = url.pathname.replace(/\/$/, "") + "/";
-	if(!PUBLIC_PAGES.has(path) && !path.startsWith("/docs/")) return null;
+	if(path === "/search/" || path.startsWith("/api/")
+		|| ["/service-worker.js/", "/__offline-refresh-started/"].includes(path)) return null;
 	if(url.search) {
 		if(path !== "/releases/" || !/^\?page=\d+$/.test(url.search) || Number(url.searchParams.get("page")) > 100) return null;
 	}
@@ -37,28 +37,30 @@ function cacheURL(value, base = self.location.origin) {
 	return url;
 }
 
-async function store(cache, request, event) {
+async function store(cache, request, event, onStored) {
 	let response = await fetch(request);
+	const networkResponse = response;
 	const finalURL = response.url ? cacheURL(response.url) : null;
 	if(response.ok && (!response.redirected || finalURL) && response.type !== "opaque"
 		&& !/no-store|private/i.test(response.headers.get("Cache-Control") || "")) {
-		// Canonical-name redirects are common in the docs. Cache the alias as well,
-		// with a normal response usable by both navigation and Flux fetch requests.
+		const key = cacheURL(request.url)?.href || request.url;
+		// Keep the HTTP redirect at the alias, and the final document at its own URL.
 		if(response.redirected) {
 			const headers = new Headers(response.headers);
 			headers.delete("Content-Encoding");
 			headers.delete("Content-Length");
-			response = new Response(response.body, {status: response.status, statusText: response.statusText, headers});
+			response = new Response(response.clone().body, {status: response.status, statusText: response.statusText, headers});
 		}
-		const key = cacheURL(request.url)?.href || request.url;
-		const writes = [cache.put(key, response.clone())];
+		const alias = response !== networkResponse && finalURL?.href !== key;
+		const writes = [cache.put(key, alias ? Response.redirect(finalURL.href, 302) : response.clone())];
 		if(finalURL && finalURL.href !== key) writes.push(cache.put(finalURL.href, response.clone()));
 		const saved = Promise.all(writes);
 		// Stream foreground HTML/CSS immediately instead of waiting for cache.put.
 		if(event) event.waitUntil(saved.catch(() => {}));
 		else await saved;
+		if(finalURL) onStored?.(finalURL.href);
 	}
-	return response;
+	return event ? networkResponse : response;
 }
 
 self.addEventListener("install", event => {
@@ -124,8 +126,16 @@ async function preload({pages = [], assets = []}, signal, state) {
 			await Promise.all(queue.splice(0, 2).map(async url => {
 				try {
 					// Read already-refreshed pages to rediscover assets from an interrupted queue.
-					const cached = refreshed.has(url) ? await cache.match(url) : null;
-					const response = cached || await store(cache, new Request(url, {credentials: "same-origin", cache: "reload", signal}));
+					let cached = refreshed.has(url) ? await cache.match(url) : null;
+					let destination;
+					if(cached?.status === 302) {
+						destination = cached.headers.get("Location");
+						cached = await cache.match(destination);
+					}
+					const response = cached || await store(cache, new Request(url, {credentials: "same-origin", cache: "reload", signal}), null, finalURL => {
+						destination = finalURL;
+						refreshed.add(finalURL);
+					});
 					if(!response.ok) return;
 					refreshed.add(url);
 					const type = response.headers.get("Content-Type") || "";
@@ -134,7 +144,7 @@ async function preload({pages = [], assets = []}, signal, state) {
 						for(const match of html.matchAll(/\b(?:src|href)\s*=\s*["']([^"']+)["']/gi)) {
 							// Release pagination has an unbounded "next" link even on empty pages.
 							if(new URL(url).pathname === "/releases/" && !html.includes("/releases/tag/")) continue;
-							const linked = cacheURL(match[1].replaceAll("&amp;", "&"), url);
+							const linked = cacheURL(match[1].replaceAll("&amp;", "&"), destination || url);
 							if(linked && (includePageLinks || linked.pathname.startsWith("/asset/") || ["/style.css", "/script.js"].includes(linked.pathname))) {
 								enqueue(linked.href);
 							}

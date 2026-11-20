@@ -13,8 +13,10 @@ refreshes their same-origin assets, including fonts and CSS images.
 After that queue finishes, it waits another five seconds, fetches `/sitemap.xml`
 and refreshes remaining public pages, skipping URLs already fetched in this pass.
 Links found during the sitemap stage include release pagination. Downloads run
-two at a time. Canonical documentation redirects are cached under both the
-linked alias and the final URL, so either works offline with Flux. The existing sitemap cron task supplies the documentation list.
+two at a time. Redirects are discovered from live responses while following internal links and
+the sitemap. The original URL stores an HTTP redirect and the final URL stores the page,
+so aliases such as `/webengine/` update the address bar and open offline. No redirect list
+is maintained in the worker. The existing sitemap cron task supplies the documentation list.
 Failed responses and external resources are skipped. Data-saving mode disables
 bulk refreshing; visited public pages can still cache.
 

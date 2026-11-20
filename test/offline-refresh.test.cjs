@@ -5,6 +5,7 @@ const vm = require('node:vm');
 const {setImmediate: tick} = require('node:timers/promises');
 
 const origin = 'https://www.php.gt';
+const workerSource = readFileSync('script/service-worker.js', 'utf8');
 
 test('refreshes live linked pages first, then waits before fetching remaining sitemap pages', async () => {
 	const handlers = {};
@@ -21,7 +22,7 @@ test('refreshes live linked pages first, then waits before fetching remaining si
 		'/asset/logo.svg': ['SVG', 'image/svg+xml'],
 		'/sitemap.xml': ['<urlset><loc>https://www.php.gt/help</loc><loc>https://www.php.gt/learn</loc></urlset>', 'text/xml'],
 	};
-	vm.runInNewContext(readFileSync('script/service-worker.js', 'utf8'), {
+	vm.runInNewContext(workerSource, {
 		URL, Request, Response, Headers, AbortController, Promise, Set, clearTimeout,
 		self: {location: new URL(origin + '/service-worker.js?v=test'), addEventListener: (type, handler) => handlers[type] = handler},
 		caches: {open: async () => cache},
@@ -95,23 +96,24 @@ test('streams foreground responses before cache writes finish and caches canonic
 		match: async () => undefined,
 		put: async (key, response) => { entries.set(key, response); await writeReady; },
 	};
-	vm.runInNewContext(readFileSync('script/service-worker.js', 'utf8'), {
+	vm.runInNewContext(workerSource, {
 		URL, Request, Response, Headers, AbortController, Promise, Set,
 		self: {location: new URL(origin + '/service-worker.js?v=test'), addEventListener: (type, handler) => handlers[type] = handler},
 		caches: {open: async () => cache},
 		fetch: async () => {
 			const response = new Response('Documentation', {headers: {'Content-Type': 'text/html'}});
-			Object.defineProperties(response, {redirected: {value: true}, url: {value: origin + '/docs/Dom/Home'}});
+			Object.defineProperties(response, {redirected: {value: true}, url: {value: origin + '/docs/WebEngine/Home'}});
 			return response;
 		},
 	});
 	let response;
 	let write;
-	handlers.fetch({request: new Request(origin + '/docs/DOM/Home'), respondWith: promise => response = promise, waitUntil: promise => write = promise});
+	handlers.fetch({request: new Request(origin + '/previously-unknown-alias'), respondWith: promise => response = promise, waitUntil: promise => write = promise});
 	assert.equal(await (await response).text(), 'Documentation');
-	assert.equal((await response).redirected, false);
-	assert.ok(entries.has(origin + '/docs/DOM/Home/'));
-	assert.ok(entries.has(origin + '/docs/Dom/Home/'));
+	assert.equal((await response).url, origin + '/docs/WebEngine/Home');
+	assert.equal(entries.get(origin + '/previously-unknown-alias/').status, 302);
+	assert.equal(entries.get(origin + '/previously-unknown-alias/').headers.get('Location'), origin + '/docs/WebEngine/Home/');
+	assert.ok(entries.has(origin + '/docs/WebEngine/Home/'));
 	finishWrite();
 	await write;
 });
@@ -120,7 +122,7 @@ test('pausing a running preload aborts network traffic and prevents the sitemap 
 	const handlers = {};
 	let pending;
 	let aborted = false;
-	vm.runInNewContext(readFileSync('script/service-worker.js', 'utf8'), {
+	vm.runInNewContext(workerSource, {
 		URL, Request, Response, Headers, AbortController, Promise, Set,
 		self: {location: new URL(origin + '/service-worker.js?v=test'), addEventListener: (type, handler) => handlers[type] = handler},
 		caches: {open: async () => ({match: async () => undefined, put: async () => {}})},
@@ -144,7 +146,7 @@ test('persists an hourly cooldown across tabs and worker restarts', async () => 
 	let fetches = 0;
 	function worker() {
 		const handlers = {};
-		vm.runInNewContext(readFileSync('script/service-worker.js', 'utf8'), {
+		vm.runInNewContext(workerSource, {
 			URL, Request, Response, Headers, AbortController, Promise, Set,
 			Date: {now: () => now},
 			clearTimeout: () => {},
@@ -181,7 +183,7 @@ test('resumes interrupted hourly sweeps without re-fetching already refreshed UR
 	const entries = new Map();
 	const timers = [];
 	const fetched = [];
-	vm.runInNewContext(readFileSync('script/service-worker.js', 'utf8'), {
+	vm.runInNewContext(workerSource, {
 		URL, Request, Response, Headers, AbortController, Promise, Set,
 		clearTimeout: () => {},
 		setTimeout: callback => { timers.push(callback); return timers.length; },
