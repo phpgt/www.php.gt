@@ -70,6 +70,23 @@ try {
 	catch(RuntimeException $error) {
 	}
 	if(file_get_contents("$dir/bundle.json") !== $previous) throw new RuntimeException('Failed build replaced bundle');
+	// More requests than the test's low descriptor limit must still publish.
+	file_put_contents("$dir/router.php", <<<'STRESS'
+<?php
+if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/sitemap.xml') {
+	header('Content-Type: application/xml');
+	echo '<urlset>';
+	for($i = 0; $i < 200; $i++) echo "<url><loc>https://www.php.gt/stress/$i/</loc></url>";
+	echo '</urlset>';
+}
+else { header('Content-Type: text/html'); echo '<html><body>Stress fixture</body></html>'; }
+STRESS);
+	ob_start();
+	$builder->build("$dir/html", "$dir/bundle.json");
+	ob_end_clean();
+	$stress = json_decode(file_get_contents("$dir/bundle.json"), true, flags: JSON_THROW_ON_ERROR);
+	if(count($stress['entries']) !== 201) throw new RuntimeException('Descriptor stress crawl lost pages');
+	echo "Bundler: 201-page descriptor stress crawl passed\n";
 	echo "Bundler: header, sitemap, HTML/CSS dependencies, srcset, redirects, binary and atomic failure passed\n";
 }
 finally {

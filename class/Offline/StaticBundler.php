@@ -28,13 +28,18 @@ class StaticBundler {
 
 	private function generate(string $htmlDir, string $output):void {
 		$started = (int)floor(microtime(true) * 1000);
-		$http = new Http([CURLOPT_FOLLOWLOCATION => false, CURLOPT_TIMEOUT => 30, CURLOPT_ENCODING => ""]);
 		$percent = 0;
 		$requestError = "";
-		$request = function(string $url) use($http, &$percent, &$requestError) {
+		$request = function(string $url) use(&$percent, &$requestError) {
 			$requestError = "";
 			$response = null;
 			for($attempt = 0; $attempt < 3; $attempt++) {
+				// Fetch currently retains completed cURL handles on its resolver.
+				// Bound their lifetime to one request, including callback cycles.
+				$http = new Http(
+					[CURLOPT_FOLLOWLOCATION => false, CURLOPT_TIMEOUT => 30, CURLOPT_ENCODING => ""],
+					curlMultiClass: BundlerCurlMulti::class,
+				);
 				try {
 					$response = $http->awaitFetch($url, ["headers" => ["X-PHPGT" => "Static Bundler"]]);
 					if($response->status > 0 && $response->status < 500) return $response;
@@ -43,6 +48,10 @@ class StaticBundler {
 				catch(Throwable $error) {
 					$response = null;
 					$requestError = $error->getMessage();
+				}
+				finally {
+					unset($http);
+					gc_collect_cycles();
 				}
 				if($attempt < 2) {
 					printf("%6.2f%% RETRY %d/2 %s (%s)\n", $percent, $attempt + 1, $url, $requestError);
