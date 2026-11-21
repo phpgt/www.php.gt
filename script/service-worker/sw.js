@@ -1,6 +1,6 @@
 const CACHE_PREFIX = "phpgt-offline-";
 // Bundle imports use a fresh cache generation.
-const CACHE_NAME = CACHE_PREFIX + "v6-" + (new URL(self.location).searchParams.get("v") || "development");
+const CACHE_NAME = CACHE_PREFIX + "v7-" + (new URL(self.location).searchParams.get("v") || "development");
 let cacheWrites = Promise.resolve();
 let refreshCheck = Promise.resolve();
 const REFRESH_TIMESTAMP = new URL("/__offline-refresh-started", self.location.origin).href;
@@ -51,7 +51,8 @@ function cacheURL(value, base = self.location.origin) {
 	if(url.search) {
 		if(path !== "/releases/" || !/^\?page=\d+$/.test(url.search) || Number(url.searchParams.get("page")) > 100) return null;
 	}
-	url.pathname = path;
+	// Preserve the exact path: /page and /page/ may be an HTTP redirect
+	// and its destination. Sharing their key creates a cached self-redirect.
 	return url;
 }
 
