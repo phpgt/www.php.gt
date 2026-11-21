@@ -25,14 +25,9 @@
 		position: relative;
 		margin-block-start: 12rem;
 		padding: 4rem;
-		&::after {
-			content: "";
-			position: absolute;
-			inset-block: 0;
-			inset-inline-start: 100%;
-			inline-size: max(0px, calc((100vw - 96rem) / 2));
-			background: inherit;
-		}
+		// Extend the background without adding scrollable viewport width.
+		box-shadow: 50vw 0 0 var(--theme-color-surface-disabled);
+		clip-path: inset(0 -50vw 0 0);
 	}
 
 	a[href*="//"]::after {
