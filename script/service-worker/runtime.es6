@@ -32,15 +32,9 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 		});
 	}
 
-	function pageContentWithoutLiveElements(html) {
+	function pageText(html) {
 		const page = new DOMParser().parseFromString(html, "text/html");
-
-		// CSRF credentials are generated per request, rather than page content.
-		for(const element of page.querySelectorAll('[data-live], meta[name="csrf-token"], input[type="hidden"][name="csrf-token"]')) {
-			element.replaceWith(page.createComment("data-live"));
-		}
-
-		return page.documentElement.outerHTML;
+		return page.body.innerText;
 	}
 
 	async function checkPage(worker) {
@@ -48,7 +42,7 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 		const changed =
 			result.previousHTML != null
 			&& result.html != null
-			&& pageContentWithoutLiveElements(result.previousHTML) !== pageContentWithoutLiveElements(result.html);
+			&& pageText(result.previousHTML) !== pageText(result.html);
 
 		return {...result, changed};
 	}

@@ -9,8 +9,9 @@ use Throwable;
 
 /** Builds a public, same-origin snapshot without executing client JavaScript. */
 class StaticBundler {
-	public function __construct(private string $origin = "https://www.php.gt") {
+	public function __construct(private string $origin = "https://www.php.gt", private int $concurrency = 10) {
 		$this->origin = rtrim($origin, "/");
+		if($concurrency < 1) throw new \InvalidArgumentException("Concurrency must be at least 1");
 	}
 
 	public function build(string $htmlDir = "data/static-html", string $output = "www/static-bundle.json"):void {
@@ -29,39 +30,8 @@ class StaticBundler {
 	private function generate(string $htmlDir, string $output):void {
 		$started = (int)floor(microtime(true) * 1000);
 		$percent = 0;
-		$requestError = "";
-		$request = function(string $url) use(&$percent, &$requestError) {
-			$requestError = "";
-			$response = null;
-			for($attempt = 0; $attempt < 3; $attempt++) {
-				// Fetch currently retains completed cURL handles on its resolver.
-				// Bound their lifetime to one request, including callback cycles.
-				$http = new Http(
-					[CURLOPT_FOLLOWLOCATION => false, CURLOPT_TIMEOUT => 30, CURLOPT_ENCODING => ""],
-					curlMultiClass: BundlerCurlMulti::class,
-				);
-				try {
-					$response = $http->awaitFetch($url, ["headers" => ["X-PHPGT" => "Static Bundler"]]);
-					if($response->status > 0 && $response->status < 500) return $response;
-					$requestError = "HTTP {$response->status}";
-				}
-				catch(Throwable $error) {
-					$response = null;
-					$requestError = $error->getMessage();
-				}
-				finally {
-					unset($http);
-					gc_collect_cycles();
-				}
-				if($attempt < 2) {
-					printf("%6.2f%% RETRY %d/2 %s (%s)\n", $percent, $attempt + 1, $url, $requestError);
-					usleep(100000 * ($attempt + 1));
-				}
-			}
-			return $response;
-		};
 		printf("  0.00%% Loading sitemap: %s/sitemap.xml\n", $this->origin);
-		$sitemap = $request("$this->origin/sitemap.xml");
+		$sitemap = $this->fetchBatch(["$this->origin/sitemap.xml"], $percent)["$this->origin/sitemap.xml"][0];
 		if(!$sitemap?->ok) throw new RuntimeException("Cannot download sitemap");
 		$xml = simplexml_load_string($sitemap->awaitText(), options: LIBXML_NONET);
 		if(!$xml) throw new RuntimeException("Invalid sitemap");
@@ -74,6 +44,7 @@ class StaticBundler {
 		$seen = [];
 		$entries = [];
 		$failures = [];
+		$pending = [];
 		for($i = 0; $i < count($queue); $i++) {
 			$url = $queue[$i];
 			if(isset($seen[$url])) continue;
@@ -82,7 +53,11 @@ class StaticBundler {
 			$percent = 100 * $i / count($queue);
 			printf("%6.2f%% [%d/%d known URLs] %s\n", $percent, $i, count($queue), $url);
 			flush();
-			$response = $request($url);
+			if(!$pending) {
+				$pending = $this->fetchBatch(array_slice($queue, $i, $this->concurrency), $percent);
+			}
+			[$response, $requestError] = $pending[$url];
+			unset($pending[$url]);
 			$path = substr($url, strlen($this->origin));
 			if(!$response) {
 				$failures[$url] = $requestError;
@@ -168,6 +143,47 @@ class StaticBundler {
 			echo "100.00% Skipped " . count($failures) . " failed URLs:", PHP_EOL;
 			foreach($failures as $url => $reason) echo "100.00% $reason: $url", PHP_EOL;
 		}
+	}
+
+
+	/** Queue a bounded group before driving Fetch's event loop. */
+	private function fetchBatch(array $urls, float $percent):array {
+		$results = [];
+		$remaining = $urls;
+		for($attempt = 0; $attempt < 3 && $remaining; $attempt++) {
+			$http = new Http(
+				[CURLOPT_FOLLOWLOCATION => false, CURLOPT_TIMEOUT => 30, CURLOPT_ENCODING => ""],
+				curlMultiClass: BundlerCurlMulti::class,
+			);
+			foreach($remaining as $url) {
+				$results[$url] = [null, "No response"];
+				$http->fetch($url, ["headers" => ["X-PHPGT" => "Static Bundler"]])
+					->then(function($response) use(&$results, $url) {
+						$results[$url] = [$response, "HTTP {$response->status}"];
+					})
+					->catch(function(Throwable $error) use(&$results, $url) {
+						$results[$url] = [null, $error->getMessage()];
+					});
+			}
+			try {
+				// Promises can resolve on the first body chunk: wait for every
+				// transfer to finish before parsing or releasing its resources.
+				$http->wait();
+			}
+			finally {
+				unset($http);
+				gc_collect_cycles();
+			}
+			$remaining = array_values(array_filter($remaining, function($url) use($results) {
+				$response = $results[$url][0];
+				return !$response || $response->status === 0 || $response->status >= 500;
+			}));
+			if($attempt < 2 && $remaining) {
+				foreach($remaining as $url) printf("%6.2f%% RETRY %d/2 %s (%s)\n", $percent, $attempt + 1, $url, $results[$url][1]);
+				usleep(100000 * ($attempt + 1));
+			}
+		}
+		return $results;
 	}
 
 	private function cssLinks(string $css, string $base, array &$queue):void {

@@ -13,6 +13,7 @@ let downloads = 0;
 let pageRequests = 0;
 let bundle = {version: 'one', generatedAt: Date.now() - 10000, entries: [
   {url: '/help/', contentType: 'text/html', body: btoa('Bundled help')},
+  {url: '/help', redirect: '/help/'},
   {url: '/asset/font.woff2', contentType: 'font/woff2', body: btoa('\x00\xff\x80')},
   {url: '/old/', redirect: '/help/'},
   {url: '/', contentType: 'text/html', body: btoa('Old home')},
@@ -54,6 +55,11 @@ async function message(data) {
   assert.equal(pageRequests, 1, 'Import never fetches individual pages');
   assert.equal(await (await cache.match(origin + '/')).text(), 'Fresh home', 'Older bundle preserves live page');
   assert.equal(await (await cache.match(origin + '/help/')).text(), 'Bundled help');
+  assert.equal((await cache.match(origin + '/help')).headers.get('Location'), origin + '/help/');
+  listeners.fetch({request: new Request(origin + '/help'), waitUntil() {}, respondWith(promise) {response = promise;}});
+  const alias = await response;
+  assert.equal(alias.status, 302);
+  assert.notEqual(alias.headers.get('Location'), origin + '/help', 'Slash redirect must not point to its own cache key');
   assert.deepEqual([...new Uint8Array(await (await cache.match(origin + '/asset/font.woff2')).arrayBuffer())], [0, 255, 128]);
   assert.equal((await cache.match(origin + '/old/')).headers.get('Location'), origin + '/help/');
   listeners.fetch({request: new Request(origin + '/help/'), waitUntil() {}, respondWith(promise) {response = promise;}});
