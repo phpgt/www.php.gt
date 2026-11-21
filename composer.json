@@ -4,6 +4,7 @@
 
 	"require": {
 		"php": ">=8.5",
+		"ext-curl": "*",
 		"phpgt/webengine": "^5.1",
 		"phpgt/logger": "^1.2",
 		"league/commonmark": "^2.8.2",

@@ -6,8 +6,11 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 	let checkedURL;
 	let visitView = document.querySelector("main")?.firstElementChild;
 	let visitURL = location.href;
+	let bundleTimer;
+	const bundleRefreshKey = "phpgt:pending-bundle-refresh";
 	const refreshGuardKey = "phpgt:automatic-page-refresh";
 	let automaticRefreshURL = null;
+
 	try {
 		automaticRefreshURL = sessionStorage.getItem(refreshGuardKey);
 		sessionStorage.removeItem(refreshGuardKey);
@@ -18,36 +21,41 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 		return new Promise(resolve => {
 			const channel = new MessageChannel();
 			const timeout = setTimeout(() => { channel.port1.close(); resolve({changed: false}); }, 120000);
+
 			channel.port1.onmessage = event => {
 				clearTimeout(timeout);
 				channel.port1.close();
 				resolve(event.data);
 			};
+
 			worker.postMessage(message, [channel.port2]);
 		});
 	}
 
 	function pageContentWithoutLiveElements(html) {
 		const page = new DOMParser().parseFromString(html, "text/html");
+
 		// CSRF credentials are generated per request, rather than page content.
 		for(const element of page.querySelectorAll('[data-live], meta[name="csrf-token"], input[type="hidden"][name="csrf-token"]')) {
 			element.replaceWith(page.createComment("data-live"));
 		}
+
 		return page.documentElement.outerHTML;
 	}
 
 	async function checkPage(worker) {
 		const result = await requestWorker(worker, {type: "check-page", url: location.href});
-		const changed = result.previousHTML != null && result.html != null
+		const changed =
+			result.previousHTML != null
+			&& result.html != null
 			&& pageContentWithoutLiveElements(result.previousHTML) !== pageContentWithoutLiveElements(result.html);
-		if(changed) await requestWorker(worker, {type: "page-changed", url: result.url});
+
 		return {...result, changed};
 	}
 
 	function pause() {
 		generation++;
 		clearTimeout(timer);
-		navigator.serviceWorker.controller?.postMessage({type: "pause-preload"});
 	}
 
 	async function schedule() {
@@ -87,6 +95,19 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 				});
 			}
 			if(current !== generation) return;
+			// A content update reloads the document. Start the bundle delay only
+			// after that updated document and its assets have finished loading.
+			if(sessionStorage.getItem(bundleRefreshKey)) {
+				clearTimeout(bundleTimer);
+				const saved = Number(sessionStorage.getItem(bundleRefreshKey));
+				const due = saved > 1 ? saved : Date.now() + 15000;
+				sessionStorage.setItem(bundleRefreshKey, String(due));
+				bundleTimer = setTimeout(() => {
+					if(!navigator.onLine) return;
+					(active.active || navigator.serviceWorker.controller)?.postMessage({type: "refresh-bundle"});
+					sessionStorage.removeItem(bundleRefreshKey);
+				}, Math.max(0, due - Date.now()));
+			}
 
 			timer = setTimeout(async () => {
 				if(current !== generation || !navigator.onLine) return;
@@ -102,6 +123,7 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 							if(destination.href !== automaticRefreshURL) {
 								console.log("CHANGED CONTENT!");
 								sessionStorage.setItem(refreshGuardKey, destination.href);
+								sessionStorage.setItem(bundleRefreshKey, "1");
 								destination.hash = location.hash;
 								location.replace(destination.href);
 								return;
@@ -109,12 +131,7 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 						}
 					}
 					if(navigator.connection?.saveData) return;
-					const pages = [...new Set([location.href, ...[...document.querySelectorAll("a[href]")]
-						.map(anchor => anchor.href)
-						.filter(href => new URL(href).origin === location.origin)])];
-					const assets = [...document.querySelectorAll('script[src], link[href], img[src]')]
-						.map(element => element.src || element.href);
-					(active.active || navigator.serviceWorker.controller)?.postMessage({type: "preload", pages, assets});
+					(active.active || navigator.serviceWorker.controller)?.postMessage({type: "preload"});
 				}
 				catch(error) {
 					console.warn("Offline caching unavailable:", error);
