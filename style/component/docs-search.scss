@@ -9,9 +9,9 @@ docs-search {
 		$results: "docs-search-results"
 	);
 
-	html[data-offline] & {
+	&.offline {
 		label::before {
-			mask-image: var(--search-offline-icon, url("/asset/icon/wifi-off.svg"));
+			mask-image: url("/asset/icon/wifi-off.svg");
 			background: var(--theme-color-danger);
 		}
 		input:hover:not(:focus) {
@@ -41,6 +41,6 @@ docs-search {
 	}
 }
 
-html[data-offline] docs-search-results {
+docs-search-results.offline {
 	display: none;
 }

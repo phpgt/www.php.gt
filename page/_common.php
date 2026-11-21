@@ -16,7 +16,14 @@ function go_before(
 	Uri $uri,
 ):void {
 	$gitHash = trim(shell_exec('git rev-parse HEAD') ?? '');
-	$binder->bindKeyValue("version", $gitHash);
+	// Builds and dependency upgrades can change assets without a new site commit.
+	$assetHash = hash_init("sha256");
+	foreach(["www/script.js", "www/style.css", "www/sw.js"] as $asset) {
+		if(is_file($asset)) {
+			hash_update_file($assetHash, $asset);
+		}
+	}
+	$binder->bindKeyValue("version", "$gitHash-" . substr(hash_final($assetHash), 0, 16));
 
 	$repo = $dynamicPath->get("repo");
 

@@ -63,6 +63,39 @@ async function store(cache, request, event, onStored) {
 	return event ? networkResponse : response;
 }
 
+async function checkPage(value) {
+	const url = cacheURL(value);
+	if(!url) return {changed: false};
+	const cache = await caches.open(CACHE_NAME);
+	const previous = await cache.match(url.href);
+	const response = await fetch(new Request(url.href, {credentials: "same-origin", cache: "no-cache"}));
+	if(!response.ok || !response.headers.get("Content-Type")?.includes("text/html")
+		|| /no-store|private/i.test(response.headers.get("Cache-Control") || "")) return {changed: false};
+	const destination = cacheURL(response.url);
+	if(!destination) return {changed: false};
+	const html = await response.text();
+	const previousHTML = previous ? await previous.text() : null;
+	const headers = new Headers(response.headers);
+	headers.delete("Content-Encoding");
+	headers.delete("Content-Length");
+	await cache.put(destination.href, new Response(html, {status: response.status, headers}));
+	if(destination.href !== url.href) await cache.put(url.href, Response.redirect(destination.href, 302));
+	return {previousHTML, html, url: destination.href};
+}
+
+async function refreshChangedPage(value) {
+	const url = cacheURL(value);
+	if(!url) return {ok: false};
+	pauseRefresh();
+	await refreshCheck.catch(() => {});
+	const cache = await caches.open(CACHE_NAME);
+	// The page has compared static content, excluding its data-live elements.
+	await cache.put(REFRESH_TIMESTAMP, new Response(JSON.stringify({
+		startedAt: Date.now(), completed: false, refreshed: [url.href], sitemap: null,
+	})));
+	return {ok: true};
+}
+
 self.addEventListener("install", event => {
 	event.waitUntil(self.skipWaiting());
 });
@@ -201,6 +234,18 @@ async function preload({pages = [], assets = []}, signal, state) {
 }
 
 self.addEventListener("message", event => {
+	if(event.data?.type === "check-page") {
+		event.waitUntil(checkPage(event.data.url)
+			.then(result => event.ports[0]?.postMessage(result))
+			.catch(() => event.ports[0]?.postMessage({changed: false})));
+		return;
+	}
+	if(event.data?.type === "page-changed") {
+		event.waitUntil(refreshChangedPage(event.data.url)
+			.then(result => event.ports[0]?.postMessage(result))
+			.catch(() => event.ports[0]?.postMessage({ok: false})));
+		return;
+	}
 	if(event.data?.type === "pause-preload") {
 		pauseRefresh();
 		return;

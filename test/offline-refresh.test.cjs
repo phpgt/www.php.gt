@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const {setImmediate: tick} = require('node:timers/promises');
 
 const origin = 'https://www.php.gt';
-const workerSource = readFileSync('script/service-worker.js', 'utf8');
+const workerSource = readFileSync('script/service-worker/sw.js', 'utf8');
 
 test('refreshes live linked pages first, then waits before fetching remaining sitemap pages', async () => {
 	const handlers = {};
@@ -55,24 +55,33 @@ test('refreshes live linked pages first, then waits before fetching remaining si
 	assert.equal(intercepted, false);
 });
 
-test('waits for fonts after load, then delays five seconds and deduplicates links', async () => {
+test('waits for fonts and five seconds before checking the current page and preloading links', async () => {
 	const handlers = {};
 	const timers = [];
 	const messages = [];
-	const registration = {active: {postMessage: message => messages.push(message)}};
+	const registration = {active: {postMessage: (message, ports) => {
+		messages.push(message);
+		if(message.type === 'check-page') ports[0].reply({changed: false});
+	}}};
+	class MessageChannel {
+		constructor() {
+			this.port1 = {close() {}};
+			this.port2 = {reply: data => queueMicrotask(() => this.port1.onmessage({data}))};
+		}
+	}
 	let finishFonts;
 	const fontsReady = new Promise(resolve => finishFonts = resolve);
 	const document = {
-		images: [], fonts: {ready: fontsReady}, addEventListener: (type, handler) => handlers[type] = handler,
-		readyState: 'loading', body: {dataset: {version: 'test'}},
+		querySelector: () => null, images: [], fonts: {ready: fontsReady}, addEventListener: (type, handler) => handlers[type] = handler,
+		referrer: '', readyState: 'loading', body: {dataset: {version: 'test'}},
 		querySelectorAll: selector => selector === 'a[href]'
 			? [{href: origin + '/help/'}, {href: origin + '/help/'}, {href: 'https://example.com/'}]
 			: [{src: origin + '/script.js'}],
 	};
-	vm.runInNewContext(readFileSync('script/script.es6', 'utf8').slice(readFileSync('script/script.es6', 'utf8').indexOf('if("serviceWorker"')).split('\nlet offline =')[0], {
+	vm.runInNewContext(readFileSync('script/service-worker/runtime.es6', 'utf8'), {
 		window: {isSecureContext: true, addEventListener: (type, handler) => handlers[type] = handler},
 		navigator: {onLine: true, serviceWorker: {register: async () => registration, ready: Promise.resolve()}},
-		document, location: new URL(origin), URL, Date, Set, console, clearTimeout,
+		document, location: new URL(origin), performance: {getEntriesByType: () => [{type: "navigate"}]}, URL, Date, Set, console, clearTimeout, MessageChannel,
 		setTimeout: (callback, milliseconds) => timers.push({callback, milliseconds}),
 	});
 	assert.equal(timers.length, 0);
@@ -83,8 +92,10 @@ test('waits for fonts after load, then delays five seconds and deduplicates link
 	await loaded;
 	assert.ok(timers[0].milliseconds <= 5000 && timers[0].milliseconds > 4900);
 	assert.equal(messages.length, 0);
-	timers[0].callback();
-	assert.deepEqual(Array.from(messages[0].pages), [origin + '/', origin + '/help/']);
+	await timers[0].callback();
+	assert.equal(messages[0].type, 'check-page');
+	assert.equal(messages[1].type, 'preload');
+	assert.deepEqual(Array.from(messages[1].pages), [origin + '/', origin + '/help/']);
 });
 
 test('streams foreground responses before cache writes finish and caches canonical redirects under both names', async () => {
@@ -213,4 +224,107 @@ test('resumes interrupted hourly sweeps without re-fetching already refreshed UR
 	timers[1]();
 	await completed;
 	assert.deepEqual(fetched, ['/help/', '/asset/missing.svg', '/sitemap.xml', '/learn/']);
+});
+
+test('page checks cache live responses and reset the hourly cycle only after a confirmed static change', async () => {
+	const handlers = {};
+	const entries = new Map();
+	const url = origin + '/help/';
+	const metadata = origin + '/__offline-refresh-started';
+	entries.set(url, new Response('<main>Old content</main>'));
+	entries.set(metadata, new Response(JSON.stringify({startedAt: Date.now(), completed: true, refreshed: []})));
+	let live = '<main>New content</main>';
+	let fail = false;
+	vm.runInNewContext(workerSource, {
+		URL, Request, Response, Headers, AbortController, Promise, Set,
+		self: {location: new URL(origin + '/service-worker.js?v=test'), addEventListener: (type, handler) => handlers[type] = handler},
+		caches: {open: async () => ({
+			match: async key => entries.get(key)?.clone(),
+			put: async (key, value) => entries.set(key, value.clone()),
+		})},
+		fetch: async request => {
+			assert.equal(request.cache, 'no-cache');
+			if(fail) throw new Error('Offline');
+			const response = new Response(live, {headers: {'Content-Type': 'text/html', 'Cache-Control': 'public'}});
+			Object.defineProperty(response, 'url', {value: url});
+			return response;
+		},
+	});
+	async function check(type = "check-page") {
+		let completed, result;
+		handlers.message({data: {type, url}, ports: [{postMessage: value => result = value}], waitUntil: promise => completed = promise});
+		await completed;
+		return result;
+	}
+	const checked = await check();
+	assert.equal(checked.previousHTML, '<main>Old content</main>');
+	assert.equal(checked.html, live);
+	assert.equal((await entries.get(metadata).clone().json()).completed, true);
+	assert.equal((await check('page-changed')).ok, true);
+	assert.equal(await entries.get(url).clone().text(), live);
+	const state = await entries.get(metadata).clone().json();
+	assert.equal(state.completed, false);
+	assert.deepEqual(state.refreshed, [url]);
+	entries.set(metadata, new Response(JSON.stringify({...state, completed: true})));
+	const unchanged = await check();
+	assert.equal(unchanged.previousHTML, unchanged.html);
+	assert.equal((await entries.get(metadata).clone().json()).completed, true);
+	entries.set(url, new Response('<main><input data-live placeholder="Cached name"></main>'));
+	live = '<main><input data-live placeholder="Live name"></main>';
+	const liveResponse = await check();
+	assert.notEqual(liveResponse.previousHTML, liveResponse.html);
+	assert.equal(liveResponse.html, live);
+	assert.equal(await entries.get(url).clone().text(), live);
+	assert.equal((await entries.get(metadata).clone().json()).completed, true, 'Live content does not reset the hourly cycle');
+	fail = true;
+	assert.equal((await check()).changed, false);
+	assert.equal(await entries.get(url).clone().text(), live, 'An offline check retains the cached document');
+});
+
+test('each Flux visit gets a fresh five-second check and abandoned visits never check', async () => {
+	const handlers = {}, timers = [], messages = [];
+	const location = new URL(origin + '/first/');
+	let view = {};
+	const worker = {postMessage(message, ports) {
+		messages.push(message);
+		if(message.type === 'check-page') ports[0].reply({changed: false});
+	}};
+	class MessageChannel {
+		constructor() {
+			this.port1 = {close() {}};
+			this.port2 = {reply: data => queueMicrotask(() => this.port1.onmessage({data}))};
+		}
+	}
+	vm.runInNewContext(readFileSync('script/service-worker/runtime.es6', 'utf8'), {
+		window: {isSecureContext: true, addEventListener: (type, callback) => handlers[type] = callback},
+		document: {
+			readyState: 'loading', referrer: origin + '/previous/', images: [], fonts: {ready: Promise.resolve()},
+			body: {dataset: {version: 'test'}},
+			querySelector: selector => selector === 'main' ? {firstElementChild: view} : null,
+			querySelectorAll: () => [], addEventListener: (type, callback) => handlers[type] = callback,
+		},
+		navigator: {onLine: true, serviceWorker: {controller: worker, register: async () => ({active: worker}), ready: Promise.resolve()}},
+		location, URL, Date, Set, console, MessageChannel,
+		setTimeout: (callback, milliseconds) => { timers.push({callback, milliseconds}); return timers.length; },
+		clearTimeout: () => {},
+	});
+	await handlers.load();
+	const first = timers.at(-1);
+	handlers['flux:before-request']();
+	location.href = origin + '/second/'; view = {};
+	await handlers['flux:after-render']();
+	const second = timers.at(-1);
+	handlers['flux:before-request']();
+	location.href = origin + '/third/'; view = {};
+	await handlers['flux:after-render']();
+	const third = timers.at(-1);
+	assert.ok(third.milliseconds > 4900 && third.milliseconds <= 5000);
+	await first.callback(); await second.callback();
+	assert.equal(messages.filter(message => message.type === 'check-page').length, 0);
+	await third.callback();
+	assert.deepEqual(messages.filter(message => message.type === 'check-page').map(message => message.url), [origin + '/third/']);
+	// A same-page widget render should not re-check an already checked view.
+	await handlers['flux:after-render']();
+	await timers.at(-1).callback();
+	assert.equal(messages.filter(message => message.type === 'check-page').length, 1);
 });
