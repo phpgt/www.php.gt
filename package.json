@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@phpgt/flux": "github:phpgt/Flux#v1.1.2",
+    "@phpgt/flux": "github:phpgt/Flux#v1.2.0",
     "@phpgt/flair": "github:phpgt/Flair#v1.0.0",
     "esbuild": "^0.28.2",
     "sass": "^1.108.2"
