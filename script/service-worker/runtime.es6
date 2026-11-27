@@ -87,9 +87,8 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 			await document.fonts.ready;
 			if(current !== generation) return;
 			const loadedAt = Date.now();
-			const version = document.body.dataset.version || "development";
 			registration ||= navigator.serviceWorker.register(
-				`/sw.js?v=${encodeURIComponent(version)}`,
+				"/sw.js",
 				{scope: "/", updateViaCache: "none"},
 			);
 			const active = await registration;

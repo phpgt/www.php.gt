@@ -1,7 +1,8 @@
 const CACHE_PREFIX = "phpgt-offline-";
 // Bundle imports use a fresh cache generation.
 // Replaced during the asset build, independently of a cached page's version.
-const CACHE_NAME = CACHE_PREFIX + "v8-__APP_BUILD__";
+const APP_BUILD = "__APP_BUILD__";
+const CACHE_NAME = CACHE_PREFIX + "v9-" + APP_BUILD;
 let cacheWrites = Promise.resolve();
 let refreshCheck = Promise.resolve();
 const REFRESH_TIMESTAMP = new URL("/__offline-refresh-started", self.location.origin).href;
@@ -116,13 +117,6 @@ self.addEventListener("activate", event => {
 			.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME);
 		await Promise.all(previousCaches.map(key => caches.delete(key)));
 		await self.clients.claim();
-		if(previousCaches.length) {
-			// Existing clients may be running cached JavaScript without update
-			// listeners. Navigation delivers the new code to those clients too.
-			const clients = await self.clients.matchAll({type: "window"});
-			await Promise.all(clients.map(client => client.navigate(client.url)
-				.catch(error => console.warn("Page update unavailable:", error))));
-		}
 	})());
 });
 
@@ -164,6 +158,10 @@ async function importBundle(force = false) {
 	const response = await fetch("/static-bundle.json", {cache: "no-cache", credentials: "same-origin"});
 	if(!response.ok) throw new Error(`Static bundle HTTP ${response.status}`);
 	const bundle = await response.json();
+	if(bundle.appBuild !== APP_BUILD) {
+		console.warn("[Offline cache] Ignoring bundle from a different application build; regenerate the bundle after building assets.");
+		return;
+	}
 	if(typeof bundle.version !== "string" || !Number.isFinite(bundle.generatedAt)
 		|| !Array.isArray(bundle.entries) || !bundle.entries.length) throw new Error("Invalid static bundle");
 	// Validate metadata before writing any entries. Bodies are base64 for binary fidelity.

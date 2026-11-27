@@ -135,7 +135,9 @@ class StaticBundler {
 		if(!$entries) throw new RuntimeException("No successful responses; existing bundle preserved");
 		ksort($entries);
 		$entries = array_values($entries);
-		$json = json_encode(["version" => hash("sha256", json_encode($entries, JSON_THROW_ON_ERROR)), "generatedAt" => $started, "entries" => $entries], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+		$worker = is_file("www/sw.js") ? file_get_contents("www/sw.js") : "";
+		preg_match('/const APP_BUILD = "([^"]+)";/', $worker, $build);
+		$json = json_encode(["appBuild" => $build[1] ?? null, "version" => hash("sha256", json_encode($entries, JSON_THROW_ON_ERROR)), "generatedAt" => $started, "entries" => $entries], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 		$temp = "$output.tmp";
 		if(file_put_contents($temp, $json) === false || !rename($temp, $output)) throw new RuntimeException("Cannot publish static bundle");
 		echo "100.00% Bundled " . count($entries) . " URLs into $output", PHP_EOL;

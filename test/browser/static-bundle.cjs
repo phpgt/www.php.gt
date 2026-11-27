@@ -11,7 +11,7 @@ const cache = {
 };
 let downloads = 0;
 let pageRequests = 0;
-let bundle = {version: 'one', generatedAt: Date.now() - 10000, entries: [
+let bundle = {appBuild: '__APP_BUILD__', version: 'one', generatedAt: Date.now() - 10000, entries: [
   {url: '/help/', contentType: 'text/html', body: btoa('Bundled help')},
   {url: '/help', redirect: '/help/'},
   {url: '/asset/font.woff2', contentType: 'font/woff2', body: btoa('\x00\xff\x80')},
@@ -43,6 +43,13 @@ async function message(data) {
   listeners.fetch({request: new Request(origin + '/'), waitUntil(promise) {writes.push(promise);}, respondWith(promise) {response = promise;}});
   assert.equal(await (await response).text(), 'Fresh home');
   await Promise.all(writes);
+  const currentBuild = bundle.appBuild;
+  bundle.appBuild = 'outdated-deployment';
+  await message({type: 'preload'});
+  assert.equal(await cache.match(origin + '/help/'), undefined, 'Outdated bundle must not restore old application code');
+  assert.equal(await cache.match(origin + '/__offline-refresh-started'), undefined);
+  bundle.appBuild = currentBuild;
+  downloads = 0;
   await Promise.all([message({type: 'preload'}), message({type: 'preload'})]);
   assert.equal(downloads, 1, 'Concurrent tabs share one download');
   const markerURL = origin + '/__offline-refresh-started';
