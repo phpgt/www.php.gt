@@ -39,10 +39,25 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 
 	async function checkPage(worker) {
 		const result = await requestWorker(worker, {type: "check-page", url: location.href});
+		const cachedText = result.previousHTML == null ? null : pageText(result.previousHTML);
+		const liveText = result.html == null ? null : pageText(result.html);
 		const changed =
-			result.previousHTML != null
-			&& result.html != null
-			&& pageText(result.previousHTML) !== pageText(result.html);
+			cachedText !== null && liveText !== null && cachedText !== liveText;
+
+		if(changed) {
+			let offset = 0;
+			while(offset < Math.min(cachedText.length, liveText.length)
+				&& cachedText[offset] === liveText[offset]) offset++;
+			console.group("[Offline cache] Page text changed", result.url || location.href);
+			console.log("Text lengths:", {cached: cachedText.length, live: liveText.length});
+			console.log("First differing character:", offset);
+			const start = Math.max(0, offset - 100);
+			console.log("Cached context (escaped):", JSON.stringify(cachedText.slice(start, offset + 200)));
+			console.log("Live context (escaped):", JSON.stringify(liveText.slice(start, offset + 200)));
+			console.log("Full cached body.innerText:", cachedText);
+			console.log("Full live body.innerText:", liveText);
+			console.groupEnd();
+		}
 
 		return {...result, changed};
 	}

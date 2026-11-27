@@ -1,6 +1,7 @@
 const CACHE_PREFIX = "phpgt-offline-";
 // Bundle imports use a fresh cache generation.
-const CACHE_NAME = CACHE_PREFIX + "v7-" + (new URL(self.location).searchParams.get("v") || "development");
+// Replaced during the asset build, independently of a cached page's version.
+const CACHE_NAME = CACHE_PREFIX + "v8-__APP_BUILD__";
 let cacheWrites = Promise.resolve();
 let refreshCheck = Promise.resolve();
 const REFRESH_TIMESTAMP = new URL("/__offline-refresh-started", self.location.origin).href;
@@ -111,10 +112,17 @@ self.addEventListener("install", event => {
 });
 self.addEventListener("activate", event => {
 	event.waitUntil((async() => {
-		await Promise.all((await caches.keys())
-			.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
-			.map(key => caches.delete(key)));
+		const previousCaches = (await caches.keys())
+			.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME);
+		await Promise.all(previousCaches.map(key => caches.delete(key)));
 		await self.clients.claim();
+		if(previousCaches.length) {
+			// Existing clients may be running cached JavaScript without update
+			// listeners. Navigation delivers the new code to those clients too.
+			const clients = await self.clients.matchAll({type: "window"});
+			await Promise.all(clients.map(client => client.navigate(client.url)
+				.catch(error => console.warn("Page update unavailable:", error))));
+		}
 	})());
 });
 
