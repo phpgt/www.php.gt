@@ -142,6 +142,13 @@ self.addEventListener("fetch", event => {
 			event.waitUntil(reportConnection(false));
 			return response;
 		} catch(error) {
+				console.error("[Offline cache] Request failed", {
+					url: event.request.url,
+					mode: event.request.mode,
+					redirect: event.request.redirect,
+					destination: event.request.destination,
+					error,
+				});
 			event.waitUntil(reportConnection(true));
 			throw error;
 		}
@@ -186,7 +193,10 @@ self.addEventListener("message", event => {
 	if(event.data?.type === "check-page") {
 		event.waitUntil(checkPage(event.data.url)
 			.then(result => event.ports[0]?.postMessage(result))
-			.catch(() => event.ports[0]?.postMessage({changed: false})));
+			.catch(error => {
+				console.error("[Offline cache] Live page check failed", {url: event.data.url, error});
+				event.ports[0]?.postMessage({changed: false});
+			}));
 		return;
 	}
 	if(!["preload", "refresh-bundle"].includes(event.data?.type)) return;
