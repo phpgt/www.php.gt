@@ -4,18 +4,26 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 	let registration;
 	let checkedView;
 	let checkedURL;
-	let visitView = document.querySelector("main")?.firstElementChild;
-	let visitURL = location.href;
 	let bundleTimer;
+	let bundleDue = 0;
 	const bundleRefreshKey = "phpgt:pending-bundle-refresh";
-	const refreshGuardKey = "phpgt:automatic-page-refresh";
-	let automaticRefreshURL = null;
+	try { bundleDue = Number(sessionStorage.getItem(bundleRefreshKey)) || 0; }
+	catch { /* The in-memory timer still works without session storage. */ }
 
-	try {
-		automaticRefreshURL = sessionStorage.getItem(refreshGuardKey);
-		sessionStorage.removeItem(refreshGuardKey);
+	function scheduleBundleRefresh(worker, changed = false) {
+		if(changed) bundleDue = Date.now() + 15000;
+		if(!bundleDue) return;
+		clearTimeout(bundleTimer);
+		try { sessionStorage.setItem(bundleRefreshKey, String(bundleDue)); }
+		catch { /* Keep the in-memory deadline. */ }
+		bundleTimer = setTimeout(() => {
+			if(!navigator.onLine) return;
+			worker.postMessage({type: "refresh-bundle"});
+			bundleDue = 0;
+			try { sessionStorage.removeItem(bundleRefreshKey); }
+			catch { /* Storage is optional. */ }
+		}, Math.max(0, bundleDue - Date.now()));
 	}
-	catch { /* If storage is unavailable, the write below prevents automatic reload. */ }
 
 	function requestWorker(worker, message) {
 		return new Promise(resolve => {
@@ -70,12 +78,6 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 	async function schedule() {
 		pause();
 		const current = generation;
-		const currentView = document.querySelector("main")?.firstElementChild;
-		if(currentView !== visitView || location.href !== visitURL) {
-			automaticRefreshURL = null;
-			visitView = currentView;
-			visitURL = location.href;
-		}
 		try {
 			// load waits for CSS and scripts; fonts and Flux-inserted images can finish later.
 			await Promise.all([...document.images]
@@ -103,19 +105,7 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 				});
 			}
 			if(current !== generation) return;
-			// A content update reloads the document. Start the bundle delay only
-			// after that updated document and its assets have finished loading.
-			if(sessionStorage.getItem(bundleRefreshKey)) {
-				clearTimeout(bundleTimer);
-				const saved = Number(sessionStorage.getItem(bundleRefreshKey));
-				const due = saved > 1 ? saved : Date.now() + 15000;
-				sessionStorage.setItem(bundleRefreshKey, String(due));
-				bundleTimer = setTimeout(() => {
-					if(!navigator.onLine) return;
-					(active.active || navigator.serviceWorker.controller)?.postMessage({type: "refresh-bundle"});
-					sessionStorage.removeItem(bundleRefreshKey);
-				}, Math.max(0, due - Date.now()));
-			}
+			scheduleBundleRefresh(active.active || navigator.serviceWorker.controller);
 
 			timer = setTimeout(async () => {
 				if(current !== generation || !navigator.onLine) return;
@@ -127,15 +117,9 @@ if("serviceWorker" in navigator && window.isSecureContext) {
 						const result = await checkPage(active.active || navigator.serviceWorker.controller);
 						if(current !== generation) return;
 						if(result.changed) {
-							const destination = new URL(result.url);
-							if(destination.href !== automaticRefreshURL) {
-								console.log("CHANGED CONTENT!");
-								sessionStorage.setItem(refreshGuardKey, destination.href);
-								sessionStorage.setItem(bundleRefreshKey, "1");
-								destination.hash = location.hash;
-								location.replace(destination.href);
-								return;
-							}
+							// The worker has already updated the cache. Leave the current
+							// document, form state and scroll position untouched.
+							scheduleBundleRefresh(active.active || navigator.serviceWorker.controller, true);
 						}
 					}
 					if(navigator.connection?.saveData) return;

@@ -86,8 +86,9 @@ Serve the JSON file with HTTP compression to reduce download size.
 Five seconds after page load, the client retains its existing live content check
 and asks the worker to import the bundle (unless data saving is enabled). The
 worker makes one bundle request, then writes each response locally into Cache
-Storage. After a page's live content check detects a change, the updated page
-loads, then waits 15 seconds after its assets load before requesting a new bundle.
+Storage. After a page's live content check detects a change, its cache is updated
+for the next visit. The current document stays untouched, preserving scroll and
+form state. A new bundle is requested 15 seconds after the page cache update.
 There is no hourly browser download. Navigation does not cancel an import,
 and simultaneous tabs share it. Failed imports retry on a later visit without
 marking completion. Cached live responses newer than the build's start time take
